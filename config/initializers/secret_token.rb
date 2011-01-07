@@ -5,6 +5,6 @@
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
 
-keys = YAML.load_file(File.expand_path('../keys.yml', __FILE__))
+keys = YAML.load_file(File.expand_path('../../keys.yml', __FILE__))
 
-Duckling::Application.config.secret_token = keys.keys.secret_token
+Duckling::Application.config.secret_token = keys['keys']['secret_token']
