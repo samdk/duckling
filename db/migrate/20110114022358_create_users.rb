@@ -7,6 +7,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :name_suffix
       t.string :phone_numbers
       t.datetime :deleted_at
+      t.string :password_hash, limit: 100
 
       t.timestamps
     end

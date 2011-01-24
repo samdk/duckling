@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
   
-  it_behaves_like 'soft deletable'
+#  it_behaves_like 'soft deletable'
 
   it "should have many organizations" do
     should have_many(:organizations)
@@ -25,7 +25,7 @@ describe User do
     
     subject.password = 'sahana123'
     
-    its(:password) { should == 'sahana123' }
+    subject.password.should == 'sahana123'
     should have(0).errors_on(:password_hash)
     
     @user2 = User.new
@@ -59,7 +59,7 @@ describe User do
     subject.phone_numbers['cell'] = '(585) 555-4321'
     subject.should have(2).phone_numbers
 
-    subject.save(false)    
+    subject.save(validate: false)    
     subject.phone_numbers['home'].should == '+15855551234'
     subject.phone_numbers['cell'].should == '+15855554321'
   end

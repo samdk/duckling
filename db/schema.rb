@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20110114022358) do
 
   create_table "organizations", :force => true do |t|
     t.string   "name"
+    t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -34,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20110114022358) do
     t.string   "name_suffix"
     t.string   "phone_numbers"
     t.datetime "deleted_at"
+    t.string   "password_hash", :limit => 100
     t.datetime "created_at"
     t.datetime "updated_at"
   end
