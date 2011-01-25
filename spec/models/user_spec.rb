@@ -46,14 +46,6 @@ describe User do
     u.name.should == 'John Smith Jr'
   end
   
-  it "should serialize phone numbers" do
-    should serialize(:phone_numbers, as: Hash)
-  end
-  
-  it 'should serialize email addresses' do
-    should serialize(:email_addresses, as: Array)
-  end
-  
   it "should reformat phone numbers" do
     subject.phone_numbers['home'] = '5855551234'
     subject.phone_numbers['cell'] = '(585) 555-4321'
@@ -83,12 +75,23 @@ describe User do
       User.credentials?('foo@example.com', 'abc123').should be_true
     end
     
+    it 'should be case agnostic' do
+      User.credentials?('BAR@EXAmplE.Com', 'abc123').should be_true
+    end
+    
     it 'should deny other email addresses' do
       User.credentials?('qux@example.com', 'abc123').should be_false
     end
     
     it 'should deny bad passwords' do
       User.credentials?('foo@example.com', 'ABC123').should be_false
+    end
+    
+    it 'should error on multiple users with the same email' do
+      u = User.new(first_name: 'Jane', last_name: 'Smith')
+      u.password = 'abc123'
+      u.email_addresses << 'foo@example.com'
+      u.should have(1).errors_on(:email_addresses)
     end
   end
 

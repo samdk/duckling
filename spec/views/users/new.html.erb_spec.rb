@@ -8,8 +8,7 @@ describe "users/new.html.erb" do
       :first_name => "MyString",
       :last_name => "MyString",
       :name_prefix => "MyString",
-      :name_suffix => "MyString",
-      :phone_numbers => "MyString"
+      :name_suffix => "MyString"
     ).as_new_record)
   end
 
