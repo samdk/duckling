@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
   
-#  it_behaves_like 'soft deletable'
+  # it_behaves_like 'soft deletable'
 
   it "should have many organizations" do
     should have_many(:organizations)
@@ -14,10 +14,6 @@ describe User do
   
   it "can be the manager of many organizations" do
     should have_many(:managed_organizations)
-  end
-  
-  it "has many email addresses" do
-    should have_many(:email_addresses)
   end
   
   it "should update its password hash securely" do
@@ -54,6 +50,10 @@ describe User do
     should serialize(:phone_numbers, as: Hash)
   end
   
+  it 'should serialize email addresses' do
+    should serialize(:email_addresses, as: Array)
+  end
+  
   it "should reformat phone numbers" do
     subject.phone_numbers['home'] = '5855551234'
     subject.phone_numbers['cell'] = '(585) 555-4321'
@@ -62,6 +62,34 @@ describe User do
     subject.save(validate: false)    
     subject.phone_numbers['home'].should == '+15855551234'
     subject.phone_numbers['cell'].should == '+15855554321'
+  end
+  
+  context "for credentialing" do
+    before(:all) do
+      subject.first_name = 'John'
+      subject.last_name = 'Smith'
+      subject.password = 'abc123'
+      subject.email_addresses << 'foo@example.com'
+      subject.email_addresses << 'bar@example.com'
+      subject.save
+    end
+    
+    it 'should be saved' do
+      subject.changed?.should be_false
+    end
+    
+    it 'should credential either email address' do
+      User.credentials?('bar@example.com', 'abc123').should be_true
+      User.credentials?('foo@example.com', 'abc123').should be_true
+    end
+    
+    it 'should deny other email addresses' do
+      User.credentials?('qux@example.com', 'abc123').should be_false
+    end
+    
+    it 'should deny bad passwords' do
+      User.credentials?('foo@example.com', 'ABC123').should be_false
+    end
   end
 
 end

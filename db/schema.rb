@@ -33,9 +33,10 @@ ActiveRecord::Schema.define(:version => 20110114022358) do
     t.string   "last_name"
     t.string   "name_prefix"
     t.string   "name_suffix"
-    t.string   "phone_numbers"
+    t.text     "phone_numbers"
+    t.text     "email_addresses"
     t.datetime "deleted_at"
-    t.string   "password_hash", :limit => 100
+    t.string   "password_hash",   :limit => 100
     t.datetime "created_at"
     t.datetime "updated_at"
   end

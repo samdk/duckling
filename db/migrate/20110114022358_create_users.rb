@@ -5,7 +5,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string :last_name
       t.string :name_prefix
       t.string :name_suffix
-      t.string :phone_numbers
+      t.text :phone_numbers
+      t.text :email_addresses
       t.datetime :deleted_at
       t.string :password_hash, limit: 100
 

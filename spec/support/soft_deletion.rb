@@ -1,7 +1,6 @@
 shared_examples_for 'soft deletable' do
   context "when deleted" do
     before :each do
-      puts subject.inspect
       subject.destroy
     end
     
