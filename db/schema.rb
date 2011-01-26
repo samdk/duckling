@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110126001539) do
+ActiveRecord::Schema.define(:version => 20110126002353) do
 
   create_table "activations", :force => true do |t|
     t.string   "title"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(:version => 20110126001539) do
 
   create_table "addresses", :force => true do |t|
     t.string   "name"
-    t.string   "address"
+    t.text     "address"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -44,9 +44,10 @@ ActiveRecord::Schema.define(:version => 20110126001539) do
     t.text     "phone_numbers"
     t.text     "email_addresses"
     t.datetime "deleted_at"
-    t.string   "password_hash",   :limit => 100
+    t.string   "password_hash",      :limit => 100
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "primary_address_id"
   end
 
 end
