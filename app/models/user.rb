@@ -5,6 +5,9 @@ class User < ActiveRecord::Base
     where('email_addresses LIKE ?', "%#{email.downcase}%")
   }
   
+  has_many :addresses
+  has_one :primary_address, class_name: 'Address'
+  
   has_many :organizations
   has_many :administratorships, dependent: :destroy
   has_many :administrated_organizations, class_name: 'Organization'

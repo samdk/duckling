@@ -16,6 +16,10 @@ describe User do
     should have_many(:managed_organizations)
   end
   
+  it "should have many addresses" do
+    should have_many(:addresses)
+  end
+  
   it "should update its password hash securely" do
     should have(1).error_on(:password_hash)
     
