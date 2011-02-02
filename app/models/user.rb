@@ -8,13 +8,12 @@ class User < ActiveRecord::Base
   has_many :addresses
   has_one :primary_address, class_name: 'Address'
   
-  has_many :organizations
-  has_many :administratorships, dependent: :destroy
-  has_many :administrated_organizations, class_name: 'Organization'
+  has_and_belongs_to_many :organizations
+  has_and_belongs_to_many :administrated_organizations, class_name: 'Organization'
+  has_and_belongs_to_many :managed_organizations, class_name: 'Organization'
+  has_and_belongs_to_many :groups
+  has_and_belongs_to_many :sections
   
-  has_many :managerships, dependent: :destroy
-  has_many :managed_organizations, class_name: 'Organization'
-    
   validates :password_hash, presence: true
   validates :first_name, presence: true
   validates :last_name, presence: true

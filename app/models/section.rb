@@ -1,3 +1,3 @@
 class Section < Group
-  belongs_to :organization
+  belongs_to :groupable, polymorphic: true
 end

@@ -4,7 +4,7 @@ class CreateGroups < ActiveRecord::Migration
       t.string :name
       t.string :description
       t.string :type
-      t.references :activation
+      t.references :groupable
 
       t.timestamps
     end
