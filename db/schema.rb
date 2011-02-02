@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110126002353) do
+ActiveRecord::Schema.define(:version => 20110202052550) do
 
   create_table "activations", :force => true do |t|
     t.string   "title"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20110126002353) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "updates_count"
   end
 
   create_table "addresses", :force => true do |t|
@@ -29,9 +30,45 @@ ActiveRecord::Schema.define(:version => 20110126002353) do
     t.datetime "updated_at"
   end
 
+  create_table "comments", :force => true do |t|
+    t.text     "body"
+    t.integer  "user_id"
+    t.integer  "update_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "groups", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "type"
+    t.integer  "activation_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "organizations", :force => true do |t|
     t.string   "name"
     t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sections", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "type"
+    t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "updates", :force => true do |t|
+    t.string   "title"
+    t.integer  "user_id"
+    t.integer  "activation_id"
+    t.text     "body"
+    t.integer  "comments_count"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

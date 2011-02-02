@@ -9,6 +9,8 @@ class Organization < ActiveRecord::Base
   has_many :managerships,       dependent: :destroy
   has_many :managers,           class_name: 'User'
   
+  has_many :sections
+  
   validate :has_at_least_one_administrator
   def has_at_least_one_administrator
     if administrators.empty?

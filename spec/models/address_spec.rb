@@ -12,7 +12,7 @@ describe Address do
   end
   
   it 'should strip lines' do
-    addr = " 123 Fake Street\n    Middletown, NY 05281   "
+    addr = " 123 Fake Street\n    Apt 314   "
     Address.create(name: 'Work', address: addr)   
     Address.where(name: 'Work').first.address.should == addr.split("\n").map(&:strip).join("\n")
   end
