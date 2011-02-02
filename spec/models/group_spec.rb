@@ -1,5 +1,7 @@
 require 'spec_helper'
 
 describe Group do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'should have and belong to many users' do
+    should have_and_belong_to_many(:users)
+  end
 end

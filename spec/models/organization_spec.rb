@@ -4,16 +4,20 @@ describe Organization do
   
 #  it_behaves_like 'soft deletable'
     
-  it "should have administrators" do
-    should have_many(:administrators)
+  it "should habtm administrators" do
+    should have_and_belong_to_many(:administrators)
   end
   
-  it "should have managers" do
-    should have_many(:managers)
+  it 'should have many sections' do
+    should have_many(:sections)
   end
   
-  it "should have users" do
-    should have_many(:users)
+  it "should habtm managers" do
+    should have_and_belong_to_many(:managers)
+  end
+  
+  it "should habtm users" do
+    should have_and_belong_to_many(:users)
   end
   
   it "fails validation sans name" do

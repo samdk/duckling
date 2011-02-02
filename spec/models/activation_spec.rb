@@ -5,7 +5,7 @@ describe Activation do
 #  it_behaves_like 'soft deletable'
 
   it 'should have many organizations' do
-    should have_many(:organizations)
+    should have_and_belong_to_many(:organizations)
   end
   
   it 'should have many updates' do

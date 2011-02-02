@@ -1,5 +1,7 @@
 require 'spec_helper'
 
 describe Section do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'should habtm users' do
+    should have_and_belong_to_many(:users)
+  end
 end

@@ -5,19 +5,27 @@ describe User do
   # it_behaves_like 'soft deletable'
 
   it "should have many organizations" do
-    should have_many(:organizations)
+    should have_and_belong_to_many(:organizations)
   end
   
   it "can be the administrator of many organizations" do
-    should have_many(:administrated_organizations)
+    should have_and_belong_to_many(:administrated_organizations)
   end
   
   it "can be the manager of many organizations" do
-    should have_many(:managed_organizations)
+    should have_and_belong_to_many(:managed_organizations)
   end
   
   it "should have many addresses" do
     should have_many(:addresses)
+  end
+  
+  it "can belong to many groups" do
+    should have_and_belong_to_many(:groups)
+  end
+  
+  it "can belong to many sections" do
+    should have_and_belong_to_many(:sections)
   end
   
   it "should update its password hash securely" do
