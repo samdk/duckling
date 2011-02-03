@@ -11,3 +11,9 @@ else
 end
 
 FILE_STORAGE_OPTS[:url] = APP_CONFIG['file_upload_url'] || '/attachments/:attachment/:id/:filename'
+
+REDIS_SETTINGS = if redis = APP_CONFIG['redis']
+  { host: redis['host'], port: redis['port'] }
+else
+  { host: 'localhost', port: 6379 }
+end

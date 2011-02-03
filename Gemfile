@@ -7,6 +7,7 @@ gem 'cloudelete'
 gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'paperclip'
 gem 'aws-s3'
+gem 'redis'
 
 group :development, :test do
 	gem 'rspec-rails', '~> 2.4'

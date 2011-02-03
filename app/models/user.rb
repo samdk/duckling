@@ -81,6 +81,10 @@ class User < ActiveRecord::Base
     password == pass
   end
   
+  def notifications
+    @notifications ||= NotificationService.new(self)
+  end
+  
   def self.credentials?(email, pass)
     !! User.with_email(email).select('password_hash').first.try(:password?, pass)
   end
