@@ -44,7 +44,10 @@ GEM
       net-sftp (>= 2.0.0)
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.0.0)
-    cloudelete (0.0.1)
+    cloudelete (0.0.2)
+    devise (1.1.5)
+      bcrypt-ruby (~> 2.1.2)
+      warden (~> 1.0.2)
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
@@ -106,6 +109,8 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.23)
+    warden (1.0.3)
+      rack (>= 1.0.0)
     webrat (0.7.3)
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
@@ -120,7 +125,8 @@ DEPENDENCIES
   aws-s3
   bcrypt-ruby
   capistrano
-  cloudelete
+  cloudelete (= 0.0.2)
+  devise
   paperclip
   rails (= 3.0.3)
   redis

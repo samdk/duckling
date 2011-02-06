@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110202181122) do
+ActiveRecord::Schema.define(:version => 20110206194341) do
 
   create_table "activations", :force => true do |t|
     t.string   "title"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20110202181122) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "updates_count"
+    t.datetime "activation_changed_at"
   end
 
   create_table "activations_organizations", :id => false, :force => true do |t|
@@ -48,6 +49,14 @@ ActiveRecord::Schema.define(:version => 20110202181122) do
     t.datetime "updated_at"
   end
 
+  create_table "file_uploads", :force => true do |t|
+    t.integer  "update_id"
+    t.string   "upload_file_name"
+    t.string   "upload_content_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "groups", :force => true do |t|
     t.string   "name"
     t.string   "description"
@@ -66,6 +75,14 @@ ActiveRecord::Schema.define(:version => 20110202181122) do
     t.integer "organizations_id"
     t.integer "users_id"
   end
+
+  create_table "notifications", :id => false, :force => true do |t|
+    t.string  "key"
+    t.string  "target_class"
+    t.integer "target_id"
+  end
+
+  add_index "notifications", ["key"], :name => "index_notifications_on_key"
 
   create_table "organizations", :force => true do |t|
     t.string   "name"

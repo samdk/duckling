@@ -1,4 +1,4 @@
-APP_CONFIG = YAML.load_file(File.expand_path('../config.yml', __FILE__))[ENV['RAILS_ENV']]
+APP_CONFIG = YAML.load_file(File.expand_path('../../config.yml', __FILE__))[Rails.env]
 
 Duckling::Application.config.secret_token = APP_CONFIG['secret_token']
 
@@ -13,7 +13,6 @@ end
 FILE_STORAGE_OPTS[:url] = APP_CONFIG['file_upload_url'] || '/attachments/:attachment/:id/:filename'
 
 REDIS_SETTINGS = if redis = APP_CONFIG['redis']
-  { host: redis['host'], port: redis['port'] }
-else
-  { host: 'localhost', port: 6379 }
+  { host: redis['host'] || 'localhost',
+    port: redis['port'] || 6379 }
 end
