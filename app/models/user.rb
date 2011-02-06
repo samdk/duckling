@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+
+  attr_accessible :password_confirmation
+    
   is_soft_deleted
   
   scope :with_email, lambda { |email| 
