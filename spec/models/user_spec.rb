@@ -83,20 +83,20 @@ describe User do
     end
     
     it 'should credential either email address' do
-      User.credentials?('bar@example.com', 'abc123').should be_true
-      User.credentials?('foo@example.com', 'abc123').should be_true
+      User.with_credentials('bar@example.com', 'abc123').should == subject
+      User.with_credentials('foo@example.com', 'abc123').should == subject
     end
     
     it 'should be case agnostic' do
-      User.credentials?('BAR@EXAmplE.Com', 'abc123').should be_true
+      User.with_credentials('BAR@EXAmplE.Com', 'abc123').should == subject
     end
     
     it 'should deny other email addresses' do
-      User.credentials?('qux@example.com', 'abc123').should be_false
+      User.with_credentials('qux@example.com', 'abc123').should be_false
     end
     
     it 'should deny bad passwords' do
-      User.credentials?('foo@example.com', 'ABC123').should be_false
+      User.with_credentials('foo@example.com', 'ABC123').should be_false
     end
     
     it 'should error on multiple users with the same email' do

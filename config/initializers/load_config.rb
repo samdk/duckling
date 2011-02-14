@@ -16,3 +16,5 @@ REDIS_SETTINGS = if redis = APP_CONFIG['redis']
   { host: redis['host'] || 'localhost',
     port: redis['port'] || 6379 }
 end
+
+USE_SECURE_COOKIES = !!APP_CONFIG['secure_cookies']

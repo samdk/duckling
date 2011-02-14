@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-
-  attr_accessible :password_confirmation
     
   is_soft_deleted
   
@@ -88,8 +86,9 @@ class User < ActiveRecord::Base
     @notifications ||= NotificationService.new(self)
   end
   
-  def self.credentials?(email, pass)
-    !! User.with_email(email).select('password_hash').first.try(:password?, pass)
+  def self.with_credentials(email, pass)
+    u = User.with_email(email).first
+    u.try(:password?, pass) && u
   end
   
   def name
