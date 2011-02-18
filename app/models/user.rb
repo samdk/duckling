@@ -13,11 +13,35 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :administrated_organizations, class_name: 'Organization'
   has_and_belongs_to_many :managed_organizations, class_name: 'Organization'
   has_and_belongs_to_many :groups
-  has_and_belongs_to_many :sections
+  has_and_belongs_to_many :sections, {
+    join_table: 'groups_users',
+    association_foreign_key: 'group_id'
+  }
   
+  ACQ_FINDER_SQL = <<-SQL
+      SELECT * FROM users
+      INNER JOIN acquaintances
+        ON ((users.id = acquaintances.user_id AND acquaintances.other_user_id = \#{id})
+        OR  (users.id = acquaintances.other_user_id AND acquaintances.user_id = \#{id}))
+      WHERE (users.deleted_at IS NULL)
+  SQL
+  
+  ACQ_DELETE_SQL = <<-SQL
+    DELETE FROM acquaintances
+    WHERE ((user_id = \#{id}) OR (other_user_id = \#{id}))
+  SQL
+  
+  has_and_belongs_to_many :acquaintances, {
+    class_name:              'User',
+    association_foreign_key: 'other_user_id',
+    join_table:              'acquaintances',
+    finder_sql:              ACQ_FINDER_SQL,
+    delete_sql:              ACQ_DELETE_SQL
+  }
+    
   validates :password_hash, presence: true
-  validates :first_name, presence: true
-  validates :last_name, presence: true
+  validates :first_name,    presence: true
+  validates :last_name,     presence: true
   
   validate :email_validations
   def email_validations
@@ -34,6 +58,7 @@ class User < ActiveRecord::Base
   end
   
   before_save do |user|
+    
     user.phone_numbers.to_a.each do |k, v|
       user.phone_numbers[k] = PhoneFormatter.format(v)
     end
@@ -56,7 +81,10 @@ class User < ActiveRecord::Base
   end
   
   def phone_numbers=(new_numbers)
-    self['phone_numbers'] = new_numbers.to_a.map{|x|x.join("\t")}.join("\n")
+    self['phone_numbers'] = Array(new_numbers).map { |x|
+      Array(x).join("\t")
+    }.join("\n")
+    
     @phone_numbers = new_numbers
   end
   
@@ -65,7 +93,7 @@ class User < ActiveRecord::Base
   end
   
   def email_addresses=(new_emails)
-    self['email_addresses'] = new_emails.join("\n")
+    self['email_addresses'] = Array(new_emails).join("\n")
     @email_addresses = new_emails
   end
   

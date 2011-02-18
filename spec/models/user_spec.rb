@@ -1,8 +1,18 @@
 require 'spec_helper'
 
 describe User do
-  
-  # it_behaves_like 'soft deletable'
+
+  context "with a saved subject" do
+    before :each do
+      subject.first_name = 'Bob'
+      subject.last_name = 'Smith'
+      subject.email_addresses << 'bob@example.com'
+      subject.password = 'password99'
+      subject.save
+    end
+    
+    it_behaves_like 'soft deletable'
+  end
 
   it "should have many organizations" do
     should have_and_belong_to_many(:organizations)
@@ -18,6 +28,47 @@ describe User do
   
   it "should have many addresses" do
     should have_many(:addresses)
+  end
+  
+  it "should have many aquaintances" do
+    should have_and_belong_to_many(:acquaintances)
+  end
+  
+  context "two amigos" do
+    before do
+      @u = User.new first_name: 'Bob', last_name: 'Smith'
+      @u.password = 'blah'
+      @u.email_addresses << 'bob@example.com'
+      @u.save
+      
+      @u2 = User.new first_name: 'Jane', last_name: 'White'
+      @u2.password = 'blah'
+      @u2.email_addresses << 'jane@example.com'
+      @u2.save
+    end
+    
+    it 'should assign em correctly' do
+      @u.acquaintances << @u2
+      @u.save
+      
+      @u2.acquaintances.should include(@u)
+      @u.acquaintances.should include(@u2)
+      
+      @u2.destroy!
+      @u.destroy!
+    end
+    
+    it 'should remove em correctly' do
+      ActiveRecord::Base.connection.execute <<-SQL
+        DELETE FROM acquaintances
+      SQL
+      
+      @u.acquaintances << @u2      
+      @u2.acquaintances.clear
+      
+      @u.acquaintances(true).should  == []
+      @u2.acquaintances(true).should == []
+    end
   end
   
   it "can belong to many groups" do

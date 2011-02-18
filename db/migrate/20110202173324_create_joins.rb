@@ -2,23 +2,23 @@ class CreateJoins < ActiveRecord::Migration
   def self.up
   
     create_table :organizations_users, id: false do |t|
-      t.references :organizations
-      t.references :users
+      t.references :organization
+      t.references :user
     end
     
     create_table :administrated_organizations_users, id: false do |t|
-      t.references :organizations
-      t.references :users
+      t.references :organization
+      t.references :user
     end
     
     create_table :managed_organizations_users, id: false do |t|
-      t.references :organizations
-      t.references :users
+      t.references :organization
+      t.references :user
     end
     
     create_table :groups_users, id: false do |t|
-      t.references :groups
-      t.references :users
+      t.references :group
+      t.references :user
     end
     
   end

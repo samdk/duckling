@@ -2,6 +2,7 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'stringio'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -24,4 +25,13 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
+  
+  config.around(:each) do |example|
+    strio = StringIO.new
+    ActiveRecord::Base.logger = Logger.new(strio)
+    ex = example.run
+    if RSpec::Expectations::ExpectationNotMetError === ex
+      ex.message << strio.string
+    end
+  end
 end

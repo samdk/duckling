@@ -10,7 +10,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110206194341) do
+ActiveRecord::Schema.define(:version => 20110218033442) do
+
+  create_table "acquaintances", :id => false, :force => true do |t|
+    t.integer "user_id"
+    t.integer "other_user_id"
+  end
 
   create_table "activations", :force => true do |t|
     t.string   "title"
@@ -37,8 +42,8 @@ ActiveRecord::Schema.define(:version => 20110206194341) do
   end
 
   create_table "administrated_organizations_users", :id => false, :force => true do |t|
-    t.integer "organizations_id"
-    t.integer "users_id"
+    t.integer "organization_id"
+    t.integer "user_id"
   end
 
   create_table "comments", :force => true do |t|
@@ -67,13 +72,13 @@ ActiveRecord::Schema.define(:version => 20110206194341) do
   end
 
   create_table "groups_users", :id => false, :force => true do |t|
-    t.integer "groups_id"
-    t.integer "users_id"
+    t.integer "group_id"
+    t.integer "user_id"
   end
 
   create_table "managed_organizations_users", :id => false, :force => true do |t|
-    t.integer "organizations_id"
-    t.integer "users_id"
+    t.integer "organization_id"
+    t.integer "user_id"
   end
 
   create_table "notifications", :id => false, :force => true do |t|
@@ -92,8 +97,8 @@ ActiveRecord::Schema.define(:version => 20110206194341) do
   end
 
   create_table "organizations_users", :id => false, :force => true do |t|
-    t.integer "organizations_id"
-    t.integer "users_id"
+    t.integer "organization_id"
+    t.integer "user_id"
   end
 
   create_table "updates", :force => true do |t|
