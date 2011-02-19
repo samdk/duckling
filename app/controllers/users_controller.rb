@@ -1,83 +1,68 @@
-class UsersController < ApplicationController
-  # GET /users
-  # GET /users.xml
+class UsersController < AuthorizedController
+  
+  respond_to :html
+  respond_to :json, :xml, except: [:new, :edit]
+  
+  skip_login only: [:create]
+  
   def index
-    @users = current_user.acquaintances
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @users }
-    end
+    respond_with(@users = current_user.acquaintances)
   end
 
-  # GET /users/1
-  # GET /users/1.xml
   def show
-    @user = User.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @user }
-    end
+    @user = current_user.acquaintances.find(params[:id])
+    respond_with(@user)
   end
 
-  # GET /users/new
-  # GET /users/new.xml
   def new
     @user = User.new
+  end
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @user }
+  def edit
+    if !params[:id].blank? and current_user.id != params[:id]
+      raise Unauthorized, t('user.edit_others')
     end
   end
 
-  # GET /users/1/edit
-  def edit
-    @user = User.find(params[:id])
-  end
-
-  # POST /users
-  # POST /users.xml
   def create
+    log_out!
+    
     @user = User.new(params[:user])
 
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to(@user, :notice => 'User was successfully created.') }
-        format.xml  { render :xml => @user, :status => :created, :location => @user }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+    unless params[:password].blank?
+      pc = :password_confirmation
+      if params[pc].blank?
+        @user.errors.add(pc, t('login.password_confirmation.missing'))
+      elsif params[:password] != params[pc]
+        @user.errors.add(pc, t('login.password_confirmation.wrong'))
       end
     end
+    
+    flash[:notice] = t('user.created') if @user.save
+          
+    respond_with(@user)
   end
 
-  # PUT /users/1
-  # PUT /users/1.xml
   def update
-    @user = User.find(params[:id])
-
-    respond_to do |format|
-      if @user.update_attributes(params[:user])
-        format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
-      end
+    if !params[:id].blank? and current_user.id != params[:id]
+      raise Unauthorized, t('user.update_others')
     end
+        
+    if current_user.update_attributes(params[:user])
+      flash[:notice] = t('user.updated')
+    end
+    
+    respond_with(current_user)
   end
 
-  # DELETE /users/1
-  # DELETE /users/1.xml
   def destroy
-    @user = User.find(params[:id])
-    @user.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(users_url) }
-      format.xml  { head :ok }
+    if !params[:id].blank? and current_user.id != params[:id]
+      raise Unauthorized, t('user.destroy_others')
     end
+    
+    current_user.destroy
+    log_out!
+
+    destroyed_redirect_to(login_url, t('user.destroyed'))
   end
 end

@@ -1,9 +1,12 @@
-class User < ActiveRecord::Base
+class User < ActiveRecord::Base  
     
   is_soft_deleted
+    
+  serialize :phone_numbers, Hash
+  serialize :email_addresses, Array
   
   scope :with_email, lambda { |email| 
-    where('email_addresses LIKE ?', "%#{email.downcase}%")
+    where('email_addresses LIKE ?', "%- #{email.downcase}\n%")
   }
   
   has_many :addresses
@@ -58,43 +61,16 @@ class User < ActiveRecord::Base
   end
   
   before_save do |user|
-    
-    user.phone_numbers.to_a.each do |k, v|
+    user.phone_numbers.each do |k, v|
       user.phone_numbers[k] = PhoneFormatter.format(v)
     end
     
-    # yay fake serialization
-    user.phone_numbers = user.phone_numbers 
-    user.email_addresses = user.email_addresses.map(&:downcase)
+    user.email_addresses.map!(&:downcase)
   end
   
   after_initialize do |user|
     user.phone_numbers   ||= {}
     user.email_addresses ||= []
-  end
-  
-  def phone_numbers
-    @phone_numbers ||= begin
-      numbers = self['phone_numbers'] || ''
-      Hash[numbers.split("\n").map{|x|x.split("\t")}]
-    end
-  end
-  
-  def phone_numbers=(new_numbers)
-    self['phone_numbers'] = Array(new_numbers).map { |x|
-      Array(x).join("\t")
-    }.join("\n")
-    
-    @phone_numbers = new_numbers
-  end
-  
-  def email_addresses
-    @email_addresses ||= (self['email_addresses'] || '').split("\n")
-  end
-  
-  def email_addresses=(new_emails)
-    self['email_addresses'] = Array(new_emails).join("\n")
-    @email_addresses = new_emails
   end
   
   def password

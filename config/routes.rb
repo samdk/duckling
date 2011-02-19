@@ -1,5 +1,11 @@
 Duckling::Application.routes.draw do
     
+  get "session/new"
+
+  get "session/destroy"
+
+  get "session/create"
+
   match '/login'  => 'sessions#new', :via => :get, :as => :login
   resource :session, only: [:new, :destroy, :create]
   
@@ -15,7 +21,7 @@ Duckling::Application.routes.draw do
   
   resources :activations do
     resources :updates    
-    resources :people, controller: 'users'
+    resources :people, controller: 'users', only: [:index]
     resources :groups
   end
 

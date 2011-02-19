@@ -1,10 +1,16 @@
+class Unauthorized < RuntimeError ; end 
+
 class AuthorizedController < ApplicationController
   
   before_filter :require_login
   helper_method :current_user, :logged_in?
   
-  def self.skip_authorization
-    skip_before_filter :require_login
+  rescue_from Unauthorized do |exc|
+    back_or_403 exc.message
+  end
+  
+  def self.skip_login(opts = {})
+    skip_before_filter :require_login, opts
   end
   
   def require_login
@@ -40,7 +46,7 @@ class AuthorizedController < ApplicationController
   end
   
   def log_in
-    log_in_from_session or log_in_from_cookie
+    log_in_from_session or log_in_from_cookie or log_in_from_signature
   end
   
   def remember_with_cookie!
@@ -65,4 +71,11 @@ class AuthorizedController < ApplicationController
     
     log_in_as User.find(session[:user_id].to_i)
   end
+  
+  def log_in_from_signature
+    # HMAC fun stuff here.
+    
+    false
+  end
+  
 end
