@@ -1,10 +1,8 @@
 Duckling::Application.routes.draw do
     
   get "session/new"
-
-  get "session/destroy"
-
-  get "session/create"
+  delete "session/destroy"
+  post "session/create"
 
   match '/login'  => 'session#new', :via => :get, :as => :login
   resource :session, only: [:new, :destroy, :create]
