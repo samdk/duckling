@@ -131,6 +131,7 @@ DEPENDENCIES
   cloudelete (= 0.0.2)
   compass (>= 0.10.6)
   devise
+  haml
   paperclip
   rails (= 3.0.3)
   redis

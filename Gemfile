@@ -9,7 +9,8 @@ gem 'devise'
 gem 'paperclip'
 gem 'aws-s3'
 gem 'redis'
-gem "compass", ">= 0.10.6"
+gem 'haml'
+gem 'compass', '>= 0.10.6'
 
 group :development, :test do
 	gem 'rspec-rails', '~> 2.4'
