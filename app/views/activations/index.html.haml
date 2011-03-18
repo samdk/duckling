@@ -1,0 +1,9 @@
+%h2= "Showing #{@activations.length} Activations"
+%ul
+  - @activations.each do |activation|
+    %li
+      = link_to activation.title, activation  
+      = link_to 'edit', edit_activation_path(activation)
+      = link_to 'destroy', activation, :confirm => 'Are you sure?', :method => :delete
+
+= link_to 'create new activation', new_activation_path

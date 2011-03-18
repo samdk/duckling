@@ -14,7 +14,8 @@ class SessionController < AuthorizedController
     u = User.with_credentials(params[:email],params[:password])
     if u
       log_in_as(u)
-      redirect_to '/'
+      # TODO: change this to something more sensible
+      redirect_to activations_url
     else
       redirect_to :back
     end

@@ -1,0 +1,20 @@
+= form_for(@activation) do |f|
+  - if @activation.errors.any?
+    .error_explanation
+      %h2= pluralize(@activation.errors.count, "error")
+      %ul
+        - @activatoin.errors.full_messages.each do |msg|
+          %li= msg
+
+  .title
+    = f.label :title
+    = f.text_field :title
+  .description
+    = f.label :description
+    = f.text_field :description
+  .active
+    = f.label :active
+    = f.check_box :active
+  .submit
+    = f.submit
+

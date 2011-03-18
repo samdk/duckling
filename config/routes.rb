@@ -29,6 +29,8 @@ Duckling::Application.routes.draw do
     resources :activations, only: [:index]
   end
   
-  root to: 'users#new'
+  # TODO: change this to something more sane
+  root to: 'activations#index'
+  #root to: 'users#new'
   
 end

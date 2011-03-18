@@ -3,23 +3,21 @@ class ActivationsController < AuthorizedController
     @activations = Activation.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
     end
   end
 
+  # the default view for an activation is its updates, and the
+  # handling of those is managed by the updates controller
   def show
-    @activation = Activation.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-    end
+    redirect_to activation_updates_path(params[:id])
   end
 
   def new
     @activation = Activation.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
     end
   end
 
