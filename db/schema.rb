@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(:version => 20110218033442) do
 
   create_table "updates", :force => true do |t|
     t.string   "title"
-    t.integer  "user_id"
+    t.integer  "author_id"
     t.integer  "activation_id"
     t.text     "body"
     t.integer  "comments_count"

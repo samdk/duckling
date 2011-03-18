@@ -2,7 +2,7 @@ class CreateUpdates < ActiveRecord::Migration
   def self.up
     create_table :updates do |t|
       t.string :title
-      t.references :user
+      t.references :author
       t.references :activation
       t.text :body
       t.integer :comments_count
