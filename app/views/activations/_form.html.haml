@@ -1,9 +1,9 @@
 = form_for(@activation) do |f|
   - if @activation.errors.any?
-    .error_explanation
-      %h2= pluralize(@activation.errors.count, "error")
+    .errors
+      %h2= pluralize(@activation.errors.count, 'error')
       %ul
-        - @activatoin.errors.full_messages.each do |msg|
+        - @activation.errors.full_messages.each do |msg|
           %li= msg
 
   .title
