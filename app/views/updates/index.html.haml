@@ -1,0 +1,8 @@
+%h2= "Showing #{@updates.length} Updates on #{@activation.title}"
+%ul
+  - @updates.each do |update|
+    %li
+      %h3= link_to update.title, activation_update_path(@activation,update)
+      %p= update.body
+
+= link_to 'create new update', new_activation_update_path(@activation)

@@ -1,0 +1,8 @@
+%h1= @update.title
+.author= "by #{@update.author.full_name}"
+.activation= "posted in the activation #{@activation.title}"
+%p= @update.body
+
+= link_to 'edit', edit_activation_update_url(@activation,@update)
+= link_to 'back to all updates', activation_updates_url(@activation)
+

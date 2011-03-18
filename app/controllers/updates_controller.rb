@@ -1,6 +1,7 @@
 class UpdatesController < AuthorizedController
+  before_filter :set_activation
+
   def index
-    @activation = Activation.find(params[:activation_id])
     # we want a new variable here because we're (eventually)
     # going to be doing some filtering of updates
     @updates = @activation.updates
@@ -36,9 +37,10 @@ class UpdatesController < AuthorizedController
 
     respond_to do |format|
       if @update.save
-        format.html { redirect_to @update, :notice => t('update.create.success') }
+        format.html { redirect_to activation_update_url(@activation,@update),
+                                  notice: t('update.create.success') }
       else
-        format.html { render :action => "new" }
+        format.html { render action: "new" }
       end
     end
   end
@@ -48,9 +50,10 @@ class UpdatesController < AuthorizedController
 
     respond_to do |format|
       if @update.update_attributes(params[:update])
-        format.html { redirect_to @update, :notice => t('update.edit.success') }
+        format.html { redirect_to activation_update_url(@activation,@update),
+                                  notice: t('update.edit.success') }
       else
-        format.html { render :action => "edit" }
+        format.html { render action: "edit" }
       end
     end
   end
@@ -60,7 +63,12 @@ class UpdatesController < AuthorizedController
     @update.destroy
 
     respond_to do |format|
-      format.html { redirect_to(updates_url) }
+      format.html { redirect_to updates_url(@activation) }
     end
   end
+
+  private
+    def set_activation
+      @activation = Activation.find(params[:activation_id])
+    end
 end

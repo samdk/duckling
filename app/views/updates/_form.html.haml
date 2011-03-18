@@ -1,0 +1,19 @@
+= form_for [@activation,@update] do |f|
+  - if @update.errors.any?
+    .errors
+      %h2= pluralize(@update.errors.count, 'error')
+      %ul
+        - @update.errors.full_messages.each do |msg|
+          %li= msg
+
+  .title
+    = f.label :title
+    = f.text_field :title
+  .body
+    = f.label :body
+    = f.text_field :body
+  .submit
+    = f.hidden_field :author_id, value: @current_user.id
+    = f.hidden_field :activation_id, value: @activation.id
+    = f.submit
+
