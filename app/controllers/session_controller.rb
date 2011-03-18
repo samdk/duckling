@@ -1,5 +1,6 @@
 class SessionController < AuthorizedController 
   
+  # don't require logins for the login page/creating a new session
   skip_login({:only => [:new, :create]})
 
   def new
