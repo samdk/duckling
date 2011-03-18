@@ -3,3 +3,8 @@
 
 en:
   hello: "Hello world"
+  update:
+    create:
+      success: "Update created successfully"
+    edit:
+      success: "Update edited successfully"
