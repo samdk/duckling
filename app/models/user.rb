@@ -72,6 +72,10 @@ class User < ActiveRecord::Base
     user.phone_numbers   ||= {}
     user.email_addresses ||= []
   end
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
   
   def password
     @password ||= BCrypt::Password.new(password_hash)
