@@ -6,10 +6,13 @@
   #body-body
     #body-nav
       %ul
-        %li.active= link_to 'Updates', activation_updates_url(@activation)
-        %li=        link_to 'People',  activation_people_url(@activation)
-        %li=        link_to 'Groups',  activation_groups_url(@activation)
-        %li=        link_to 'Summary', '#'
+        %li.active
+          = link_to 'Updates', activation_updates_url(@activation), :class => 'updates'
+          .extra
+            this is some content
+        %li=  link_to 'People',  activation_people_url(@activation), :class => 'people'
+        %li=  link_to 'Groups',  activation_groups_url(@activation), :class => 'groups'
+        %li= link_to 'Summary', '#', :class => 'summary'
     .main
       #updates-main.pane
         #filters
@@ -28,7 +31,8 @@
             - @updates.each do |update|
               %li.update{:class => @current_user == update.author ? 'yours' : ''}
                 .update-when
-                  .update-time= update.created_at
+                  .update-time= update.created_at.to_s(:time)
+                  .update-date= update.created_at.to_s(:mdy)
                 .update-main
                   .update-title= link_to update.title, activation_update_url(@activation,update)
                   .update-author

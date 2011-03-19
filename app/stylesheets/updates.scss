@@ -23,28 +23,37 @@
   #body-nav {
     width: $nav-width;
     position: absolute;
-    right: 0;
+    top: 0; right: 0; bottom: 0;
     z-index: 2;
+    background: $grey7;
+    @include box_shadow(0 0 3px $grey4);
+    @include border_radius(0 5px 0 0);
+
     > ul {
+      position: absolute;
+      top: 45px;
+      width: 100%;
+
       > li {
-        margin-bottom: $pad3;
-        padding: $pad2;
         clear: both;
         position: relative;
         font-size: 13px;
 
         &:hover, &.active {
-          background: $grey7;
+          background: $grey6;
           color: black;
-          text-shadow: 0 1px 1px $grey8;
-          @include border_radius(0 5px 5px 0);
         }
         &.active {
-          a.label {
+          @include box_shadow(0 0 3px $grey4);
+          margin: 1px 0;
+        }
+        &.active {
+          > a {
             border-bottom: 1px dashed $grey5;
             padding-bottom: $pad3;
           }
-          div {
+          .extra {
+            padding: $pad2;
             @include reversed_links;
             a { color: $dark-blue; }
             h3 {
@@ -60,12 +69,18 @@
             }
           }
         }
-        a.label {
+        > a {
           @include block_link;
+          padding: $pad2 $pad2 $pad2 $pad2 + 22px;
           font-size: 16px;
-          color: $grey2;
+          color: black;
           text-shadow: 0 1px 1px white;
           font-weight: bold;
+          &.updates { @include icon('is_bubbles_16b.png',9px,11px); }
+          &.people  { @include icon('is_person_16b.png',$pad2,9px); }
+          &.groups  { @include icon('is_people_16b.png',$pad2,9px); }
+          &.summary { @include icon('is_chart_16b.png',11px,10px);  }
+          opacity: 0.8;
         }
       }
     }
@@ -117,6 +132,7 @@
           position: relative;
 
           .update-when {
+            text-transform: lowercase;
             position: absolute;
             left: 0; top: 0;
           }
@@ -152,7 +168,6 @@
               h3 {
                 font-weight: bold;
                 color: $grey3;
-                margin-bottom: -$pad3;
               }
               .comment {
                 background: $grey9;
@@ -163,9 +178,7 @@
                   color: $grey2;
                   margin-bottom: 3px;
                 }
-                .comment-body {
-                    
-                }
+                .comment-body {}
                 &.yours { background: $highlight; }
               }
               input {

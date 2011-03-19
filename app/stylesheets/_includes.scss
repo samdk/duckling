@@ -55,6 +55,11 @@
     &:hover { text-decoration: none; }
   }
 
+  /* adds an icon to an element */
+  @mixin icon($name,$pos1:left,$pos2:center) {
+    background: url('/images/icons/'+$name) no-repeat $pos1 $pos2;
+  }
+
   /* centered, standard-width content wrapper */
   @mixin body_width {
     width: $body-width;

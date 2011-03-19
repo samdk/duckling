@@ -7,6 +7,7 @@
  * by default. (instead we use semantically-ugly divs/spans.) */
 /* displays links the opposite style of normal wrt underlines */
 /* displays block links (with no underline on hover) */
+/* adds an icon to an element */
 /* centered, standard-width content wrapper */
 /* small button for general use */
 /* medium button for .pane headers (add update and the like) */
@@ -45,12 +46,12 @@
   top: 0;
   right: 0;
 }
-/* line 109, ../../app/stylesheets/_includes.scss */
+/* line 114, ../../app/stylesheets/_includes.scss */
 #body-header #add-update:hover {
   background-image: -webkit-gradient(linear, center bottom, center top, color-stop(0, #007900), color-stop(0.1, #009a00), color-stop(0.9, #00b200), color-stop(1, #00a400));
   text-decoration: none;
 }
-/* line 116, ../../app/stylesheets/_includes.scss */
+/* line 121, ../../app/stylesheets/_includes.scss */
 #body-header #add-update:active {
   background-image: -webkit-gradient(linear, center bottom, center top, color-stop(0, #009000), color-stop(0.1, #00a300), color-stop(0.9, #00a000), color-stop(1, #009d00));
   padding-top: 11px;
@@ -66,71 +67,109 @@
 #body-nav {
   width: 250px;
   position: absolute;
+  top: 0;
   right: 0;
+  bottom: 0;
   z-index: 2;
+  background: #dddddd;
+  -moz-box-shadow: 0 0 3px #939393;
+  -webkit-box-shadow: 0 0 3px #939393;
+  box-shadow: 0 0 3px #939393;
+  -moz-border-radius: 0 5px 0 0;
+  -webkit-border-radius: 0 5px 0 0;
+  border-radius: 0 5px 0 0;
 }
-/* line 29, ../../app/stylesheets/updates.scss */
+/* line 32, ../../app/stylesheets/updates.scss */
+#body-nav > ul {
+  position: absolute;
+  top: 45px;
+  width: 100%;
+}
+/* line 37, ../../app/stylesheets/updates.scss */
 #body-nav > ul > li {
-  margin-bottom: 5px;
-  padding: 10px;
   clear: both;
   position: relative;
   font-size: 13px;
 }
-/* line 36, ../../app/stylesheets/updates.scss */
+/* line 42, ../../app/stylesheets/updates.scss */
 #body-nav > ul > li:hover, #body-nav > ul > li.active {
-  background: #dddddd;
+  background: #d2d2d8;
   color: black;
-  text-shadow: 0 1px 1px #eeeeee;
-  -moz-border-radius: 0 5px 5px 0;
-  -webkit-border-radius: 0 5px 5px 0;
-  border-radius: 0 5px 5px 0;
 }
-/* line 43, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li.active a.label {
+/* line 46, ../../app/stylesheets/updates.scss */
+#body-nav > ul > li.active {
+  -moz-box-shadow: 0 0 3px #939393;
+  -webkit-box-shadow: 0 0 3px #939393;
+  box-shadow: 0 0 3px #939393;
+  margin: 1px 0;
+}
+/* line 51, ../../app/stylesheets/updates.scss */
+#body-nav > ul > li.active > a {
   border-bottom: 1px dashed #b0b0b0;
   padding-bottom: 5px;
 }
+/* line 55, ../../app/stylesheets/updates.scss */
+#body-nav > ul > li.active .extra {
+  padding: 10px;
+}
 /* line 46, ../../app/stylesheets/_includes.scss */
-#body-nav > ul > li.active div a {
+#body-nav > ul > li.active .extra a {
   text-decoration: underline;
 }
 /* line 48, ../../app/stylesheets/_includes.scss */
-#body-nav > ul > li.active div a:hover {
+#body-nav > ul > li.active .extra a:hover {
   text-decoration: none;
 }
-/* line 49, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li.active div a {
+/* line 58, ../../app/stylesheets/updates.scss */
+#body-nav > ul > li.active .extra a {
   color: #244193;
 }
-/* line 50, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li.active div h3 {
+/* line 59, ../../app/stylesheets/updates.scss */
+#body-nav > ul > li.active .extra h3 {
   font-weight: bold;
   margin: 10px 0 5px;
 }
-/* line 54, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li.active div ul {
+/* line 63, ../../app/stylesheets/updates.scss */
+#body-nav > ul > li.active .extra ul {
   list-style-type: disc;
   color: #939393;
 }
-/* line 57, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li.active div ul li {
+/* line 66, ../../app/stylesheets/updates.scss */
+#body-nav > ul > li.active .extra ul li {
   margin: 3px 0 3px 15px;
 }
-/* line 63, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li a.label {
+/* line 72, ../../app/stylesheets/updates.scss */
+#body-nav > ul > li > a {
   display: block;
+  padding: 10px 10px 10px 32px;
   font-size: 16px;
-  color: #585858;
+  color: black;
   text-shadow: 0 1px 1px white;
   font-weight: bold;
+  opacity: 0.8;
 }
 /* line 55, ../../app/stylesheets/_includes.scss */
-#body-nav > ul > li a.label:hover {
+#body-nav > ul > li > a:hover {
   text-decoration: none;
 }
+/* line 79, ../../app/stylesheets/updates.scss */
+#body-nav > ul > li > a.updates {
+  background: url("/images/icons/is_bubbles_16b.png") no-repeat 9px 11px;
+}
+/* line 80, ../../app/stylesheets/updates.scss */
+#body-nav > ul > li > a.people {
+  background: url("/images/icons/is_person_16b.png") no-repeat 10px 9px;
+}
+/* line 81, ../../app/stylesheets/updates.scss */
+#body-nav > ul > li > a.groups {
+  background: url("/images/icons/is_people_16b.png") no-repeat 10px 9px;
+}
+/* line 82, ../../app/stylesheets/updates.scss */
+#body-nav > ul > li > a.summary {
+  background: url("/images/icons/is_chart_16b.png") no-repeat 11px 10px;
+}
 
-/* line 73, ../../app/stylesheets/updates.scss */
+/* line 88, ../../app/stylesheets/updates.scss */
 .main {
   position: relative;
   left: 0;
@@ -139,7 +178,7 @@
   bottom: 0;
   padding-right: 250px;
 }
-/* line 77, ../../app/stylesheets/updates.scss */
+/* line 92, ../../app/stylesheets/updates.scss */
 .main .pane {
   background: white;
   position: relative;
@@ -150,19 +189,19 @@
   box-shadow: 0 0 3px #939393;
 }
 
-/* line 86, ../../app/stylesheets/updates.scss */
+/* line 101, ../../app/stylesheets/updates.scss */
 #filters {
   padding: 10px 20px;
   margin: -20px;
   margin-bottom: 0;
   background: #d2d2d8;
 }
-/* line 92, ../../app/stylesheets/updates.scss */
+/* line 107, ../../app/stylesheets/updates.scss */
 #filters form input[type=text], #filters form select {
   width: 184px;
   border: 1px solid #939393;
 }
-/* line 96, ../../app/stylesheets/updates.scss */
+/* line 111, ../../app/stylesheets/updates.scss */
 #filters form input[type=submit] {
   color: #2e2e2e;
   font-size: 12px;
@@ -180,7 +219,7 @@
   position: absolute;
   right: 20px;
 }
-/* line 77, ../../app/stylesheets/_includes.scss */
+/* line 82, ../../app/stylesheets/_includes.scss */
 #filters form input[type=submit]:hover {
   background: -webkit-gradient(linear, 0 top, 0 bottom, from(#7ba1db), to(#3468db));
   cursor: pointer;
@@ -188,41 +227,42 @@
   text-shadow: -1px 0 0 #585858;
   border-color: #244193;
 }
-/* line 84, ../../app/stylesheets/_includes.scss */
+/* line 89, ../../app/stylesheets/_includes.scss */
 #filters form input[type=submit]:active {
   background: -webkit-gradient(linear, 0 top, 0 bottom, from(#3468db), to(#7ba1db));
   padding-top: 6px;
   padding-bottom: 4px;
 }
 
-/* line 104, ../../app/stylesheets/updates.scss */
+/* line 119, ../../app/stylesheets/updates.scss */
 #updates-header {
   padding: 20px 0;
   position: relative;
 }
-/* line 107, ../../app/stylesheets/updates.scss */
+/* line 122, ../../app/stylesheets/updates.scss */
 #updates-header h2 {
   font-size: 21px;
   font-weight: bold;
   color: #585858;
 }
 
-/* line 113, ../../app/stylesheets/updates.scss */
+/* line 128, ../../app/stylesheets/updates.scss */
 #updates {
   font-size: 14px;
 }
 
-/* line 116, ../../app/stylesheets/updates.scss */
+/* line 131, ../../app/stylesheets/updates.scss */
 li.update {
   position: relative;
 }
-/* line 119, ../../app/stylesheets/updates.scss */
+/* line 134, ../../app/stylesheets/updates.scss */
 li.update .update-when {
+  text-transform: lowercase;
   position: absolute;
   left: 0;
   top: 0;
 }
-/* line 123, ../../app/stylesheets/updates.scss */
+/* line 139, ../../app/stylesheets/updates.scss */
 li.update .update-main {
   position: relative;
   margin-left: 70px;
@@ -230,17 +270,17 @@ li.update .update-main {
   padding-bottom: 20px;
   margin-bottom: 20px;
 }
-/* line 130, ../../app/stylesheets/updates.scss */
+/* line 146, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-title {
   font-weight: bold;
 }
-/* line 133, ../../app/stylesheets/updates.scss */
+/* line 149, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-author {
   position: absolute;
   right: 0;
   top: 0;
 }
-/* line 138, ../../app/stylesheets/updates.scss */
+/* line 154, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-text {
   padding: 5px 0;
 }
@@ -252,7 +292,7 @@ li.update .update-main .update-text a {
 li.update .update-main .update-text a:hover {
   text-decoration: none;
 }
-/* line 142, ../../app/stylesheets/updates.scss */
+/* line 158, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-files {
   padding-left: 0;
 }
@@ -264,7 +304,7 @@ li.update .update-main .update-files a {
 li.update .update-main .update-files a:hover {
   text-decoration: none;
 }
-/* line 146, ../../app/stylesheets/updates.scss */
+/* line 162, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments {
   padding: 5px 0 0 0;
   font-size: 12px;
@@ -278,29 +318,28 @@ li.update .update-main .update-comments a {
 li.update .update-main .update-comments a:hover {
   text-decoration: none;
 }
-/* line 152, ../../app/stylesheets/updates.scss */
+/* line 168, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments h3 {
   font-weight: bold;
   color: #707070;
-  margin-bottom: -5px;
 }
-/* line 157, ../../app/stylesheets/updates.scss */
+/* line 172, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment {
   background: #f7f7f7;
   border-bottom: 1px solid #eeeeee;
   padding: 5px;
   margin: 5px 0;
 }
-/* line 162, ../../app/stylesheets/updates.scss */
+/* line 177, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment .comment-heading {
   color: #585858;
   margin-bottom: 3px;
 }
-/* line 169, ../../app/stylesheets/updates.scss */
+/* line 182, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment.yours {
   background: #feffd6;
 }
-/* line 171, ../../app/stylesheets/updates.scss */
+/* line 184, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments input {
   width: 490px;
 }

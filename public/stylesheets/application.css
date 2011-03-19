@@ -36,6 +36,7 @@ h1, h2, h3, h4, h5, h6 {
  * by default. (instead we use semantically-ugly divs/spans.) */
 /* displays links the opposite style of normal wrt underlines */
 /* displays block links (with no underline on hover) */
+/* adds an icon to an element */
 /* centered, standard-width content wrapper */
 /* small button for general use */
 /* medium button for .pane headers (add update and the like) */
