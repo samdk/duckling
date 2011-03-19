@@ -1,0 +1,55 @@
+@import 'base';
+
+a {
+  color: $link-blue;
+  text-decoration: none;
+  &:hover { text-decoration: underline; }
+}
+
+input, select {
+  border: 1px solid $grey6;
+  padding: 4px;
+}
+select { padding: 3px; }
+body {
+  background: white;
+  color: black;
+  font: {
+    family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    size: 16px;
+  }
+  width: 100%;
+}
+  #header {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: $nav-height;
+    background: $grey1;
+    color: white;
+
+    .wrapper {
+      @include body_width;
+      background: red;
+
+      #nav {
+        @include nav_links(left);
+        font-weight: bold;
+      }
+      #account {
+        @include nav_links(right);
+        @include reversed_links;
+      }
+      a { color: white; }
+    }
+  }
+  #body {
+    position: absolute;
+    top: $nav-height; left: 0; right: 0;
+    background: $grey8;
+    .wrapper {
+      @include body_width;
+      padding: $pad1 0;
+    }
+  }
+
+

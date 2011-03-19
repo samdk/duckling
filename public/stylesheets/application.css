@@ -1,0 +1,143 @@
+/* basic reset */
+/* line 3, ../../app/stylesheets/_base.scss */
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form,
+fieldset, input, textarea, p, select, option {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 4, ../../app/stylesheets/_base.scss */
+fieldset, img {
+  border: 0;
+}
+
+/* line 5, ../../app/stylesheets/_base.scss */
+img {
+  display: block;
+}
+
+/* line 6, ../../app/stylesheets/_base.scss */
+ol, ul, dl {
+  list-style: none;
+}
+
+/* line 7, ../../app/stylesheets/_base.scss */
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+
+/* colors */
+/* measurements */
+/* mixins */
+/* navbar links
+ * these aren't lists because inline-block makes our life much easier,
+ * and IE7 only likes inline-block on elements that are display: inline
+ * by default. (instead we use semantically-ugly divs/spans.) */
+/* displays links the opposite style of normal wrt underlines */
+/* displays block links (with no underline on hover) */
+/* centered, standard-width content wrapper */
+/* small button for general use */
+/* medium button for .pane headers (add update and the like) */
+/* line 3, ../../app/stylesheets/application.scss */
+a {
+  color: #3f71fb;
+  text-decoration: none;
+}
+/* line 6, ../../app/stylesheets/application.scss */
+a:hover {
+  text-decoration: underline;
+}
+
+/* line 9, ../../app/stylesheets/application.scss */
+input, select {
+  border: 1px solid #d2d2d8;
+  padding: 4px;
+}
+
+/* line 13, ../../app/stylesheets/application.scss */
+select {
+  padding: 3px;
+}
+
+/* line 14, ../../app/stylesheets/application.scss */
+body {
+  background: white;
+  color: black;
+  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 16px;
+  width: 100%;
+}
+
+/* line 23, ../../app/stylesheets/application.scss */
+#header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: #2e2e2e;
+  color: white;
+}
+/* line 30, ../../app/stylesheets/application.scss */
+#header .wrapper {
+  width: 960px;
+  position: relative;
+  margin: 0 auto;
+  background: red;
+}
+/* line 34, ../../app/stylesheets/application.scss */
+#header .wrapper #nav {
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+/* line 41, ../../app/stylesheets/_base.scss */
+#header .wrapper #nav span {
+  display: inline-block;
+  height: 18px;
+  padding: 7px 0;
+  float: left;
+  padding-right: 10px;
+}
+/* line 38, ../../app/stylesheets/application.scss */
+#header .wrapper #account {
+  position: absolute;
+  right: 0;
+}
+/* line 41, ../../app/stylesheets/_base.scss */
+#header .wrapper #account span {
+  display: inline-block;
+  height: 18px;
+  padding: 7px 0;
+  float: left;
+  padding-left: 10px;
+}
+/* line 54, ../../app/stylesheets/_base.scss */
+#header .wrapper #account a {
+  text-decoration: underline;
+}
+/* line 56, ../../app/stylesheets/_base.scss */
+#header .wrapper #account a:hover {
+  text-decoration: none;
+}
+/* line 42, ../../app/stylesheets/application.scss */
+#header .wrapper a {
+  color: white;
+}
+
+/* line 45, ../../app/stylesheets/application.scss */
+#body {
+  position: absolute;
+  top: 32px;
+  left: 0;
+  right: 0;
+  background: #eeeeee;
+}
+/* line 49, ../../app/stylesheets/application.scss */
+#body .wrapper {
+  width: 960px;
+  position: relative;
+  margin: 0 auto;
+  padding: 20px 0;
+}

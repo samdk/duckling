@@ -3,10 +3,14 @@
   %head
     %title= (yield :title) or "Duckling"
     %meta{'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8'}
-    = stylesheet_link_tag :all
+    = stylesheet_link_tag 'application'
+    = stylesheet_link_tag controller_name
     = javascript_include_tag :defaults
+    = javascript_include_tag controller_name
     = csrf_meta_tag
   %body
     = render 'layouts/header'
     #body
       = yield
+    #footer A Decisive Duck project.
+

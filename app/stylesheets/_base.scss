@@ -1,0 +1,151 @@
+/* basic reset */
+  body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,
+  fieldset,input,textarea,p,select,option { margin:0; padding:0; }
+  fieldset,img { border:0; }
+  img { display:block; }
+  ol,ul,dl { list-style:none; }
+  h1,h2,h3,h4,h5,h6 { font-size:100%; font-weight:normal; }
+
+/* colors */
+  $link-blue: #3f71fb;
+  $button-blue1: #7ba1db;
+  $button-blue2: #3468db;
+  $dark-blue: #244193;
+  $highlight: #feffd6;
+  $grey9: #f7f7f7;
+  $grey8: #eeeeee;
+  $grey7: #dddddd;
+  $grey6: #d2d2d8;
+  $grey5: #b0b0b0;
+  $grey4: #939393;
+  $grey3: #707070;
+  $grey2: #585858;
+  $grey1: #2e2e2e;
+
+/* measurements */
+  $body-width: 960px;
+  $nav-height: 32px;
+  $nav-width: 250px;
+  $pad1: 20px;
+  $pad2: 10px;
+  $pad3: 5px;
+
+/* mixins */
+  /* navbar links
+   * these aren't lists because inline-block makes our life much easier,
+   * and IE7 only likes inline-block on elements that are display: inline
+   * by default. (instead we use semantically-ugly divs/spans.) */
+  @mixin nav_links($align) {
+    position: absolute;
+    #{$align}: 0;
+    span {
+      display: inline-block;
+      height: 18px;
+      padding: 7px 0;
+      float: left;
+      @if $align == left { padding-right: 10px; }
+      @else              { padding-left:  10px; }
+    }
+  }
+
+
+  /* displays links the opposite style of normal wrt underlines */
+  @mixin reversed_links {
+    a {
+      text-decoration: underline;
+      &:hover { text-decoration: none; }
+    }
+  }
+
+  /* displays block links (with no underline on hover) */
+  @mixin block_link {
+    display: block;
+    &:hover { text-decoration: none; }
+  }
+
+  /* centered, standard-width content wrapper */
+  @mixin body_width {
+    width: $body-width;
+    position: relative;
+    margin: 0 auto;
+  }
+
+  /* small button for general use */
+  @mixin small_button {
+    color: $grey1;
+    font-size: 12px;
+    line-height: 13px;
+    font-weight: bold;
+    padding: $pad3 $pad2;
+    background: $grey7;
+    border: 1px solid $grey4;
+    @include border_radius(4px);
+    text-shadow: 0 1px 0 $grey6;
+    background: -webkit-gradient(linear, 0 top, 0 bottom, from(white), to(#ccc));
+    &:hover {
+      background: -webkit-gradient(linear, 0 top, 0 bottom, from($button-blue1),to($button-blue2));
+      cursor: pointer;
+      color: white;
+      text-shadow: -1px 0 0 $grey2;
+      border-color: $dark-blue;
+    }
+    &:active {
+      background: -webkit-gradient(linear, 0 top, 0 bottom, from($button-blue2),to($button-blue1));
+      padding-top: $pad3 + 1;
+      padding-bottom: $pad3 - 1;
+    }
+  }
+  
+  /* medium button for .pane headers (add update and the like) */
+  @mixin med_button {
+    display: block;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    @include border_radius(5px);
+    font-size: 16px;
+    line-height: 14px;
+    padding: $pad2 $pad1;
+    border: 2px solid rgb(30,130,50);
+    background: green;
+    background-image: -webkit-gradient(
+      linear,center bottom,center top,
+      color-stop(0,   #060),color-stop(0.1, #007700),
+      color-stop(0.9, #090),color-stop(1,   #080) );
+    @include box_shadow(inset 0 0 2px black);
+    text-shadow: 0 0 2px black;
+    &:hover {
+      background-image: -webkit-gradient(
+        linear,center bottom,center top,
+        color-stop(0,   #007900),color-stop(0.1, #009a00),
+        color-stop(0.9, #00b200),color-stop(1,   #00a400) );
+      text-decoration: none;
+    }
+    &:active {
+      background-image: -webkit-gradient(
+        linear,center bottom,center top,
+        color-stop(0,   #009000),color-stop(0.1, #00a300),
+        color-stop(0.9, #00a000),color-stop(1,   #009d00) );
+      padding-top: $pad2 + 1;
+      padding-bottom: $pad2 - 1;
+    }
+  }
+
+  // TODO: convert stylesheets to use compass mixins rather than these
+  @mixin box_shadow($args,$args2:none) {
+    @if $args2 == none {
+      -moz-box-shadow: $args;
+      -webkit-box-shadow: $args;
+      box-shadow: $args;
+    } @else {
+      -moz-box-shadow: $args, $args2;
+      -webkit-box-shadow: $args, $args2;
+      box-shadow: $args, $args2;
+    }
+  }
+  @mixin border_radius($args) {
+    -moz-border-radius: $args;
+    -webkit-border-radius: $args;
+    border-radius: $args;
+  }
+

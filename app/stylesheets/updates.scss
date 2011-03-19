@@ -1,0 +1,177 @@
+@import 'base';
+
+#body-header {
+  padding-bottom: $pad1;
+  position: relative;
+  h1 {
+    font: {
+      size: 36px;
+      weight: bold;
+    }
+  }
+  #add-update {
+    display: block;
+    @include med_button;
+    margin: 0 0 $pad2 $pad2;
+    position: absolute;
+    top: 0; right: 0;
+  }
+}
+#body-body {
+  position: relative;
+}
+  #body-nav {
+    width: $nav-width;
+    position: absolute;
+    right: 0;
+    z-index: 2;
+    > ul {
+      > li {
+        margin-bottom: $pad3;
+        padding: $pad2;
+        clear: both;
+        position: relative;
+        font-size: 13px;
+
+        &:hover, &.active {
+          background: $grey7;
+          color: black;
+          text-shadow: 0 1px 1px $grey8;
+          @include border_radius(0 5px 5px 0);
+        }
+        &.active {
+          a.label {
+            border-bottom: 1px dashed $grey5;
+            padding-bottom: $pad3;
+          }
+          div {
+            @include reversed_links;
+            a { color: $dark-blue; }
+            h3 {
+              font-weight: bold;
+              margin:  $pad2 0 $pad3;
+            }
+            ul {
+              list-style-type: disc;
+              color: $grey4;
+              li {
+                margin: 3px 0 3px 15px;
+              }
+            }
+          }
+        }
+        a.label {
+          @include block_link;
+          font-size: 16px;
+          color: $grey2;
+          text-shadow: 0 1px 1px white;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  .main {
+    position: relative;
+    left: 0; top: 0; right: 0; bottom: 0;
+    padding-right: $nav-width;
+    .pane {
+      background: white;
+      position: relative;
+      z-index: 3;
+      padding: $pad1;
+      @include box_shadow(0 0 3px $grey4);
+    }
+  }
+    #updates-main { }
+      #filters {
+        padding: $pad2 $pad1;
+        margin: -$pad1;
+        margin-bottom: 0;
+        background: $grey6;
+        form {
+          input[type=text],select {
+            width: 184px;
+            border: 1px solid $grey4;
+          }
+          input[type=submit] {
+            @include small_button;
+            padding: $pad3 ($pad2+2);
+            position: absolute;
+            right: $pad1;
+          }
+        }
+      }
+      #updates-header {
+        padding: $pad1 0;
+        position: relative;
+        h2 {
+          font-size: 21px;
+          font-weight: bold;
+          color: $grey2;
+        }
+      }
+      #updates {
+        font-size: 14px;
+      }
+        li.update {
+          position: relative;
+
+          .update-when {
+            position: absolute;
+            left: 0; top: 0;
+          }
+          .update-main {
+            position: relative;
+            margin-left: 70px;
+            border-bottom: 1px dashed $grey7;
+            padding-bottom: $pad1;
+            margin-bottom: $pad1;
+
+            .update-title {
+              font-weight: bold;
+            }
+            .update-author {
+              position: absolute;
+              right: 0;
+              top: 0;
+            }
+            .update-text {
+              padding: $pad3 0;
+              @include reversed_links;
+            }
+            .update-files {
+              @include reversed_links;
+              padding-left: 0;
+            }
+            .update-comments {
+              padding: $pad3 0 0 0;
+              @include reversed_links;
+              font-size: 12px;
+              margin-right: 100px;
+
+              h3 {
+                font-weight: bold;
+                color: $grey3;
+                margin-bottom: -$pad3;
+              }
+              .comment {
+                background: $grey9;
+                border-bottom: 1px solid $grey8;
+                padding: $pad3;
+                margin: $pad3 0;
+                .comment-heading {
+                  color: $grey2;
+                  margin-bottom: 3px;
+                }
+                .comment-body {
+                    
+                }
+                &.yours { background: $highlight; }
+              }
+              input {
+                width: 490px;
+              }
+            }
+          }
+        }
+
