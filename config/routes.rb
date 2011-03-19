@@ -5,6 +5,7 @@ Duckling::Application.routes.draw do
   post "session/create"
 
   match '/login'  => 'session#new', :via => :get, :as => :login
+  match '/logout'  => 'session#destroy', :via => :delete, :as => :logout
   resource :session, only: [:new, :destroy, :create]
   
   resources :people, controller: 'users'
