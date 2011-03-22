@@ -1,83 +1,49 @@
 class OrganizationsController < ApplicationController
-  # GET /organizations
-  # GET /organizations.xml
+
+  respond_to :html
+  respond_to :json, :xml, except: [:new, :edit]
+
   def index
-    @organizations = Organization.all
+    respond_with(@organizations = current_user.organizations)
+  end
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @organizations }
+  def show    
+    if current_model.blank? or !current_user.can_see_organization?(current_model)
+      unauthorized! 'organization.private'
     end
   end
 
-  # GET /organizations/1
-  # GET /organizations/1.xml
-  def show
-    @organization = Organization.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @organization }
-    end
-  end
-
-  # GET /organizations/new
-  # GET /organizations/new.xml
   def new
     @organization = Organization.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @organization }
-    end
   end
 
-  # GET /organizations/1/edit
   def edit
-    @organization = Organization.find(params[:id])
+    @organization = current_model
   end
 
-  # POST /organizations
-  # POST /organizations.xml
   def create
-    @organization = Organization.new(params[:organization])
-
-    respond_to do |format|
-      if @organization.save
-        format.html { redirect_to(@organization, :notice => 'Organization was successfully created.') }
-        format.xml  { render :xml => @organization, :status => :created, :location => @organization }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @organization.errors, :status => :unprocessable_entity }
-      end
-    end
   end
 
-  # PUT /organizations/1
-  # PUT /organizations/1.xml
   def update
-    @organization = Organization.find(params[:id])
-
-    respond_to do |format|
-      if @organization.update_attributes(params[:organization])
-        format.html { redirect_to(@organization, :notice => 'Organization was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @organization.errors, :status => :unprocessable_entity }
-      end
+    @organization = current_model
+    
+    unless current_user.managed_organizations.include?(@organization)
+      unauthorized! 'organization.update_others'
     end
+    
+    if @organization.update_attributes(params[:organization])
+      notice 'organization.updated'
+    end
+    
+    respond_with(@organization)
   end
 
-  # DELETE /organizations/1
-  # DELETE /organizations/1.xml
   def destroy
-    @organization = Organization.find(params[:id])
-    @organization.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(organizations_url) }
-      format.xml  { head :ok }
+    unless current_user.administrated_organizations.include?(current_model)
+      unauthorized! 'organization.delete_others'
     end
+      
+    current_model.destroy
+    destroyed_redirect_to organizations_url
   end
 end

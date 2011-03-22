@@ -10,8 +10,10 @@ class UsersController < AuthorizedController
   end
 
   def show
-    @user = current_user.acquaintances.find(params[:id])
-    respond_with(@user)
+    @user = current_user.acquaintances.find_by_id(params[:id])
+    ensure_exists @user
+    
+    respond_with @user
   end
 
   def new
@@ -19,9 +21,11 @@ class UsersController < AuthorizedController
   end
 
   def edit
-    if !params[:id].blank? and current_user.id != params[:id]
-      raise Unauthorized, t('user.edit_others')
+    unless params[:id].blank? or current_user.id == params[:id]
+      unauthorized! 'user.edit_others'
     end
+    
+    @user = current_user
   end
 
   def create
@@ -38,31 +42,31 @@ class UsersController < AuthorizedController
       end
     end
     
-    flash[:notice] = t('user.created') if @user.save
+    notice 'user.created' if @user.save
           
-    respond_with(@user)
+    respond_with @user
   end
 
   def update
     if !params[:id].blank? and current_user.id != params[:id]
-      raise Unauthorized, t('user.update_others')
+      unauthorized! 'user.update_others'
     end
         
     if current_user.update_attributes(params[:user])
-      flash[:notice] = t('user.updated')
+      notice 'user.updated'
     end
     
-    respond_with(current_user)
+    respond_with current_user
   end
 
   def destroy
     if !params[:id].blank? and current_user.id != params[:id]
-      raise Unauthorized, t('user.destroy_others')
+      unauthorized! 'user.destroy_others'
     end
     
     current_user.destroy
     log_out!
 
-    destroyed_redirect_to(login_url, t('user.destroyed'))
+    destroyed_redirect_to login_url
   end
 end

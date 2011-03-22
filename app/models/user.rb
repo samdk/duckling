@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :addresses
   has_one :primary_address, class_name: 'Address'
   
+  has_and_belongs_to_many :activations
   has_and_belongs_to_many :organizations
   has_and_belongs_to_many :administrated_organizations, class_name: 'Organization'
   has_and_belongs_to_many :managed_organizations, class_name: 'Organization'
@@ -101,6 +102,14 @@ class User < ActiveRecord::Base
   
   def name
     [name_prefix,first_name,last_name,name_suffix].join(' ').strip.gsub(/\s+/, ' ')
+  end
+  
+  def all_organizations
+    organizations | managed_organizations | administrated_organizations
+  end
+  
+  def can_see_organization?(org)
+    all_organizations.include?(org) or org.public?
   end
   
 end
