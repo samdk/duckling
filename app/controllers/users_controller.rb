@@ -10,9 +10,7 @@ class UsersController < AuthorizedController
   end
 
   def show
-    @user = current_user.acquaintances.find_by_id(params[:id])
-    ensure_exists @user
-    
+    @user = current_user.acquaintances.find(params[:id])
     respond_with @user
   end
 
@@ -48,7 +46,7 @@ class UsersController < AuthorizedController
   end
 
   def update
-    if !params[:id].blank? and current_user.id != params[:id]
+    unless params[:id].blank? or current_user.id == params[:id]
       unauthorized! 'user.update_others'
     end
         
@@ -56,11 +54,11 @@ class UsersController < AuthorizedController
       notice 'user.updated'
     end
     
-    respond_with current_user
+    respond_with(@user = current_user)
   end
 
   def destroy
-    if !params[:id].blank? and current_user.id != params[:id]
+    unless params[:id].blank? or current_user.id == params[:id]
       unauthorized! 'user.destroy_others'
     end
     

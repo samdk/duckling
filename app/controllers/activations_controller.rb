@@ -3,7 +3,7 @@ class ActivationsController < AuthorizedController
   respond_to :html
   respond_to :json, :xml, except: [:new, :edit]
   
-  before_filter :setup_activation, only: [:edit, :update, :destroy]
+  before_filter :set_activation, only: [:edit, :update, :destroy]
   
   def index
     # TODO: filters here.
@@ -14,7 +14,7 @@ class ActivationsController < AuthorizedController
   # the default view for an activation is its updates, and the
   # handling of those is managed by the updates controller
   def show
-    flash.keep
+    flash.keep # TODO: is this actually necessary?
     redirect_to activation_updates_path(params[:id])
   end
 
@@ -22,9 +22,7 @@ class ActivationsController < AuthorizedController
     @activation = Activation.new
   end
 
-  def edit
-    respond_with @activation
-  end
+  def edit ; end
 
   def create
     @activation = Activation.new(params[:activation])
@@ -51,8 +49,7 @@ class ActivationsController < AuthorizedController
   end
   
   private
-  def setup_activation
-    @activation = current_user.activations.find_by_id(params[:id])
-    ensure_exists @activation
+  def set_activation
+    @activation = current_user.activations.find(params[:id])
   end
 end

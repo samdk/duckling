@@ -1,74 +1,61 @@
 class UpdatesController < AuthorizedController
+  respond_to :html
+  respond_to :json, :xml, except: [:new, :edit]
+  
   before_filter :set_activation
+  before_filter :set_update, only: [:edit, :show, :update, :destroy]
 
   def index
     # we want a new variable here because we're (eventually)
     # going to be doing some filtering of updates
     @updates = @activation.updates
 
-    respond_to do |format|
-      format.html
-    end
+    respond_with @activation, @updates
   end
 
   # the default view for an activation is its updates, and the
   # handling of those is managed by the updates controller
   def show
-    @update = Update.find(params[:id])
-    respond_to do |format|
-      format.html
-    end
+    respond_with @activation, @update
   end
 
   def new
     @update = Update.new
-
-    respond_to do |format|
-      format.html
-    end
   end
 
-  def edit
-    @update = Update.find(params[:id])
-  end
+  def edit ; end
 
   def create
     @update = Update.new(params[:update])
 
-    respond_to do |format|
-      if @update.save
-        format.html { redirect_to activation_update_url(@activation,@update),
-                                  notice: t('update.create.success') }
-      else
-        format.html { render action: "new" }
-      end
+    if @update.save
+      # TODO: associate to things
+      notice 'update.created'
     end
+    
+    respond_with @activation, @update
   end
 
   def update
-    @update = Update.find(params[:id])
-
-    respond_to do |format|
-      if @update.update_attributes(params[:update])
-        format.html { redirect_to activation_update_url(@activation,@update),
-                                  notice: t('update.edit.success') }
-      else
-        format.html { render action: "edit" }
-      end
+    if @update.update_attributes(params[:update])
+      notice 'update.updated'
     end
+    
+    respond_with @activation, @update
   end
 
   def destroy
-    @update = Update.find(params[:id])
     @update.destroy
-
-    respond_to do |format|
-      format.html { redirect_to updates_url(@activation) }
-    end
+    destroyed_redirect_to activations_updates_url(@activation)
   end
 
   private
-    def set_activation
-      @activation = Activation.find(params[:activation_id])
-    end
+  
+  def set_activation
+    @activation = current_user.activations.find(params[:activation_id])
+  end
+  
+  def set_update
+    @update = @activation.updates.find(params[:id])
+  end
 end

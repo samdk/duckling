@@ -1,7 +1,6 @@
 class SessionController < AuthorizedController 
   
-  # don't require logins for the login page/creating a new session
-  skip_login({:only => [:new, :create]})
+  skip_login only: [:new, :create]
 
   def new
   end
@@ -11,13 +10,15 @@ class SessionController < AuthorizedController
   end
 
   def create
-    u = User.with_credentials(params[:email],params[:password])
-    if u
-      log_in_as(u)
-      # TODO: change this to something more sensible
-      redirect_to activations_url
+    u = User.with_credentials(params[:email], params[:password])
+    if u.blank?
+      unauthorized! 'login.failure'
     else
-      redirect_to :back
+      log_in_as(u)
+      # TODO: is this sensible?
+      
+      notice 'login.success', u.name
+      redirect_to activations_url
     end
   end
 
