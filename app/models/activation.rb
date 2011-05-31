@@ -5,7 +5,7 @@ class Activation < ActiveRecord::Base
   has_many :groups, as: :groupable
   
   has_and_belongs_to_many :organizations
-  has_and_bleongs_to_many :users
+  has_and_belongs_to_many :users
   
   validates :title, presence: true, length: {within: 3..50 }
   
