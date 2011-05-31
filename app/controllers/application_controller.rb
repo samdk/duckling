@@ -27,11 +27,11 @@ class ApplicationController < ActionController::Base
   end
   
   def destroyed_redirect_to(loc, msg = nil)
-    msg = t("#{controller_name.singularize}.destroyed") if msg.nil?
+    msg ||= t("#{controller_name.singularize}.destroyed")
       
     respond_to do |wants|
-      wants.html             { redirect_to loc, notice: msg }
-      wants.any(:json, :xml) { head :ok }
+      wants.html { redirect_to loc, notice: msg }
+      wants.any  { head :ok }
     end
   end
   
@@ -39,11 +39,11 @@ class ApplicationController < ActionController::Base
     flash[:notice] = t(trans_key, *args)
   end
   
-  def error(trans_key)
-    flash[:error] = t(trans_key)
+  def error(trans_key, *args)
+    flash[:error] = t(trans_key, *args)
   end
   
-  def unauthorized!(trans_key)
-    raise Unauthorized, t(trans_key)
+  def unauthorized!(trans_key, *args)
+    raise Unauthorized, t(trans_key, *args)
   end
 end
