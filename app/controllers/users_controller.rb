@@ -76,4 +76,12 @@ class UsersController < AuthorizedController
 
     destroyed_redirect_to login_url
   end
+  
+  def avatar    
+    if u = current_user.acquaintances.find(params[:id])
+      send_file u.avatar.path(params[:style]), disposition: 'inline', url_based_filename: true
+    else
+      render status: 500
+    end
+  end
 end

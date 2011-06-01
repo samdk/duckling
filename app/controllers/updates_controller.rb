@@ -53,6 +53,14 @@ class UpdatesController < AuthorizedController
     destroyed_redirect_to activations_updates_url(@activation)
   end
 
+  def attachment
+    attach_id, filename = params.slice(:attach_id, :filename)
+    
+    # TODO: can the user access this file?
+    
+    send_file @update.file_uploads.find(attach_id).upload.path
+  end
+
   private
   
   def set_activation

@@ -4,7 +4,8 @@ class User < ActiveRecord::Base
   
   THUMBS = {styles: {large: ['100x100#', :png], small: ['50x50#', :png]},
             default_url: '/images/avatars/default_:style_avatar.png',
-            url: '/avatars/:style/:id.png',
+            default_style: :small,
+            url: '/people/:id/avatar_:style.png',
             path: ':rails_root/attachments/avatars/:style/:id.png'}.freeze
   has_attached_file :avatar, FILE_STORAGE_OPTS.merge(THUMBS)
     
