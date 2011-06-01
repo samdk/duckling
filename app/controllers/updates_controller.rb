@@ -31,6 +31,9 @@ class UpdatesController < AuthorizedController
 
   def create
     @update = Update.new(params[:update])
+    params[:groups].each_pair do |k,v|
+      @update.groups << Group.find(k) if v
+    end
 
     if @update.save
       # TODO: associate to things
@@ -41,6 +44,11 @@ class UpdatesController < AuthorizedController
   end
 
   def update
+    @update.groups.clear
+    params[:groups].each_pair do |k,v|
+      @update.groups << Group.find(k) if v
+    end
+
     if @update.update_attributes(params[:update])
       notice 'update.updated'
     end

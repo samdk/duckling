@@ -12,6 +12,12 @@
   .body
     = f.label :body
     = f.text_field :body
+  .groups
+    %h3 Groups
+    %ul
+      - @activation.groups.each do |g|
+        = check_box_tag("groups[#{g.id}]",'',@update.groups.include?(g))
+        = label_tag("groups[#{g.id}]",g.name)
   .submit
     = f.hidden_field :author_id, value: @current_user.id
     = f.hidden_field :activation_id, value: @activation.id
