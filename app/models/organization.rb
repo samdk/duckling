@@ -4,7 +4,7 @@ class Organization < ActiveRecord::Base
   has_and_belongs_to_many :users
   
   has_and_belongs_to_many :administrators, class_name: 'User'
-  has_and_belongs_to_many :managers,           class_name: 'User'
+  has_and_belongs_to_many :managers,       class_name: 'User'
   
   has_many :sections, as: :groupable
   

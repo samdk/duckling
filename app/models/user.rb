@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base  
     
   is_soft_deleted
+  
+  THUMBS = {styles: {large: ['100x100#', :png], small: ['50x50#', :png]}}.freeze
+  has_attached_file :avatar, FILE_STORAGE_OPTS.merge(THUMBS)
     
   serialize :phone_numbers, Hash
   serialize :email_addresses, Array
@@ -50,7 +53,7 @@ class User < ActiveRecord::Base
   validate :email_validations
   def email_validations
     if email_addresses.blank?
-      errors.add(:email_addresses, 'must be present')
+      errors.add(:email_addresses, t('user.email.missing')
     end
     
     dups = email_addresses.any? do |e|
@@ -58,7 +61,7 @@ class User < ActiveRecord::Base
       u && u.id != self.id
     end
     
-    errors.add(:email_addresses, 'is invalid or already used') if dups
+    errors.add(:email_addresses, t('user.email.duplicate')) if dups
   end
   
   before_save do |user|

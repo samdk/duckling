@@ -5,10 +5,9 @@ class Update < ActiveRecord::Base
   has_many :comments
   has_many :file_uploads
   
-  # TODO: change/remove upper limits on these?
-  # there's nothing more obnoxious than poorly-defined,
-  # arbitary, unnecessary limits on the amount of text
-  # you're allowed to enter into a field
-  validates :title, presence: true, length: { within: 2..50 }
-  validates :body, presence: true, length: { within: 2..10000 }
+  # TODO: too long titles will break UI, too long body will slow down database.
+  # These limits should be sufficient.
+  
+  validates :title, presence: true, length: { within: 2..1000 }
+  validates :body, presence: true, length: { within: 2..100_000 }
 end

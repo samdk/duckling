@@ -3,7 +3,7 @@ class UsersController < AuthorizedController
   respond_to :html
   respond_to :json, :xml, except: [:new, :edit]
   
-  skip_login only: [:create]
+  skip_login only: [:create]  
   
   def index
     respond_with(@users = current_user.acquaintances)

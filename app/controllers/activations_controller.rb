@@ -6,9 +6,12 @@ class ActivationsController < AuthorizedController
   before_filter :set_activation, only: [:edit, :update, :destroy]
   
   def index
-    # TODO: filters here.
+    @activations = current_user.activations
+                    .in_date_range(params[:start_date], params[:end_date])
+                    .matching_search(params[:search_query], [:title, :description])
+                    .matching_joins(:organizations, params[:organization_ids])
     
-    respond_with(@activations = current_user.activations)
+    respond_with @activations
   end
 
   # the default view for an activation is its updates, and the
@@ -22,15 +25,18 @@ class ActivationsController < AuthorizedController
     @activation = Activation.new
   end
 
-  def edit ; end
+  def edit
+    @activation = Activation.new
+  end
 
   def create
+    orgs = params[:activation].delete(:organization_ids)
+    
     @activation = Activation.new(params[:activation])
+    @activation.organization_ids = orgs
+    # setup permissions, etc.
 
-    if @activation.save
-      notice 'activation.created'
-      # TODO: associate to orgs, people, etc.
-    end
+    notice 'activation.created' if @activation.save
     
     respond_with @activation
   end

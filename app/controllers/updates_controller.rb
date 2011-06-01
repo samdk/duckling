@@ -6,9 +6,11 @@ class UpdatesController < AuthorizedController
   before_filter :set_update, only: [:edit, :show, :update, :destroy]
 
   def index
-    # we want a new variable here because we're (eventually)
-    # going to be doing some filtering of updates
     @updates = @activation.updates
+                .order('created_at DESC')
+                .in_date_range(params[:start_date], params[:end_date])
+                .matching_search(params[:search_query], [:title, :body])
+                .matching_joins(:tags, params[:tag_ids])
 
     respond_with @activation, @updates
   end
