@@ -8,6 +8,8 @@ def make_user(first_name,last_name)
   u.last_name = last_name
   u.email_addresses << "#{first_name[0]}#{last_name}@example.com"
   u.password = 'testtest'
+  u.phone_numbers['Desk'] = '555-555-0100'
+  u.phone_numbers['Cell'] = '555-555-0137'
   u.save
 end
 
@@ -43,3 +45,22 @@ scelerisque sed vitae velit. Integer a velit non risus volutpat dignissim et sit
 sem. Mauris non suscipit ligula.
 BODY
 a.updates.create author: User.first, title: 'Don\'t Stop Believing', body: '<strong>b</strong>'
+
+o = Organization.new
+o.name = "Rescuers"
+o.users = User.all[1..-1]
+o.administrators << User.first
+o.save
+
+def make_group(name,description,users,activation)
+  g = Group.new
+  g.name = name
+  g.description = description
+  g.users = users
+  g.groupable = activation
+  g.save
+end
+
+make_group("Awesome People","A group for awesome people",User.all[0..3],Activation.first)
+make_group("Other People","A group for non-awesome people",User.all[4..6],Activation.first)
+

@@ -11,7 +11,7 @@
       #account
         %span
           Logged in as
-          = link_to @current_user.first_name, edit_person_url(@current_user)
+          = link_to @current_user.first_name, edit_account_url
         %span= link_to 'Log Out', logout_url
     - else
       #account

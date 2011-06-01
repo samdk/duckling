@@ -1,0 +1,47 @@
+@import 'includes';
+
+#users-list {
+  overflow: auto;
+  margin: -$pad1;
+  padding: $pad3;
+}
+  .user {
+    background: #eee;
+    padding: $pad2;
+    margin: $pad3;
+    float: left;
+    font-size: 13px;
+    line-height: 16px;
+    &.in-activation { width: 340px - ($pad2 * 2); }
+    &.outside-activation { width: 306px - ($pad2 * 2); }
+    @include border_radius(5px);
+    img {
+      float: left;
+      width: 60px;
+      margin-bottom: $pad3;
+    }
+    .text {
+      margin-left: 70px;
+      margin-top: -3px;
+      position: relative;
+      .name {
+        font-size: 16px;
+        line-height: 18px;
+      }
+      .orgs {
+        li {
+          float: left;
+          margin-right: 5px;
+        }
+      }
+    }
+    .lists {
+      clear: both;
+      .groups {
+        li {
+          float: left;
+          margin-right: 5px;
+        }
+      }
+    }
+  }

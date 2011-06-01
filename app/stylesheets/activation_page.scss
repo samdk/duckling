@@ -41,16 +41,16 @@
           background: $grey6;
           color: black;
         }
+        .extra { display: none; }
         &.active {
           @include box_shadow(0 0 3px $grey4);
           margin: 1px 0;
-        }
-        &.active {
           > a {
             border-bottom: 1px dashed $grey5;
             padding-bottom: $pad3;
           }
           .extra {
+            display: block;
             padding: $pad2;
             @include reversed_links;
             a { color: $dark-blue; }

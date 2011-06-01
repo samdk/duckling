@@ -1,4 +1,19 @@
-%ul
+%ul#users-list
   - @users.each do |u|
-    %li= u.full_name
+    %li.user{:class => @activation ? 'in-activation' : 'outside-activation' }
+      //TODO: change this to use actual avatar image
+      %img{src: '/images/person_default_50px.png'}
+      .text
+        .name= u.full_name
+        .email
+          = u.email_addresses[0]
+          //= " *" if u.email_addresses.length > 1
+        .phone
+          = u.phone_numbers.values[0]
+          //= ' *' if u.phone_numbers.length > 1
+        %ul.orgs!= array_to_li u.organizations
+      .lists
+        %ul.groups
+          %li Groups:
+          != array_to_li u.groups
 

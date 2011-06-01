@@ -93,19 +93,24 @@
   color: black;
 }
 /* line 44, ../../app/stylesheets/activation_page.scss */
+#body-nav > ul > li .extra {
+  display: none;
+}
+/* line 45, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li.active {
   -moz-box-shadow: 0 0 3px #939393;
   -webkit-box-shadow: 0 0 3px #939393;
   box-shadow: 0 0 3px #939393;
   margin: 1px 0;
 }
-/* line 49, ../../app/stylesheets/activation_page.scss */
+/* line 48, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li.active > a {
   border-bottom: 1px dashed #b0b0b0;
   padding-bottom: 5px;
 }
-/* line 53, ../../app/stylesheets/activation_page.scss */
+/* line 52, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li.active .extra {
+  display: block;
   padding: 10px;
 }
 /* line 46, ../../app/stylesheets/_includes.scss */

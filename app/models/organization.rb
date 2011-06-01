@@ -21,4 +21,7 @@ class Organization < ActiveRecord::Base
                    uniqueness: true,
                    format: {with: /[A-Za-z0-9\-_]+/}
   
+  def to_s
+    self.name
+  end
 end
