@@ -6,6 +6,9 @@ class Update < ActiveRecord::Base
   has_many :comments
   has_many :file_uploads
   
+  has_and_belongs_to_many :groups
+  has_and_belongs_to_many :tags
+  
   # TODO: too long titles will break UI, too long body will slow down database.
   # These limits should be sufficient.
   
