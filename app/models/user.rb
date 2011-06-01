@@ -20,7 +20,9 @@ class User < ActiveRecord::Base
   has_many :addresses
   has_one :primary_address, class_name: 'Address'
   
-  has_and_belongs_to_many :activations
+  has_many :activationships
+  has_many :activations, through: :activationships  
+  
   has_and_belongs_to_many :organizations
   has_and_belongs_to_many :administrated_organizations, class_name: 'Organization'
   has_and_belongs_to_many :managed_organizations, class_name: 'Organization'
@@ -118,6 +120,10 @@ class User < ActiveRecord::Base
   
   def all_organizations
     organizations | managed_organizations | administrated_organizations
+  end
+  
+  def all_organization_ids
+    organization_ids | managed_organization_ids | administrated_organization_ids
   end
   
   def can_see_organization?(org)

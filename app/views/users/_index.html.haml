@@ -1,7 +1,6 @@
 %ul#users-list
   - @users.each do |u|
     %li.user{:class => @activation ? 'in-activation' : 'outside-activation' }
-      //TODO: change this to use actual avatar image
       %img{src: u.avatar.url}
       .text
         .name= u.name
@@ -16,4 +15,3 @@
         %ul.groups
           %li Groups:
           != array_to_li u.groups
-
