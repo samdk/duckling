@@ -13,7 +13,7 @@ describe Comment do
   
   it "should belong to an update and a user" do
     subject.should belong_to(:update)
-    subject.should belong_to(:user)
+    subject.should belong_to(:author)
   end
   
 end
