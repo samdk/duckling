@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   include Filters
   is_soft_deleted
   
-  THUMBS = {styles: {large: ['100x100#', :png], small: ['50x50#', :png]},
+  THUMBS = {styles: {large: ['100x100#', :png], small: ['60x60#', :png]},
             default_url: '/images/avatars/default_:style_avatar.png',
             default_style: :small,
             url: '/people/:id/avatar_:style.png',

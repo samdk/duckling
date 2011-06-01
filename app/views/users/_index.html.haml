@@ -2,9 +2,9 @@
   - @users.each do |u|
     %li.user{:class => @activation ? 'in-activation' : 'outside-activation' }
       //TODO: change this to use actual avatar image
-      %img{src: '/images/person_default_50px.png'}
+      %img{src: u.avatar.url}
       .text
-        .name= u.full_name
+        .name= u.name
         .email
           = u.email_addresses[0]
           //= " *" if u.email_addresses.length > 1

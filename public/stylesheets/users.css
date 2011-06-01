@@ -42,29 +42,30 @@
 .user img {
   float: left;
   width: 60px;
+  height: 60px;
   margin-bottom: 5px;
 }
-/* line 23, ../../app/stylesheets/users.scss */
+/* line 24, ../../app/stylesheets/users.scss */
 .user .text {
   margin-left: 70px;
   margin-top: -3px;
   position: relative;
 }
-/* line 27, ../../app/stylesheets/users.scss */
+/* line 28, ../../app/stylesheets/users.scss */
 .user .text .name {
   font-size: 16px;
   line-height: 18px;
 }
-/* line 32, ../../app/stylesheets/users.scss */
+/* line 33, ../../app/stylesheets/users.scss */
 .user .text .orgs li {
   float: left;
   margin-right: 5px;
 }
-/* line 38, ../../app/stylesheets/users.scss */
+/* line 39, ../../app/stylesheets/users.scss */
 .user .lists {
   clear: both;
 }
-/* line 41, ../../app/stylesheets/users.scss */
+/* line 42, ../../app/stylesheets/users.scss */
 .user .lists .groups li {
   float: left;
   margin-right: 5px;
