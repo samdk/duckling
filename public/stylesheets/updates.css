@@ -11,198 +11,24 @@
 /* centered, standard-width content wrapper */
 /* small button for general use */
 /* medium button for .pane headers (add update and the like) */
-/* line 5, ../../app/stylesheets/updates.scss */
-#body-header {
-  padding-bottom: 20px;
-  position: relative;
-}
-/* line 8, ../../app/stylesheets/updates.scss */
-#body-header h1 {
-  font-size: 36px;
-  font-weight: bold;
-}
-/* line 14, ../../app/stylesheets/updates.scss */
-#body-header #add-update {
-  display: block;
-  display: block;
-  text-align: center;
-  color: white;
-  font-weight: bold;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  font-size: 16px;
-  line-height: 14px;
-  padding: 10px 20px;
-  border: 2px solid #1e8232;
-  background: green;
-  background-image: -webkit-gradient(linear, center bottom, center top, color-stop(0, #006600), color-stop(0.1, #007700), color-stop(0.9, #009900), color-stop(1, #008800));
-  -moz-box-shadow: inset 0 0 2px black;
-  -webkit-box-shadow: inset 0 0 2px black;
-  box-shadow: inset 0 0 2px black;
-  text-shadow: 0 0 2px black;
-  margin: 0 0 10px 10px;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-/* line 114, ../../app/stylesheets/_includes.scss */
-#body-header #add-update:hover {
-  background-image: -webkit-gradient(linear, center bottom, center top, color-stop(0, #007900), color-stop(0.1, #009a00), color-stop(0.9, #00b200), color-stop(1, #00a400));
-  text-decoration: none;
-}
-/* line 121, ../../app/stylesheets/_includes.scss */
-#body-header #add-update:active {
-  background-image: -webkit-gradient(linear, center bottom, center top, color-stop(0, #009000), color-stop(0.1, #00a300), color-stop(0.9, #00a000), color-stop(1, #009d00));
-  padding-top: 11px;
-  padding-bottom: 9px;
-}
-
-/* line 22, ../../app/stylesheets/updates.scss */
-#body-body {
-  position: relative;
-}
-
-/* line 25, ../../app/stylesheets/updates.scss */
+/* line 6, ../../app/stylesheets/updates.scss */
 #body-nav {
-  width: 250px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
-  background: #dddddd;
-  -moz-box-shadow: 0 0 3px #939393;
-  -webkit-box-shadow: 0 0 3px #939393;
-  box-shadow: 0 0 3px #939393;
-  -moz-border-radius: 0 5px 0 0;
-  -webkit-border-radius: 0 5px 0 0;
-  border-radius: 0 5px 0 0;
-}
-/* line 34, ../../app/stylesheets/updates.scss */
-#body-nav > ul {
-  position: absolute;
   top: 45px;
-  width: 100%;
-}
-/* line 39, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li {
-  clear: both;
-  position: relative;
-  font-size: 13px;
-}
-/* line 44, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li:hover, #body-nav > ul > li.active {
-  background: #d2d2d8;
-  color: black;
-}
-/* line 48, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li.active {
-  -moz-box-shadow: 0 0 3px #939393;
-  -webkit-box-shadow: 0 0 3px #939393;
-  box-shadow: 0 0 3px #939393;
-  margin: 1px 0;
-}
-/* line 53, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li.active > a {
-  border-bottom: 1px dashed #b0b0b0;
-  padding-bottom: 5px;
-}
-/* line 57, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li.active .extra {
-  padding: 10px;
-}
-/* line 46, ../../app/stylesheets/_includes.scss */
-#body-nav > ul > li.active .extra a {
-  text-decoration: underline;
-}
-/* line 48, ../../app/stylesheets/_includes.scss */
-#body-nav > ul > li.active .extra a:hover {
-  text-decoration: none;
-}
-/* line 60, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li.active .extra a {
-  color: #244193;
-}
-/* line 61, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li.active .extra h3 {
-  font-weight: bold;
-  margin: 10px 0 5px;
-}
-/* line 65, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li.active .extra ul {
-  list-style-type: disc;
-  color: #939393;
-}
-/* line 68, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li.active .extra ul li {
-  margin: 3px 0 3px 15px;
-}
-/* line 74, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li > a {
-  display: block;
-  padding: 10px 10px 10px 32px;
-  font-size: 16px;
-  color: black;
-  text-shadow: 0 1px 1px white;
-  font-weight: bold;
-  opacity: 0.8;
-}
-/* line 55, ../../app/stylesheets/_includes.scss */
-#body-nav > ul > li > a:hover {
-  text-decoration: none;
-}
-/* line 81, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li > a.updates {
-  background: url("/images/icons/is_bubbles_16b.png") no-repeat 9px 11px;
-}
-/* line 82, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li > a.people {
-  background: url("/images/icons/is_person_16b.png") no-repeat 10px 9px;
-}
-/* line 83, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li > a.groups {
-  background: url("/images/icons/is_people_16b.png") no-repeat 10px 9px;
-}
-/* line 84, ../../app/stylesheets/updates.scss */
-#body-nav > ul > li > a.summary {
-  background: url("/images/icons/is_chart_16b.png") no-repeat 11px 10px;
 }
 
-/* line 90, ../../app/stylesheets/updates.scss */
-.main {
-  position: relative;
-  left: 0;
-  top: 45px;
-  right: 0;
-  bottom: 0;
-  padding-right: 250px;
-}
-/* line 94, ../../app/stylesheets/updates.scss */
-.main .pane {
-  background: white;
-  position: relative;
-  z-index: 3;
-  padding: 20px;
-  -moz-box-shadow: 0 0 3px #939393;
-  -webkit-box-shadow: 0 0 3px #939393;
-  box-shadow: 0 0 3px #939393;
-}
-
-/* line 103, ../../app/stylesheets/updates.scss */
+/* line 11, ../../app/stylesheets/updates.scss */
 #filters {
   padding: 10px 20px;
   margin: -20px;
   margin-bottom: 0;
-  margin-top: -65px;
   background: #d2d2d8;
 }
-/* line 110, ../../app/stylesheets/updates.scss */
+/* line 18, ../../app/stylesheets/updates.scss */
 #filters form input[type=text], #filters form select {
   width: 184px;
   border: 1px solid #939393;
 }
-/* line 114, ../../app/stylesheets/updates.scss */
+/* line 22, ../../app/stylesheets/updates.scss */
 #filters form input[type=submit] {
   color: #2e2e2e;
   font-size: 12px;
@@ -235,35 +61,35 @@
   padding-bottom: 4px;
 }
 
-/* line 122, ../../app/stylesheets/updates.scss */
+/* line 30, ../../app/stylesheets/updates.scss */
 #updates-header {
   padding: 20px 0;
   position: relative;
 }
-/* line 125, ../../app/stylesheets/updates.scss */
+/* line 33, ../../app/stylesheets/updates.scss */
 #updates-header h2 {
   font-size: 21px;
   font-weight: bold;
   color: #585858;
 }
 
-/* line 131, ../../app/stylesheets/updates.scss */
+/* line 39, ../../app/stylesheets/updates.scss */
 #updates {
   font-size: 14px;
 }
 
-/* line 134, ../../app/stylesheets/updates.scss */
+/* line 42, ../../app/stylesheets/updates.scss */
 li.update {
   position: relative;
 }
-/* line 137, ../../app/stylesheets/updates.scss */
+/* line 45, ../../app/stylesheets/updates.scss */
 li.update .update-when {
   text-transform: lowercase;
   position: absolute;
   left: 0;
   top: 0;
 }
-/* line 142, ../../app/stylesheets/updates.scss */
+/* line 50, ../../app/stylesheets/updates.scss */
 li.update .update-main {
   position: relative;
   margin-left: 70px;
@@ -271,17 +97,17 @@ li.update .update-main {
   padding-bottom: 20px;
   margin-bottom: 20px;
 }
-/* line 149, ../../app/stylesheets/updates.scss */
+/* line 57, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-title {
   font-weight: bold;
 }
-/* line 152, ../../app/stylesheets/updates.scss */
+/* line 60, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-author {
   position: absolute;
   right: 0;
   top: 0;
 }
-/* line 157, ../../app/stylesheets/updates.scss */
+/* line 65, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-text {
   padding: 5px 0;
 }
@@ -293,7 +119,7 @@ li.update .update-main .update-text a {
 li.update .update-main .update-text a:hover {
   text-decoration: none;
 }
-/* line 161, ../../app/stylesheets/updates.scss */
+/* line 69, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-files {
   padding-left: 0;
 }
@@ -305,7 +131,7 @@ li.update .update-main .update-files a {
 li.update .update-main .update-files a:hover {
   text-decoration: none;
 }
-/* line 165, ../../app/stylesheets/updates.scss */
+/* line 73, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments {
   padding: 5px 0 0 0;
   font-size: 12px;
@@ -319,28 +145,28 @@ li.update .update-main .update-comments a {
 li.update .update-main .update-comments a:hover {
   text-decoration: none;
 }
-/* line 171, ../../app/stylesheets/updates.scss */
+/* line 79, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments h3 {
   font-weight: bold;
   color: #707070;
 }
-/* line 175, ../../app/stylesheets/updates.scss */
+/* line 83, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment {
   background: #f7f7f7;
   border-bottom: 1px solid #eeeeee;
   padding: 5px;
   margin: 5px 0;
 }
-/* line 180, ../../app/stylesheets/updates.scss */
+/* line 88, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment .comment-heading {
   color: #585858;
   margin-bottom: 3px;
 }
-/* line 185, ../../app/stylesheets/updates.scss */
+/* line 93, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment.yours {
   background: #feffd6;
 }
-/* line 187, ../../app/stylesheets/updates.scss */
+/* line 95, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments input {
   width: 490px;
 }
