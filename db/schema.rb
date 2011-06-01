@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110601154249) do
+ActiveRecord::Schema.define(:version => 20110601193455) do
 
   create_table "acquaintances", :id => false, :force => true do |t|
     t.integer "user_id"
@@ -76,6 +76,11 @@ ActiveRecord::Schema.define(:version => 20110601154249) do
     t.datetime "updated_at"
   end
 
+  create_table "groups_updates", :id => false, :force => true do |t|
+    t.integer "group_id"
+    t.integer "update_id"
+  end
+
   create_table "groups_users", :id => false, :force => true do |t|
     t.integer "group_id"
     t.integer "user_id"
@@ -106,6 +111,15 @@ ActiveRecord::Schema.define(:version => 20110601154249) do
     t.integer "user_id"
   end
 
+  create_table "tags", :force => true do |t|
+    t.string "name"
+  end
+
+  create_table "tags_updates", :id => false, :force => true do |t|
+    t.integer "tag_id"
+    t.integer "update_id"
+  end
+
   create_table "updates", :force => true do |t|
     t.string   "title"
     t.integer  "author_id"
@@ -114,6 +128,7 @@ ActiveRecord::Schema.define(:version => 20110601154249) do
     t.integer  "comments_count"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "file_uploads_count"
   end
 
   create_table "users", :force => true do |t|

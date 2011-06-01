@@ -78,10 +78,13 @@ class UsersController < AuthorizedController
   end
   
   def avatar    
-    if u = current_user.acquaintances.find(params[:id])
+    u = current_user.acquaintances.find(params[:id])
+
+    if u.avatar.file?
       send_file u.avatar.path(params[:style]), disposition: 'inline', url_based_filename: true
     else
-      render status: 500
+      redirect_to u.avatar.url
     end
+
   end
 end
