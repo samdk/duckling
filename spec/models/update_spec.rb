@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Update do
   
   it 'should belong to poster and to activation' do
-    should belong_to(:user)
+    should belong_to(:author)
     should belong_to(:activation)
   end
   

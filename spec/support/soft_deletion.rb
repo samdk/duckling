@@ -8,7 +8,7 @@ shared_examples_for 'soft deletable' do
       subject.deleted?.should be_true
     end
     
-    it "shouldn't show up by default" do
+    it "shouldn't show up by default" do      
       subject.class.exists?(subject.id).should be_false
       subject.class.with_deleted.exists?(subject.id).should be_true
       subject.class.deleted.exists?(subject.id).should be_true
