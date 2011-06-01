@@ -9,6 +9,15 @@ class UsersController < AuthorizedController
     respond_with(@users = current_user.acquaintances)
   end
 
+  def index_activation
+    @activation = Activation.find(params[:activation_id])
+    respond_with(@users = @activation.users,@activation) do |format|
+      format.html do
+        render layout: 'activation_page'
+      end
+    end
+  end
+
   def show
     @user = current_user.acquaintances.find(params[:id])
     respond_with @user

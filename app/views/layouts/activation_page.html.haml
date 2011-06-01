@@ -1,0 +1,22 @@
+= content_for :stylesheets do
+  = stylesheet_link_tag 'activation_page'
+= content_for :content do
+  .wrapper
+    #body-header
+      %h1= @activation.title
+      %p= @activation.description
+      = link_to 'Add Update', new_activation_update_path(@activation), id: 'add-update'
+    #body-body
+      #body-nav
+        %ul
+          %li.active
+            = link_to 'Updates', activation_updates_url(@activation), :class => 'updates'
+            .extra
+              this is some content
+          %li=  link_to 'People',  activation_people_url(@activation), :class => 'people'
+          %li=  link_to 'Groups',  activation_groups_url(@activation), :class => 'groups'
+          %li= link_to 'Summary', '#', :class => 'summary'
+      .main
+        .pane
+          = yield
+= render file: 'layouts/application'

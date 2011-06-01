@@ -1,4 +1,6 @@
 class UpdatesController < AuthorizedController
+  layout 'activation_page'
+
   respond_to :html
   respond_to :json, :xml, except: [:new, :edit]
   
