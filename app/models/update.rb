@@ -1,4 +1,5 @@
 class Update < ActiveRecord::Base
+  include Filters
   belongs_to :author, class_name: 'User'
   belongs_to :activation, counter_cache: true
   

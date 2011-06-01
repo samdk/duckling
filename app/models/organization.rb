@@ -1,4 +1,5 @@
 class Organization < ActiveRecord::Base
+  include Filters
   is_soft_deleted
   
   has_and_belongs_to_many :users

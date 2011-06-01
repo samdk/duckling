@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base  
-    
+  include Filters
   is_soft_deleted
   
   THUMBS = {styles: {large: ['100x100#', :png], small: ['50x50#', :png]}}.freeze
@@ -8,8 +8,9 @@ class User < ActiveRecord::Base
   serialize :phone_numbers, Hash
   serialize :email_addresses, Array
   
+  # TODO: make this O(1) instead of O(n)
   scope :with_email, lambda { |email| 
-    where('email_addresses LIKE ?', "%- #{email.downcase}\n%")
+    where('email_addresses LIKE ?', "%- #{email}\n%")
   }
   
   has_many :addresses
@@ -53,7 +54,7 @@ class User < ActiveRecord::Base
   validate :email_validations
   def email_validations
     if email_addresses.blank?
-      errors.add(:email_addresses, t('user.email.missing')
+      errors.add(:email_addresses, t('user.email.missing'))
     end
     
     dups = email_addresses.any? do |e|
@@ -86,6 +87,10 @@ class User < ActiveRecord::Base
   end
   
   def password=(new_pass)
+    if new_pass.size < 7
+      errors.add(:password, t('user.password.too_short'))
+    end
+      
     @password = BCrypt::Password.create(new_pass)
     self.password_hash = @password
   end

@@ -1,4 +1,5 @@
 class Activation < ActiveRecord::Base
+  include Filters
   is_soft_deleted
   
   has_many :updates

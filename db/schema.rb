@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110322190418) do
+ActiveRecord::Schema.define(:version => 20110601154249) do
 
   create_table "acquaintances", :id => false, :force => true do |t|
     t.integer "user_id"
@@ -128,6 +128,8 @@ ActiveRecord::Schema.define(:version => 20110322190418) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "primary_address_id"
+    t.string   "avatar_file_name"
+    t.datetime "avatar_updated_at"
   end
 
 end
