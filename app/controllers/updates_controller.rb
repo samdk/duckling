@@ -33,9 +33,12 @@ class UpdatesController < AuthorizedController
   end
 
   def create
-    @update = Update.new(params[:update])
-    params[:groups].each_pair do |k,v|
-      @update.groups << Group.find(k) if v
+    @update = @activation.updates.build(params[:update])
+    @update.author = @current_user
+    if params[:groups]
+      params[:groups].each_pair do |k,v|
+        @update.groups << Group.find(k) if v
+      end
     end
 
     #unless params[:update][:file_uploads_attributes].blank?

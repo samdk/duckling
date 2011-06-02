@@ -1,5 +1,10 @@
-%h1= @update.title
-.author= "by #{@update.author.full_name}"
+%h1= link_to @update.title, activation_update_url(@activation,@update)
+.update-when
+  .update-time= @update.created_at.to_s(:time)
+  .update-date= @update.created_at.to_s(:mdy)
+.author
+  by
+  = link_to @update.author.full_name, user_url(@update.author)
 .activation= "posted in the activation #{@activation.title}"
 %p= @update.body
 - if @update.groups.size > 0
@@ -9,6 +14,23 @@
 - else
   No groups
 
+.update-files
+  %ul
+    - @update.file_uploads.each do |attachment|
+      %li.file= link_to attachment.upload_file_name,'#'
+.update-comments
+  %h3 Comments:
+  %ul
+    - @update.comments.each do |comment|
+      %li.comment
+        .comment-heading
+          = link_to comment.author.full_name, user_url(comment.author)
+          = "at #{comment.created_at}"
+        .comment-body= comment.body
+  .new-comment
+    = form_for [@update.activation,@update,Comment.new] do |cf|
+      = cf.text_field :body, class: 'comment-input'
+      = cf.submit 'Add Comment', class: 'comment-submit'
+
 = link_to 'edit', edit_activation_update_url(@activation,@update)
 = link_to 'back to all updates', activation_updates_url(@activation)
-

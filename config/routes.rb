@@ -23,7 +23,9 @@ Duckling::Application.routes.draw do
   end
   
   resources :activations do
-    resources :updates
+    resources :updates do
+      resources :comments
+    end
     
     match '/people' => 'users#index_activation', :via => :get, :as => :people
     #resources :people, controller: 'users', only: [:index]

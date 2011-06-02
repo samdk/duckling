@@ -26,7 +26,5 @@
         = link_to fu.object.upload.url, fu.object.upload.url
         = fu.check_box :_destroy
   .submit
-    = f.hidden_field :author_id, value: @current_user.id
-    = f.hidden_field :activation_id, value: @activation.id
     = f.submit
 
