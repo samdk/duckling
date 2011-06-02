@@ -16,3 +16,8 @@
     - else
       #account
         %span= link_to 'Log In', login_url
+- unless flash.empty?
+  #flash
+    - flash.each_pair do |k,v|
+      %div{id: "flash-#{k}"}= v
+
