@@ -3,3 +3,4 @@ db/*.sqlite3
 .bundle
 tmp
 lib/tasks/local.rake
+attachments

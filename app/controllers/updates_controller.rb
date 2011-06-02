@@ -4,7 +4,7 @@ class UpdatesController < AuthorizedController
   respond_to :html
   respond_to :json, :xml, except: [:new, :edit]
   
-  before_filter :set_activation
+  before_filter :set_activation, except: [:attachment]
   before_filter :set_update, only: [:edit, :show, :update, :destroy]
 
   def index
@@ -25,15 +25,24 @@ class UpdatesController < AuthorizedController
 
   def new
     @update = Update.new
+    @update.file_uploads.build
   end
 
-  def edit ; end
+  def edit
+    @update.file_uploads.build
+  end
 
   def create
     @update = Update.new(params[:update])
     params[:groups].each_pair do |k,v|
       @update.groups << Group.find(k) if v
     end
+
+    #unless params[:update][:file_uploads_attributes].blank?
+    #  params[:update][:file_uploads_attributes].each do |fu|
+    #    @update.file_uploads.create(fu)
+    #  end
+    #end
 
     if @update.save
       # TODO: associate to things
@@ -62,11 +71,8 @@ class UpdatesController < AuthorizedController
   end
 
   def attachment
-    attach_id, filename = params.slice(:attach_id, :filename)
-    
-    # TODO: can the user access this file?
-    
-    send_file @update.file_uploads.find(attach_id).upload.path
+    # TODO: DANGER DANGER DANGER, can the user access this file?
+    send_file FileUpload.find(params[:id]).upload.path
   end
 
   private

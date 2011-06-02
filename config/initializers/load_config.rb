@@ -10,7 +10,7 @@ else
   { path: ':rails_root/attachments/:attachment/:id/:style/:filename' }
 end
 
-FILE_STORAGE_OPTS[:url] = APP_CONFIG['file_upload_url'] || '/attachments/:attachment/:id/:filename'
+FILE_STORAGE_OPTS[:url] = APP_CONFIG['file_upload_url'] || '/attachments/:id'
 
 REDIS_SETTINGS = if redis = APP_CONFIG['redis']
   { host: redis['host'] || 'localhost',

@@ -1,4 +1,4 @@
-= form_for [@activation,@update] do |f|
+= form_for [@activation,@update], html: {multipart: true} do |f|
   - if @update.errors.any?
     .errors
       %h2= pluralize(@update.errors.count, 'error')
@@ -18,6 +18,13 @@
       - @activation.groups.each do |g|
         = check_box_tag("groups[#{g.id}]",'',@update.groups.include?(g))
         = label_tag("groups[#{g.id}]",g.name)
+  .files
+    = f.fields_for :file_uploads do |fu|
+      - if fu.object.new_record?
+        = fu.file_field :upload
+      - else
+        = link_to fu.object.upload.url, fu.object.upload.url
+        = fu.check_box :_destroy
   .submit
     = f.hidden_field :author_id, value: @current_user.id
     = f.hidden_field :activation_id, value: @activation.id
