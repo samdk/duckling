@@ -7,10 +7,12 @@ def make_user(first_name,last_name)
   u.first_name = first_name
   u.last_name = last_name
   u.email_addresses << "#{first_name[0]}#{last_name}@example.com"
-  u.password = 'testtest'
+  u.password = u.password_confirmation = 'testtest'
   u.phone_numbers['Desk'] = '555-555-0100'
   u.phone_numbers['Cell'] = '555-555-0137'
-  u.save
+  unless u.save
+    puts "0 #{u.errors}"
+  end
 end
 
 make_user("Test","User")
@@ -23,7 +25,7 @@ a.title = "Super Scary Snowstorm"
 a.active = true
 a.description = "There was a really scary snowstorm and we need to make it less scary."
 a.users = User.all[0..7]
-a.save
+unless a.save; puts "1 #{a.errors}"; end
 
 a.updates.create author: User.first, title: 'Heavy Winds', body: 'People are falling over! It is awful.'
 a.updates.create author: User.first, title: 'Lots of Snow', body: 'People are stuck in the snow! It is awful.'
@@ -51,7 +53,7 @@ o = Organization.new
 o.name = "Rescuers"
 o.users = User.all[1..-1]
 o.administrators << User.first
-o.save
+unless o.save; puts "2 #{o.errors}"; end
 
 def make_group(name,description,users,activation)
   g = Group.new
@@ -59,7 +61,7 @@ def make_group(name,description,users,activation)
   g.description = description
   g.users = users
   g.groupable = activation
-  g.save
+  unless g.save; puts "3 #{g.save}"; end
 end
 
 make_group("Awesome People","A group for awesome people",User.all[0..3],Activation.first)
