@@ -20,6 +20,7 @@ first_names.zip(last_names).each { |fn,ln| make_user(fn,ln) }
 # makes an activation, adds some users to it
 a = Activation.new
 a.title = "Super Scary Snowstorm"
+a.active = true
 a.description = "There was a really scary snowstorm and we need to make it less scary."
 a.users = User.all[0..7]
 a.save

@@ -25,16 +25,25 @@ class ActivationsController < AuthorizedController
     @activation = Activation.new
   end
 
-  def edit
-    @activation = Activation.new
-  end
+  def edit ; end
 
   def create
-    orgs = params[:activation].delete(:organization_ids)
+    orgs = params[:activation].delete(:organizations) & current_user.all_organization_ids
     
     @activation = Activation.new(params[:activation])
+    @activation.active = true
+    
+    @activation.users << current_user
     @activation.organization_ids = orgs
-    # setup permissions, etc.
+    
+    for org in orgs
+      for user in Organization.find(org).user_ids
+        @activation.user_ids << user
+      end
+    end
+    
+    
+    # TODO: setup permissions, etc.
 
     notice 'activation.created' if @activation.save
     
