@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   include Filters
   is_soft_deleted
   
-  attr_accessor :password_confirmation
+  attr_accessor :password_confirmation, :password_confirmation_changed
   
   THUMBS = {styles: {large: ['100x100#', :png], small: ['60x60#', :png]},
             default_url: '/images/avatars/default_:style_avatar.png',
@@ -61,7 +61,8 @@ class User < ActiveRecord::Base
   
   validate :password_validations
   def password_validations
-    if password_confirmation.size < 7
+    return unless @password_confirmation_changed && password_hash_changed?
+    if password_confirmation.blank? || password_confirmation.size < 7
       errors.add(:password, t('user.password.too_short'))
     end
     
@@ -72,8 +73,6 @@ class User < ActiveRecord::Base
   
   validate :email_validations
   def email_validations
-    return unless password_hash_changed?
-    
     if email_addresses.blank?
       errors.add(:email_addresses, t('user.email.missing'))
     end
@@ -93,6 +92,10 @@ class User < ActiveRecord::Base
         
     user.email_addresses.map!(&:downcase)
   end
+
+  after_save do |user|
+    user.password_confirmation_changed = false
+  end
   
   after_initialize do |user|
     user.phone_numbers   ||= {}
@@ -108,6 +111,11 @@ class User < ActiveRecord::Base
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def password_confirmation=(pc)
+    @password_confirmation_changed = true
+    @password_confirmation = pc
   end
   
   def password
