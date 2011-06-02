@@ -41,7 +41,7 @@ class CommentsController < AuthorizedController
 
   def destroy
     @comment.destroy
-    destroyed_redirect_to activation_update_url(@activation,@update)
+    destroyed_redirect_to :back
   end
   
   private

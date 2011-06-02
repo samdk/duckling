@@ -152,21 +152,39 @@ li.update .update-main .update-comments h3 {
 }
 /* line 83, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment {
+  position: relative;
   background: #f7f7f7;
   border-bottom: 1px solid #eeeeee;
   padding: 5px;
   margin: 5px 0;
 }
-/* line 88, ../../app/stylesheets/updates.scss */
+/* line 89, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment .comment-heading {
   color: #585858;
   margin-bottom: 3px;
 }
-/* line 93, ../../app/stylesheets/updates.scss */
+/* line 94, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment.yours {
   background: #feffd6;
 }
 /* line 95, ../../app/stylesheets/updates.scss */
+li.update .update-main .update-comments .comment .comment-delete {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-decoration: none;
+  line-height: 12px;
+  font-weight: bold;
+  padding: 0 3px 1px;
+  vertical-align: middle;
+}
+/* line 104, ../../app/stylesheets/updates.scss */
+li.update .update-main .update-comments .comment .comment-delete:hover {
+  background: #3f71fb;
+  color: white;
+}
+/* line 110, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments input {
   width: 490px;
 }

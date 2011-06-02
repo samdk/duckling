@@ -70,7 +70,7 @@ class UpdatesController < AuthorizedController
 
   def destroy
     @update.destroy
-    destroyed_redirect_to activations_updates_url(@activation)
+    destroyed_redirect_to activation_updates_url(@activation)
   end
 
   def attachment
