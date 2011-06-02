@@ -7,6 +7,8 @@ Duckling::Application.routes.draw do
   match '/login'  => 'session#new', :via => :get, :as => :login
   match '/logout'  => 'session#destroy', :via => :delete, :as => :logout
   resource :session, only: [:new, :destroy, :create]
+
+  match '/attachments/:id', to: 'updates#attachment'
     
   resources :people, controller: 'users' do
     get 'avatar_:style.png', to: 'users#avatar', on: :member, as: :user_avatar
@@ -21,11 +23,7 @@ Duckling::Application.routes.draw do
   end
   
   resources :activations do
-    resources :updates do
-      get 'attachments/:attach_id/:filename', to: 'updates#attachment',
-                                              on: :member,
-                                              as: :activations_updates_attachments
-    end
+    resources :updates
     
     match '/people' => 'users#index_activation', :via => :get, :as => :people
     #resources :people, controller: 'users', only: [:index]
