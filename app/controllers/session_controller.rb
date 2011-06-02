@@ -7,6 +7,10 @@ class SessionController < AuthorizedController
 
   def destroy
     log_out!
+    
+    notice 'logout.success'
+    
+    redirect_to login_path
   end
 
   def create

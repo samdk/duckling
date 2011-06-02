@@ -18,3 +18,15 @@ REDIS_SETTINGS = if redis = APP_CONFIG['redis']
 end
 
 USE_SECURE_COOKIES = !!APP_CONFIG['secure_cookies']
+
+# TODO: determine if this is a nasty hack
+module ActiveRecord
+  class Base
+    def self.t(*args, &blk)
+      I18n.t(*args, &blk)
+    end
+    def t(*args, &blk)
+      I18n.t(*args, &blk)
+    end
+  end
+end

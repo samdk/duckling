@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   include Filters
   is_soft_deleted
   
+  attr_accessor :password_confirmation
+  
   THUMBS = {styles: {large: ['100x100#', :png], small: ['60x60#', :png]},
             default_url: '/images/avatars/default_:style_avatar.png',
             default_style: :small,
@@ -57,8 +59,21 @@ class User < ActiveRecord::Base
   validates :first_name,    presence: true
   validates :last_name,     presence: true
   
+  validate :password_validations
+  def password_validations
+    if password_confirmation.size < 7
+      errors.add(:password, t('user.password.too_short'))
+    end
+    
+    unless password == password_confirmation
+      errors.add(:password_confirmation, t('user.password.match_confirmation'))
+    end
+  end
+  
   validate :email_validations
   def email_validations
+    return unless password_hash_changed?
+    
     if email_addresses.blank?
       errors.add(:email_addresses, t('user.email.missing'))
     end
@@ -75,13 +90,20 @@ class User < ActiveRecord::Base
     user.phone_numbers.each do |k, v|
       user.phone_numbers[k] = PhoneFormatter.format(v)
     end
-    
+        
     user.email_addresses.map!(&:downcase)
   end
   
   after_initialize do |user|
     user.phone_numbers   ||= {}
     user.email_addresses ||= []
+  end
+
+  def primary_email
+    email_addresses.first
+  end
+  def primary_email=(email)
+    (self.email_addresses ||= []) << email
   end
 
   def full_name
@@ -92,11 +114,7 @@ class User < ActiveRecord::Base
     @password ||= BCrypt::Password.new(password_hash)
   end
   
-  def password=(new_pass)
-    if new_pass.size < 7
-      errors.add(:password, t('user.password.too_short'))
-    end
-      
+  def password=(new_pass)    
     @password = BCrypt::Password.create(new_pass)
     self.password_hash = @password
   end

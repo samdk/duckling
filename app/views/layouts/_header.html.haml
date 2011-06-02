@@ -7,12 +7,12 @@
       #nav
         %span= link_to 'Overview', '/'
         %span= link_to 'Activations', activations_url
-        %span= link_to 'People', people_url
+        %span= link_to 'People', users_url
       #account
         %span
           Logged in as
           = link_to @current_user.first_name, edit_account_url
-        %span= link_to 'Log Out', logout_url
+        %span= link_to('Log Out', logout_url, method: :delete)
     - else
       #account
         %span= link_to 'Log In', login_url

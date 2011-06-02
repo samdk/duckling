@@ -8,7 +8,7 @@ Duckling::Application.routes.draw do
   match '/logout' => 'session#destroy', :via => :delete, :as => :logout
   resource :session, only: [:new, :destroy, :create]
     
-  resources :people, controller: 'users' do
+  resources :people, controller: 'users', as: 'users' do
     get 'avatar_:style.png', to: 'users#avatar', on: :member, as: :user_avatar
   end
   

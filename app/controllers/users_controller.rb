@@ -3,7 +3,7 @@ class UsersController < AuthorizedController
   respond_to :html
   respond_to :json, :xml, except: [:new, :edit]
   
-  skip_login only: [:create]  
+  skip_login only: [:new, :create]  
   
   def index
     respond_with(@users = current_user.acquaintances)
@@ -24,6 +24,8 @@ class UsersController < AuthorizedController
   end
 
   def new
+    log_out!
+    
     @user = User.new
   end
 
@@ -50,7 +52,9 @@ class UsersController < AuthorizedController
     end
     
     notice 'user.created' if @user.save
-          
+    
+    login_as(@user)
+    
     respond_with @user
   end
 
