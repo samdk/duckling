@@ -20,7 +20,7 @@
           .update-title= link_to update.title, activation_update_url(@activation,update)
           .update-author
             Posted by
-            = link_to update.author.full_name, person_url(update.author)
+            = link_to update.author.full_name, user_url(update.author)
           .update-text= update.body
           .update-files
             %ul
