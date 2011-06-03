@@ -58,15 +58,15 @@ class UsersController < AuthorizedController
     respond_with @user
   end
 
-  def update
-    unless params[:id].blank? or current_user.id == params[:id]
+  def update    
+    unless params[:id].blank? or current_user.id == params[:id].to_i
       unauthorized! 'user.update_others'
     end
         
     if current_user.update_attributes(params[:user])
       notice 'user.updated'
     end
-    
+            
     respond_with(@user = current_user)
   end
 

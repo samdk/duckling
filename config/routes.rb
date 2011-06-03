@@ -27,9 +27,16 @@ Duckling::Application.routes.draw do
       resources :comments
     end
     
-    match '/people' => 'users#index_activation', :via => :get, :as => :people
+    member do
+         get :people, to: 'users#index_activation', as: :people
+        post :rejoin
+        post 'organization_rejoin/:organization_id', to: :organization_rejoin
+      delete :leave
+      delete 'organization_leave/:organization_id', to: :organization_leave
+    end
+    
     #resources :people, controller: 'users', only: [:index]
-    resources :groups
+    resources :groups    
   end
 
   resources :organizations do

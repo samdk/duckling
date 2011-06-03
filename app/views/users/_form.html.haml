@@ -1,0 +1,55 @@
+= form_for(@user, url: account_path) do |f|
+  .section
+    %h2 Your Name
+    .name-prefix
+      = f.label :name_prefix, 'Prefix'
+      .hint (Dr., Mrs., optional)
+      = f.text_field :name_prefix
+    .first-name
+      = f.label :first_name
+      = f.text_field :first_name
+    .last-name
+      = f.label :last_name
+      = f.text_field :last_name
+    .name-suffix
+      = f.label :name_suffix, 'Suffix'
+      .hint (III, PhD, optional)
+      = f.text_field :name_suffix
+  .section
+    %h2 Your Contact Information
+    .email
+      %h3 Email Addresses
+      -if @user.new_record?
+        = f.label :primary_email, 'Email Address'
+        .hint (You will log in with this email address.)
+        = f.text_field :primary_email, autocomplete: 'off'
+      -else
+        = f.fields_for :email_addresses do |fe|
+          %ul
+            - for email in @user.email_addresses
+              %li= fe.text_field '', value: email
+            %li
+              = link_to 'Add', '#', id: 'add-email-address-field'
+    -unless @user.new_record?
+      .phone
+        %h3 Phone Numbers
+        = f.fields_for :phone_numbers do |fe|
+          %ul
+            - for name, number in @user.phone_numbers
+              %li
+                = fe.label name
+                = fe.text_field name, value: number
+
+        
+  .section
+    %h2= @user.new_record? ? 'Your Password' : 'Change Password'
+    .hint (At least 7 characters, make it complex and unique.)
+    .password
+      = f.label :password
+      = f.password_field :password, value: '', autocomplete: 'off'
+    .password-confirmation
+      = f.label :password_confirmation
+      .hint (confirm your password)
+      = f.password_field :password_confirmation, value: '', autocomplete: 'off'
+  .section
+    = submit_tag(@user.new_record? ? "Sign Up" : "Edit Account")

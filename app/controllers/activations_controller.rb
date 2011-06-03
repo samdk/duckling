@@ -63,6 +63,26 @@ class ActivationsController < AuthorizedController
     destroyed_redirect_to activations_url
   end
   
+  def rejoin
+    a = current_user.activationships.where(activation_id: params[:activation_id]).first
+    
+    respond_with @activation
+  end
+  
+  def leave
+    a = current_user.activationships.where(activation_id: params[:activation_id]).first
+    a.update_attribute(:active, false)
+    
+    respond_to do |wants|
+      wants.html { redirect_to activations_path }
+      wants.any  { head :ok }
+    end
+  end
+  
+  def organization_leave
+    
+  end
+  
   private
   def set_activation
     @activation = current_user.activations.find(params[:id])

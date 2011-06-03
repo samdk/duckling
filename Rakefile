@@ -3,5 +3,10 @@
 
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
+ 
+module ::RakeFileUtils
+  extend Rake::FileUtilsExt
+end
 
+Duckling::Application.send :include, Rake::DSL
 Duckling::Application.load_tasks
