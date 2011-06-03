@@ -1,15 +1,23 @@
+require 'set'
+
 # makes some users
 first_names = %w[Emily Sarah Brianna Samantha Hailey Jacob Michael Matthew Nicholas Christoper]
 last_names = %w[Smith Johnson Williams Jones Brown Rodriguez Davis Miller Wilson Garcia]
+
+user_index = 0
+used_emails = Set.new
 
 def make_user(first_name,last_name)
   u = User.new
   u.first_name = first_name
   u.last_name = last_name
-  u.email_addresses << "#{first_name[0]}#{last_name}@example.com"
+  email = "#{first_name[0]}#{last_name}"
+  email = "#{email}#{used_emails.include?(email) ? '' : user_index}@example.com"
+  used_emails.add(email)
+  u.email_addresses << email
   u.password = u.password_confirmation = 'testtest'
-  u.phone_numbers['Desk'] = '555-555-0100'
-  u.phone_numbers['Cell'] = '555-555-0137'
+  u.phone_numbers['Desk'] = "555-555-01#{user_index % 100}"
+  u.phone_numbers['Cell'] = "555-555-01#{user_index * 2 % 100}"
   unless u.save
     puts "0 #{u.errors}"
   end

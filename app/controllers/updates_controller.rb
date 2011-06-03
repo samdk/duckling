@@ -12,7 +12,7 @@ class UpdatesController < AuthorizedController
                 .order('created_at DESC')
                 .in_date_range(params[:start_date], params[:end_date])
                 .matching_search(params[:search_query], [:title, :body])
-                #.matching_joins(:groups, params[:groups_ids])
+                .matching_joins(:groups, params[:groups_ids])
                 #.matching_joins(:organizations, params[:organizations_ids])
 
     respond_with @activation, @updates
