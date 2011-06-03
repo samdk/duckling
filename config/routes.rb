@@ -23,6 +23,9 @@ Duckling::Application.routes.draw do
   end
   
   resources :activations do
+    resources :updates do
+      resources :comments
+    end
     
     member do
          get :people, to: 'users#index_activation', as: :people
@@ -33,9 +36,7 @@ Duckling::Application.routes.draw do
     end
     
     #resources :people, controller: 'users', only: [:index]
-    resources :groups
-    resources :updates
-    
+    resources :groups    
   end
 
   resources :organizations do

@@ -1,14 +1,5 @@
-%h1= @update.title
-.author= "by #{@update.author.full_name}"
-.activation= "posted in the activation #{@activation.title}"
-%p= @update.body
-- if @update.groups.size > 0
-  %ul
-    - @update.groups.each do |g|
-      %li= g.name
-- else
-  No groups
+= render partial: 'update', locals: {update: @update}
 
 = link_to 'edit', edit_activation_update_url(@activation,@update)
+= link_to 'delete', [@activation,@update], method: :delete, confirm: 'Really delete this update?'
 = link_to 'back to all updates', activation_updates_url(@activation)
-

@@ -128,13 +128,37 @@ body {
 }
 
 /* line 46, ../../app/stylesheets/application.scss */
+#flash {
+  position: relative;
+  top: 32px;
+  left: 0;
+  right: 0;
+  font-weight: bold;
+  background: black;
+  color: white;
+  text-align: center;
+}
+/* line 53, ../../app/stylesheets/application.scss */
+#flash div {
+  padding: 10px 0;
+}
+/* line 54, ../../app/stylesheets/application.scss */
+#flash #flash-notice {
+  background: green;
+}
+/* line 55, ../../app/stylesheets/application.scss */
+#flash #flash-error {
+  background: red;
+}
+
+/* line 57, ../../app/stylesheets/application.scss */
 #body {
   position: relative;
   top: 32px;
   left: 0;
   right: 0;
 }
-/* line 49, ../../app/stylesheets/application.scss */
+/* line 60, ../../app/stylesheets/application.scss */
 #body .wrapper {
   width: 960px;
   position: relative;
@@ -142,11 +166,12 @@ body {
   padding: 20px 0;
 }
 
-/* line 54, ../../app/stylesheets/application.scss */
+/* line 65, ../../app/stylesheets/application.scss */
 #footer {
   top: 30px;
   position: relative;
   text-align: center;
   font-size: 11px;
   color: #b0b0b0;
+  padding-bottom: 20px;
 }

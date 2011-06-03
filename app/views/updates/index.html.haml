@@ -2,10 +2,8 @@
   %form
     %fieldset#filters-simple
       %input{type: 'text', value: 'Search'}/
-      %select
-        %option All Organizations
-      %select
-        %option All Groups
+      = render partial: 'multiselect', locals: {name: 'Groups',items:@activation.groups}
+      = render partial: 'multiselect', locals: {name: 'Organizations',items:@activation.organizations}
       %input{type: 'submit', value: 'Apply Filters'}/
 #updates-header
   %h2= "Showing all #{@updates.length} updates"
@@ -13,29 +11,4 @@
   %ul
     - @updates.each do |update|
       %li.update{:class => @current_user == update.author ? 'yours' : ''}
-        .update-when
-          .update-time= update.created_at.to_s(:time)
-          .update-date= update.created_at.to_s(:mdy)
-        .update-main
-          .update-title= link_to update.title, activation_update_url(@activation,update)
-          .update-author
-            Posted by
-            = link_to update.author.full_name, user_url(update.author)
-          .update-text= update.body
-          .update-files
-            %ul
-              - update.file_uploads.each do |attachment|
-                %li.file= link_to attachment.upload_file_name,'#'
-          .update-comments
-            %h3 Comments:
-            %ul
-              - update.comments.each do |comment|
-                %li.comment
-                  .comment-heading
-                    = link_to comment.author.full_name, person_url(comment.author)
-                    = "at #{comment.created_at}"
-                  .comment-body= comment.body
-            .new-comment
-              %form
-                %input{type: 'text', value: 'Add a comment'}/
-
+        = render partial: 'update', locals: {update: update}

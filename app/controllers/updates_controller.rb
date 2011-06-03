@@ -12,7 +12,8 @@ class UpdatesController < AuthorizedController
                 .order('created_at DESC')
                 .in_date_range(params[:start_date], params[:end_date])
                 .matching_search(params[:search_query], [:title, :body])
-                .matching_joins(:tags, params[:tag_ids])
+                #.matching_joins(:groups, params[:groups_ids])
+                #.matching_joins(:organizations, params[:organizations_ids])
 
     respond_with @activation, @updates
   end
@@ -33,9 +34,12 @@ class UpdatesController < AuthorizedController
   end
 
   def create
-    @update = Update.new(params[:update])
-    params[:groups].each_pair do |k,v|
-      @update.groups << Group.find(k) if v
+    @update = @activation.updates.build(params[:update])
+    @update.author = @current_user
+    if params[:groups]
+      params[:groups].each_pair do |k,v|
+        @update.groups << Group.find(k) if v
+      end
     end
 
     #unless params[:update][:file_uploads_attributes].blank?
@@ -67,7 +71,7 @@ class UpdatesController < AuthorizedController
 
   def destroy
     @update.destroy
-    destroyed_redirect_to activations_updates_url(@activation)
+    destroyed_redirect_to activation_updates_url(@activation)
   end
 
   def attachment
