@@ -1,0 +1,11 @@
+// locals to pass in: name, items, is_checked
+- lc_name = name.downcase
+.multiselect{class: "multiselect-#{lc_name}"}
+  %h4= name
+  %ul
+    - vals = params["#{lc_name}_ids".to_sym]
+    - vals = vals.keys.map(&:to_i) if vals
+    - items.each do |item|
+      %li
+        = check_box_tag("#{lc_name}_ids[#{item.id}]",'',vals && vals.include?(item.id))
+        = label_tag("#{lc_name}_ids[#{item.id}]",item.name)

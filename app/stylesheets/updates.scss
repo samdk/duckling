@@ -50,7 +50,6 @@ $filters-height: 45px;
           .update-main {
             position: relative;
             margin-left: 70px;
-            border-bottom: 1px dashed $grey7;
             padding-bottom: $pad1;
             margin-bottom: $pad1;
 
@@ -74,7 +73,7 @@ $filters-height: 45px;
               padding: $pad3 0 0 0;
               @include reversed_links;
               font-size: 12px;
-              margin-right: 100px;
+              margin-right: 103px;
 
               h3 {
                 font-weight: bold;
@@ -107,9 +106,22 @@ $filters-height: 45px;
                   }
                 }
               }
-              input {
-                width: 490px;
+              .new-comment {
+                position: relative;
+                width: 600px;
               }
+                .comment-input {
+                  width: 487px;
+                }
+                .comment-submit {
+                  @include small_button;
+                  padding: $pad3 0;
+                  width: 100px;
+                  position: absolute;
+                  right: 0; top: 0;
+                  @include border_radius(0);
+                  background: #eee;
+                }
             }
           }
         }

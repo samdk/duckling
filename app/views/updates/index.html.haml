@@ -2,10 +2,8 @@
   %form
     %fieldset#filters-simple
       %input{type: 'text', value: 'Search'}/
-      %select
-        %option All Organizations
-      %select
-        %option All Groups
+      = render partial: 'multiselect', locals: {name: 'Groups',items:@activation.groups}
+      = render partial: 'multiselect', locals: {name: 'Organizations',items:@activation.organizations}
       %input{type: 'submit', value: 'Apply Filters'}/
 #updates-header
   %h2= "Showing all #{@updates.length} updates"
@@ -13,5 +11,4 @@
   %ul
     - @updates.each do |update|
       %li.update{:class => @current_user == update.author ? 'yours' : ''}
-        = render partial: 'update', locals: { update: update}
-        
+        = render partial: 'update', locals: {update: update}

@@ -93,21 +93,20 @@ li.update .update-when {
 li.update .update-main {
   position: relative;
   margin-left: 70px;
-  border-bottom: 1px dashed #dddddd;
   padding-bottom: 20px;
   margin-bottom: 20px;
 }
-/* line 57, ../../app/stylesheets/updates.scss */
+/* line 56, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-title {
   font-weight: bold;
 }
-/* line 60, ../../app/stylesheets/updates.scss */
+/* line 59, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-author {
   position: absolute;
   right: 0;
   top: 0;
 }
-/* line 65, ../../app/stylesheets/updates.scss */
+/* line 64, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-text {
   padding: 5px 0;
 }
@@ -119,7 +118,7 @@ li.update .update-main .update-text a {
 li.update .update-main .update-text a:hover {
   text-decoration: none;
 }
-/* line 69, ../../app/stylesheets/updates.scss */
+/* line 68, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-files {
   padding-left: 0;
 }
@@ -131,11 +130,11 @@ li.update .update-main .update-files a {
 li.update .update-main .update-files a:hover {
   text-decoration: none;
 }
-/* line 73, ../../app/stylesheets/updates.scss */
+/* line 72, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments {
   padding: 5px 0 0 0;
   font-size: 12px;
-  margin-right: 100px;
+  margin-right: 103px;
 }
 /* line 46, ../../app/stylesheets/_includes.scss */
 li.update .update-main .update-comments a {
@@ -145,12 +144,12 @@ li.update .update-main .update-comments a {
 li.update .update-main .update-comments a:hover {
   text-decoration: none;
 }
-/* line 79, ../../app/stylesheets/updates.scss */
+/* line 78, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments h3 {
   font-weight: bold;
   color: #707070;
 }
-/* line 83, ../../app/stylesheets/updates.scss */
+/* line 82, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment {
   position: relative;
   background: #f7f7f7;
@@ -158,16 +157,16 @@ li.update .update-main .update-comments .comment {
   padding: 5px;
   margin: 5px 0;
 }
-/* line 89, ../../app/stylesheets/updates.scss */
+/* line 88, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment .comment-heading {
   color: #585858;
   margin-bottom: 3px;
 }
-/* line 94, ../../app/stylesheets/updates.scss */
+/* line 93, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment.yours {
   background: #feffd6;
 }
-/* line 95, ../../app/stylesheets/updates.scss */
+/* line 94, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment .comment-delete {
   display: block;
   position: absolute;
@@ -179,12 +178,55 @@ li.update .update-main .update-comments .comment .comment-delete {
   padding: 0 3px 1px;
   vertical-align: middle;
 }
-/* line 104, ../../app/stylesheets/updates.scss */
+/* line 103, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment .comment-delete:hover {
   background: #3f71fb;
   color: white;
 }
-/* line 110, ../../app/stylesheets/updates.scss */
-li.update .update-main .update-comments input {
-  width: 490px;
+/* line 109, ../../app/stylesheets/updates.scss */
+li.update .update-main .update-comments .new-comment {
+  position: relative;
+  width: 600px;
+}
+/* line 113, ../../app/stylesheets/updates.scss */
+li.update .update-main .update-comments .comment-input {
+  width: 487px;
+}
+/* line 116, ../../app/stylesheets/updates.scss */
+li.update .update-main .update-comments .comment-submit {
+  color: #2e2e2e;
+  font-size: 12px;
+  line-height: 13px;
+  font-weight: bold;
+  padding: 5px 10px;
+  background: #dddddd;
+  border: 1px solid #939393;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 #d2d2d8;
+  background: -webkit-gradient(linear, 0 top, 0 bottom, from(white), to(#cccccc));
+  padding: 5px 0;
+  width: 100px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  background: #eee;
+}
+/* line 82, ../../app/stylesheets/_includes.scss */
+li.update .update-main .update-comments .comment-submit:hover {
+  background: -webkit-gradient(linear, 0 top, 0 bottom, from(#7ba1db), to(#3468db));
+  cursor: pointer;
+  color: white;
+  text-shadow: -1px 0 0 #585858;
+  border-color: #244193;
+}
+/* line 89, ../../app/stylesheets/_includes.scss */
+li.update .update-main .update-comments .comment-submit:active {
+  background: -webkit-gradient(linear, 0 top, 0 bottom, from(#3468db), to(#7ba1db));
+  padding-top: 6px;
+  padding-bottom: 4px;
 }

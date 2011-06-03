@@ -4,4 +4,3 @@ module ApplicationHelper
     items.collect {|i| "<li>#{h i}</li>"}.join("\n")
   end
 end
-
