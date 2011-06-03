@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   def back_or_403(error)
     respond_to do |wants|
       wants.html { redirect_to :back, error: error }
-      wants.any  { head 403, error }
+      wants.any  { head 403, error.to_s }
     end
   end
   

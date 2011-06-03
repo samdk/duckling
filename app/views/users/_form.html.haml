@@ -1,4 +1,4 @@
-= form_for(@user) do |f|
+= form_for(@user, url: account_path) do |f|
   .section
     %h2 Your Name
     .name-prefix
@@ -18,14 +18,31 @@
   .section
     %h2 Your Contact Information
     .email
+      %h3 Email Addresses
       -if @user.new_record?
         = f.label :primary_email, 'Email Address'
         .hint (You will log in with this email address.)
         = f.text_field :primary_email, autocomplete: 'off'
       -else
-        put email addresses here
+        = f.fields_for :email_addresses do |fe|
+          %ul
+            - for email in @user.email_addresses
+              %li= fe.text_field '', value: email
+            %li
+              = link_to 'Add', '#', id: 'add-email-address-field'
+    -unless @user.new_record?
+      .phone
+        %h3 Phone Numbers
+        = f.fields_for :phone_numbers do |fe|
+          %ul
+            - for name, number in @user.phone_numbers
+              %li
+                = fe.label name
+                = fe.text_field name, value: number
+
+        
   .section
-    %h2= @user.new_record? 'Your Password' : 'Change Password'
+    %h2= @user.new_record? ? 'Your Password' : 'Change Password'
     .hint (At least 7 characters, make it complex and unique.)
     .password
       = f.label :password

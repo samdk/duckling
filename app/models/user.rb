@@ -22,8 +22,10 @@ class User < ActiveRecord::Base
   has_many :addresses
   has_one :primary_address, class_name: 'Address'
   
-  has_many :activationships
-  has_many :activations, through: :activationships  
+  has_many :deployments, as: :deployed
+  has_many :activations, through: :deployments
+  has_many :current_activations, through: :deployments, conditions: {active: true}
+  has_many :past_activations, through: :deployments, conditions: {active: true}
   
   has_and_belongs_to_many :organizations
   has_and_belongs_to_many :administrated_organizations, class_name: 'Organization'
@@ -60,13 +62,22 @@ class User < ActiveRecord::Base
   validates :last_name,     presence: true
   
   validate :password_validations
-  def password_validations
-    return unless @password_confirmation_changed && password_hash_changed?
-    if password_confirmation.blank? || password_confirmation.size < 7
+  def password_validations  
+    if (1..7).include? password.size
       errors.add(:password, t('user.password.too_short'))
     end
     
-    unless password == password_confirmation
+    if new_record?
+      if password_confirmation.blank?
+        errors.add(:password_confirmation, t('user.password.confirmation_required'))
+      end
+      
+      if password.blank?
+        errors.add(:password, t('user.password.required'))
+      end
+    end
+    
+    unless password_confirmation.blank? or password == password_confirmation
       errors.add(:password_confirmation, t('user.password.match_confirmation'))
     end
   end
@@ -83,6 +94,11 @@ class User < ActiveRecord::Base
     end
     
     errors.add(:email_addresses, t('user.email.duplicate')) if dups
+    
+    email_addresses.select {|x| x !~ /\A[^@]+@[^@]+\.[^@]+\z/}.each_with_index do |addr, i|
+      errors.add("email_address_#{i}".to_sym, t('user.email.bad_format'))
+    end
+    
   end
   
   before_save do |user|
@@ -98,7 +114,7 @@ class User < ActiveRecord::Base
   end
   
   after_initialize do |user|
-    user.phone_numbers   ||= {}
+    user.phone_numbers   ||= {cell: '', desk: ''}
     user.email_addresses ||= []
   end
 
@@ -123,6 +139,7 @@ class User < ActiveRecord::Base
   end
   
   def password=(new_pass)    
+    return false if new_pass.blank?
     @password = BCrypt::Password.create(new_pass)
     self.password_hash = @password
   end

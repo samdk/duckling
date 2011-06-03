@@ -2,6 +2,8 @@ class PhoneFormatter
   def self.format(number)
     number = number.gsub(/[^0-9]/,'')
     
+    return number if number.length < 7
+    
     if number.length == 10
       "#{number[0..2]}-#{number[3..5]}-#{number[6..9]}"
     elsif number.length == 7
