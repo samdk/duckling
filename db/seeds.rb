@@ -75,7 +75,7 @@ def make_random_update(activation,author)
   length = (rand * (sentences.length-2)).to_i
   body = sentences[0..length].join('. ')
   groups = @groups.sample(rand * @groups.length)
-  activation.updates.create(author:author,title:title,body:body)
+  activation.updates.create(author:author,title:title,body:body,groups:groups)
 end
 50.times { make_random_update(a,@users.sample) }
 @updates = Update.all
