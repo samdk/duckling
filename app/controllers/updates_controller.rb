@@ -11,9 +11,8 @@ class UpdatesController < AuthorizedController
     @updates = @activation.updates
                 .order('created_at DESC')
                 .in_date_range(params[:start_date], params[:end_date])
-                .matching_search(params[:search_query], [:title, :body])
+                .matching_search([:title, :body],params[:search_query])
                 .matching_joins(:groups, params[:groups_ids])
-                #.matching_joins(:organizations, params[:organizations_ids])
 
     respond_with @activation, @updates
   end
@@ -41,12 +40,6 @@ class UpdatesController < AuthorizedController
         @update.groups << Group.find(k) if v
       end
     end
-
-    #unless params[:update][:file_uploads_attributes].blank?
-    #  params[:update][:file_uploads_attributes].each do |fu|
-    #    @update.file_uploads.create(fu)
-    #  end
-    #end
 
     if @update.save
       # TODO: associate to things
