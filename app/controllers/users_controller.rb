@@ -6,14 +6,18 @@ class UsersController < AuthorizedController
   skip_login only: [:new, :create]  
   
   def index
-    respond_with(@users = current_user.acquaintances)
+    if params[:activation_id]
+      index_activation
+    else
+      respond_with(@users = current_user.acquaintances)
+    end
   end
 
   def index_activation
     @activation = Activation.find(params[:activation_id])
     respond_with(@users = @activation.users,@activation) do |format|
       format.html do
-        render layout: 'activation_page'
+        render :index_activation, layout: 'activation_page'
       end
     end
   end
