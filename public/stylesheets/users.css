@@ -19,8 +19,42 @@
 }
 
 /* line 8, ../../app/stylesheets/users.scss */
+.drop-cap {
+  position: relative;
+  clear: both;
+  background: white;
+  padding: 5px;
+  text-transform: uppercase;
+}
+/* line 14, ../../app/stylesheets/users.scss */
+.drop-cap .letter {
+  font-size: 21px;
+  line-height: 21px;
+  padding: 4px;
+  background: #eeeeee;
+  width: 21px;
+  text-align: center;
+  font-weight: bold;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  position: relative;
+  z-index: 2;
+}
+/* line 26, ../../app/stylesheets/users.scss */
+.drop-cap .extra {
+  position: absolute;
+  border-bottom: 1px dashed #eeeeee;
+  top: 50%;
+  left: 5px;
+  right: 5px;
+  z-index: 1;
+}
+
+/* line 33, ../../app/stylesheets/users.scss */
 .user {
-  background: #eee;
+  position: relative;
+  background: #eeeeee;
   padding: 10px;
   margin: 5px;
   float: left;
@@ -30,42 +64,42 @@
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
-/* line 15, ../../app/stylesheets/users.scss */
+/* line 41, ../../app/stylesheets/users.scss */
 .user.in-activation {
   width: 320px;
 }
-/* line 16, ../../app/stylesheets/users.scss */
+/* line 42, ../../app/stylesheets/users.scss */
 .user.outside-activation {
   width: 286px;
 }
-/* line 18, ../../app/stylesheets/users.scss */
+/* line 44, ../../app/stylesheets/users.scss */
 .user img {
   float: left;
   width: 60px;
   height: 60px;
   margin-bottom: 5px;
 }
-/* line 24, ../../app/stylesheets/users.scss */
+/* line 50, ../../app/stylesheets/users.scss */
 .user .text {
   margin-left: 70px;
   margin-top: -3px;
   position: relative;
 }
-/* line 28, ../../app/stylesheets/users.scss */
+/* line 54, ../../app/stylesheets/users.scss */
 .user .text .name {
   font-size: 16px;
   line-height: 18px;
 }
-/* line 33, ../../app/stylesheets/users.scss */
+/* line 59, ../../app/stylesheets/users.scss */
 .user .text .orgs li {
   float: left;
   margin-right: 5px;
 }
-/* line 39, ../../app/stylesheets/users.scss */
+/* line 65, ../../app/stylesheets/users.scss */
 .user .lists {
   clear: both;
 }
-/* line 42, ../../app/stylesheets/users.scss */
+/* line 68, ../../app/stylesheets/users.scss */
 .user .lists .groups li {
   float: left;
   margin-right: 5px;

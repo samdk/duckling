@@ -5,8 +5,34 @@
   margin: -$pad1;
   padding: ($pad1 + $pad3) $pad3 $pad3;
 }
+  .drop-cap {
+    position: relative;
+    clear: both;
+    background: white;
+    padding: $pad3;
+    text-transform: uppercase;
+    .letter {
+      font-size:   21px;
+      line-height: 21px;
+      padding: 4px;
+      background: $grey8;
+      width: 21px;
+      text-align: center;
+      font-weight: bold;
+      @include border_radius(5px);
+      position: relative;
+      z-index: 2;
+    }
+    .extra {
+      position: absolute;
+      border-bottom: 1px dashed $grey8;
+      top: 50%; left: $pad3; right: $pad3;
+      z-index: 1;
+    }
+  }
   .user {
-    background: #eee;
+    position: relative;
+    background: $grey8;
     padding: $pad2;
     margin: $pad3;
     float: left;

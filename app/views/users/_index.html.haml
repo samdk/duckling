@@ -1,6 +1,17 @@
 %ul#users-list
+  - prev_letter = ''
+  - activation_class = @activation ? 'in-activation' : 'outside-activation'
   - @users.each do |u|
-    %li.user{:class => @activation ? 'in-activation' : 'outside-activation' }
+    - letter = u.last_name[0].downcase
+    - new_letter = letter != prev_letter
+    - prev_letter = letter
+    - new_letter_class = new_letter ? 'new-letter' : ''
+    - if new_letter
+      %li.drop-cap{id: "drop-cap-#{letter}"}
+        .letter
+          = letter
+        .extra
+    %li.user{class: activation_class}
       %img{src: u.avatar.url}
       .text
         .name= u.name
