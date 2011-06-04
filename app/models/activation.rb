@@ -21,15 +21,15 @@ class Activation < ActiveRecord::Base
   validates :title, presence: true, length: { within: 3..50 }
   
   def activate
-    update_attributes(active: true, activation_changed_at: DateTime.now)
+    update_attributes(active: true, active_or_inactive_since: DateTime.now)
   end
   
   def deactivate
-    update_attributes(active: false, activation_changed_at: DateTime.now)
+    update_attributes(active: false, active_or_inactive_since: DateTime.now)
   end
   
   def active_since
-    activation_changed_at or created_at
+    active_or_inactive_since or created_at
   end
   alias_method :inactive_since, :active_since
   
