@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110602202109) do
+ActiveRecord::Schema.define(:version => 20110604165058) do
 
   create_table "acquaintances", :id => false, :force => true do |t|
     t.integer "user_id"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(:version => 20110602202109) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "updates_count"
-    t.datetime "activation_changed_at"
+    t.datetime "active_or_inactive_since"
   end
 
   create_table "addresses", :force => true do |t|
@@ -67,7 +67,6 @@ ActiveRecord::Schema.define(:version => 20110602202109) do
   create_table "groups", :force => true do |t|
     t.string   "name"
     t.string   "description"
-    t.string   "type"
     t.integer  "groupable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
