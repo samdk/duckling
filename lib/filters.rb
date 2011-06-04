@@ -15,7 +15,9 @@ module Filters
       scope :matching_search, ->(fields, query) {
         return if fields.blank? || query.blank?
         
-        where(fields.map {|x| "LOWER(#{x}) LIKE LOWER(?)"}.join(' OR '), *([query]*fields.size))
+        query_args = ["%#{query}%"]*fields.size
+        
+        where(fields.map {|x| "LOWER(#{x}) LIKE LOWER(?)"}.join(' OR '), *query_args)
       }
       
       scope :matching_joins, ->(join, ids) {
