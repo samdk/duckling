@@ -1,0 +1,9 @@
+/* line 2, ../../app/stylesheets/groups.scss */
+.group {
+  margin-bottom: 20px;
+}
+/* line 4, ../../app/stylesheets/groups.scss */
+.group h2 {
+  font-size: 24px;
+  font-weight: bold;
+}
