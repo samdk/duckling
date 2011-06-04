@@ -1,9 +1,8 @@
 #filters
   %form
     %fieldset#filters-simple
-      %input{type: 'text', value: 'Search'}/
-      = render partial: 'multiselect', locals: {name: 'Groups',items:@activation.groups}
-      = render partial: 'multiselect', locals: {name: 'Organizations',items:@activation.organizations}
+      = text_field_tag :search_query, params[:search_query] ? params[:search_query] : 'Search'
+      = render partial: 'shared/multiselect', locals: {name: 'Groups',items:@activation.groups}
       %input{type: 'submit', value: 'Apply Filters'}/
 #updates-header
   %h2= "Showing all #{@updates.length} updates"

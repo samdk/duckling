@@ -15,7 +15,7 @@
 #users-list {
   overflow: auto;
   margin: -20px;
-  padding: 5px;
+  padding: 25px 5px 5px;
 }
 
 /* line 8, ../../app/stylesheets/users.scss */

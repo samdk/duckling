@@ -15,7 +15,11 @@ class UsersController < AuthorizedController
 
   def index_activation
     @activation = Activation.find(params[:activation_id])
-    respond_with(@users = @activation.users,@activation) do |format|
+    @users = @activation.users
+                .order('last_name ASC')
+                .matching_search([:first_name, :last_name],params[:search_query])
+                .matching_joins(:groups, params[:groups_ids])
+    respond_with @activation, @users do |format|
       format.html do
         render :index_activation, layout: 'activation_page'
       end

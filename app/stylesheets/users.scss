@@ -3,7 +3,7 @@
 #users-list {
   overflow: auto;
   margin: -$pad1;
-  padding: $pad3;
+  padding: ($pad1 + $pad3) $pad3 $pad3;
 }
   .user {
     background: #eee;

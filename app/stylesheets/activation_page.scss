@@ -1,5 +1,7 @@
 @import 'includes';
 
+$filters-height: 45px;
+
 #body-header {
   padding-bottom: $pad1;
   position: relative;
@@ -23,7 +25,7 @@
   #body-nav {
     width: $nav-width;
     position: absolute;
-    top: 0; right: 0; bottom: 0;
+    top: $filters-height; right: 0; bottom: 0;
     z-index: 2;
 
     > ul {
@@ -95,4 +97,21 @@
       @include box_shadow(0 0 3px $grey4);
     }
   }
-
+      #filters {
+        padding: $pad2 $pad1;
+        margin: -$pad1;
+        margin-bottom: 0;
+        background: $grey6;
+        form {
+          input[type=text],select {
+            width: 184px;
+            border: 1px solid $grey4;
+          }
+          input[type=submit] {
+            @include small_button;
+            padding: $pad3 ($pad2+2);
+            position: absolute;
+            right: $pad1;
+          }
+        }
+      }

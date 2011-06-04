@@ -1,32 +1,9 @@
 @import 'includes';
 
-$filters-height: 45px;
 
 #body-body { }
-  #body-nav {
-    top: $filters-height;
-  }
   .main { }
     .pane { }
-      #filters {
-        padding: $pad2 $pad1;
-        margin: -$pad1;
-        margin-bottom: 0;
-        //margin-top: -($pad1 + $filters-height);
-        background: $grey6;
-        form {
-          input[type=text],select {
-            width: 184px;
-            border: 1px solid $grey4;
-          }
-          input[type=submit] {
-            @include small_button;
-            padding: $pad3 ($pad2+2);
-            position: absolute;
-            right: $pad1;
-          }
-        }
-      }
       #updates-header {
         padding: $pad1 0;
         position: relative;
