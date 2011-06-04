@@ -13,7 +13,7 @@ def make_user(first_name,last_name)
   u.first_name = first_name
   u.last_name = last_name
   email = "#{first_name[0]}#{last_name}".downcase
-  email = "#{email}#{@used_emails.include?(email) ? '' : @user_index}@example.com"
+  email = "#{email}#{@used_emails.include?(email) ? @user_index : ''}@example.com"
   @used_emails.add(email)
   u.email_addresses << email
   u.password = u.password_confirmation = 'testtest'
