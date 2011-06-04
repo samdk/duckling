@@ -1,4 +1,5 @@
 class Address < ActiveRecord::Base
+  
   belongs_to :user
   
   validates :address, length: {maximum: 300},
@@ -12,4 +13,5 @@ class Address < ActiveRecord::Base
   before_save do |addr|
     addr.address = addr.address.split("\n").map(&:strip).join("\n")
   end
+
 end

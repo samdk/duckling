@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(:version => 20110602202109) do
   create_table "deployments", :id => false, :force => true do |t|
     t.integer "activation_id"
     t.integer "deployed_id"
-    t.boolean "active"
+    t.boolean "active",        :default => true
     t.string  "deployed_type"
   end
 

@@ -1,5 +1,6 @@
 class Activation < ActiveRecord::Base
   include Filters
+  
   is_soft_deleted
   
   has_many :updates
@@ -8,10 +9,14 @@ class Activation < ActiveRecord::Base
   has_many :deployments
   
   has_many :organization_deployments, as: :deployed
-  has_many :organizations, through: :deployments, source: :organization, conditions: 'deployments.deployed_type = "Organization"'
+  has_many :organizations, through: :deployments,
+                           source: :deployed,
+                           source_type: 'Organization'
   
   has_many :user_deployments, as: :deployed
-  has_many :users, through: :deployments, source: :user, conditions: 'deployments.deployed_type = "User"'
+  has_many :users, through: :deployments,
+                   source: :deployed,
+                   source_type: 'User'
   
   validates :title, presence: true, length: { within: 3..50 }
   
