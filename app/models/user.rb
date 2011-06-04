@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
       end
     end
     
-    unless password_confirmation.blank? or password == password_confirmation
+    unless password_confirmation.blank? or @raw_password == password_confirmation
       errors.add(:password_confirmation, t('user.password.match_confirmation'))
     end
   end
@@ -141,6 +141,7 @@ class User < ActiveRecord::Base
   def password=(new_pass)    
     return false if new_pass.blank?
     @password = BCrypt::Password.create(new_pass)
+    @raw_password = new_pass
     self.password_hash = @password
   end
   
