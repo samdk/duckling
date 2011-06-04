@@ -5,11 +5,6 @@ class JoinTables < ActiveRecord::Migration
       t.integer 'other_user_id'
     end
     
-    create_table 'administrated_organizations_users', id: false do |t|
-      t.integer 'organization_id'
-      t.integer 'user_id'
-    end
-    
     create_table 'groups_updates', id: false do |t|
       t.integer 'group_id'
       t.integer 'update_id'
@@ -20,14 +15,10 @@ class JoinTables < ActiveRecord::Migration
       t.integer 'user_id'
     end
 
-    create_table 'managed_organizations_users', id: false do |t|
+    create_table 'memberships', id: false do |t|
       t.integer 'organization_id'
       t.integer 'user_id'
-    end
-    
-    create_table 'organizations_users', id: false do |t|
-      t.integer 'organization_id'
-      t.integer 'user_id'
+      t.string  'access_level', default: ''
     end
     
     create_table 'tags_updates', id: false do |t|

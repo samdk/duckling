@@ -36,11 +36,6 @@ ActiveRecord::Schema.define(:version => 20110604165058) do
     t.datetime "updated_at"
   end
 
-  create_table "administrated_organizations_users", :id => false, :force => true do |t|
-    t.integer "organization_id"
-    t.integer "user_id"
-  end
-
   create_table "comments", :force => true do |t|
     t.text     "body"
     t.integer  "author_id"
@@ -83,9 +78,10 @@ ActiveRecord::Schema.define(:version => 20110604165058) do
     t.integer "user_id"
   end
 
-  create_table "managed_organizations_users", :id => false, :force => true do |t|
+  create_table "memberships", :id => false, :force => true do |t|
     t.integer "organization_id"
     t.integer "user_id"
+    t.string  "access_level",    :default => ""
   end
 
   create_table "notifications", :id => false, :force => true do |t|
@@ -101,11 +97,6 @@ ActiveRecord::Schema.define(:version => 20110604165058) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "organizations_users", :id => false, :force => true do |t|
-    t.integer "organization_id"
-    t.integer "user_id"
   end
 
   create_table "tags", :force => true do |t|

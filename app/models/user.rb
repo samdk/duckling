@@ -27,9 +27,19 @@ class User < ActiveRecord::Base
   has_many :current_activations, through: :deployments, conditions: {active: true}
   has_many :past_activations, through: :deployments, conditions: {active: true}
   
-  has_and_belongs_to_many :organizations
-  has_and_belongs_to_many :administrated_organizations, class_name: 'Organization'
-  has_and_belongs_to_many :managed_organizations, class_name: 'Organization'
+  has_many :memberships
+  has_many :organization, through: :memberships
+  
+  def administrate(org)
+    memberships.where(organization_id: org.id).delete_all
+    memberships.create(organization: org, access_level: 'admin') 
+  end
+  
+  def manage(org)
+    memberships.where(organization_id: org.id).delete_all
+    memberships.create(organization: org, access_level: 'manager')
+  end
+  
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sections, {
     join_table: 'groups_users',
@@ -170,8 +180,13 @@ class User < ActiveRecord::Base
     organization_ids | managed_organization_ids | administrated_organization_ids
   end
   
+  def can?(hash, args = {})
+    hash.all? do |action, object|
+      object.send "permit_#{action}?", self, args
+    end
+  end
+  
   def can_see_organization?(org)
-    all_organizations.include?(org) or org.public?
   end
   
 end

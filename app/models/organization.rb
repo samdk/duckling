@@ -1,15 +1,33 @@
 class Organization < ActiveRecord::Base
   include Filters
+  
+  include AuthorizedModel
+  def permit_read?(user, *_)
+    public? or users.exists?(user) or managers.exists?(user) or administrators.exists?(user)
+  end
+  
   is_soft_deleted
   
   has_many :deployments, as: :deployed
+  
   has_many :activations, through: :deployments
   has_many :current_activations, through: :deployments, conditions: {active: true}
   has_many :past_activations, through: :deployments, conditions: {active: true}
   
-  has_and_belongs_to_many :administrators, class_name: 'User'
-  has_and_belongs_to_many :managers,       class_name: 'User'
-  has_and_belongs_to_many :users
+  has_many :memberships
+  has_many :users, through: :memberships
+
+  has_many :managers, class_name: 'User',
+                      through: :memberships,
+                      source: :user,
+                      conditions: 'memberships.access_level = "manager"',
+                      before_add: ->(*){ raise 'Do not add through this' }
+  
+  has_many :administrators, class_name: 'User',
+                            through: :memberships,
+                            source: :user,
+                            conditions: 'memberships.access_level = "admin"',
+                            before_add: ->(*){ raise 'Do not add through this' }
   
   has_many :sections, as: :groupable
   

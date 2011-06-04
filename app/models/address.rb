@@ -1,5 +1,6 @@
-class Address < ActiveRecord::Base
-  
+class Address < ActiveRecord::Base  
+  include AuthorizedModel
+
   belongs_to :user
   
   validates :address, length: {maximum: 300},
@@ -13,5 +14,12 @@ class Address < ActiveRecord::Base
   before_save do |addr|
     addr.address = addr.address.split("\n").map(&:strip).join("\n")
   end
-
+  
+  def permit_edit?(user, args = {})
+    self.user == user
+  end
+  
+  def permit_create?(user, args = {})
+    self.user == user
+  end
 end
