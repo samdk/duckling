@@ -26,3 +26,13 @@
         %ul.groups
           %li Groups:
           != array_to_li u.groups
+.letters-list.top
+  %ul
+    - ('A'..'Z').each do |letter|
+      %li
+        %a{href:"#drop-cap-#{letter.downcase}"}= letter
+.letters-list.bot
+  %ul
+    - ('A'..'Z').each do |letter|
+      %li
+        %a{href:"#drop-cap-#{letter.downcase}"}= letter

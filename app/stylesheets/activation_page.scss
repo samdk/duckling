@@ -98,20 +98,56 @@ $filters-height: 45px;
     }
   }
       #filters {
-        padding: $pad2 $pad1;
+        position: relative;
+        z-index: 50;
+        padding: $pad3 $pad1;
         margin: -$pad1;
         margin-bottom: 0;
-        background: $grey6;
+        background: $grey2;
+        height: 35px;
         form {
           input[type=text],select {
             width: 184px;
             border: 1px solid $grey4;
+            float: left;
+            padding: 8px;
+            color: black;
+            background: $grey8;
+            border: 0;
+            @include border_radius(3px);
+            font-size: 16px;
+            line-height: 17px;
+            &.default-text { color: $grey4; }
+          }
+          .multiselect {
+            width: 184px;
+            float: left;
+            margin-left: 4px;
+            font-size: 16px;
+            line-height: 17px;
+            background: $grey8;
+            @include border_radius(3px);
+            a {
+              color: black;
+              padding: 9px;
+              display: block;
+              text-align: right;
+              &:hover {
+                text-decoration: none;
+              }
+            }
+            ul {
+              display: none;
+
+            }
           }
           input[type=submit] {
             @include small_button;
-            padding: $pad3 ($pad2+2);
+            padding: 9px ($pad2+2);
             position: absolute;
             right: $pad1;
+            border-width: 0;
+            line-height: 17px;
           }
         }
       }

@@ -192,17 +192,61 @@
 
 /* line 100, ../../app/stylesheets/activation_page.scss */
 #filters {
-  padding: 10px 20px;
+  position: relative;
+  z-index: 50;
+  padding: 5px 20px;
   margin: -20px;
   margin-bottom: 0;
-  background: #d2d2d8;
+  background: #585858;
+  height: 35px;
 }
-/* line 106, ../../app/stylesheets/activation_page.scss */
+/* line 109, ../../app/stylesheets/activation_page.scss */
 #filters form input[type=text], #filters form select {
   width: 184px;
   border: 1px solid #939393;
+  float: left;
+  padding: 8px;
+  color: black;
+  background: #eeeeee;
+  border: 0;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  font-size: 16px;
+  line-height: 17px;
 }
-/* line 110, ../../app/stylesheets/activation_page.scss */
+/* line 120, ../../app/stylesheets/activation_page.scss */
+#filters form input[type=text].default-text, #filters form select.default-text {
+  color: #939393;
+}
+/* line 122, ../../app/stylesheets/activation_page.scss */
+#filters form .multiselect {
+  width: 184px;
+  float: left;
+  margin-left: 4px;
+  font-size: 16px;
+  line-height: 17px;
+  background: #eeeeee;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+/* line 130, ../../app/stylesheets/activation_page.scss */
+#filters form .multiselect a {
+  color: black;
+  padding: 9px;
+  display: block;
+  text-align: right;
+}
+/* line 135, ../../app/stylesheets/activation_page.scss */
+#filters form .multiselect a:hover {
+  text-decoration: none;
+}
+/* line 139, ../../app/stylesheets/activation_page.scss */
+#filters form .multiselect ul {
+  display: none;
+}
+/* line 144, ../../app/stylesheets/activation_page.scss */
 #filters form input[type=submit] {
   color: #2e2e2e;
   font-size: 12px;
@@ -216,9 +260,11 @@
   border-radius: 4px;
   text-shadow: 0 1px 0 #d2d2d8;
   background: -webkit-gradient(linear, 0 top, 0 bottom, from(white), to(#cccccc));
-  padding: 5px 12px;
+  padding: 9px 12px;
   position: absolute;
   right: 20px;
+  border-width: 0;
+  line-height: 17px;
 }
 /* line 82, ../../app/stylesheets/_includes.scss */
 #filters form input[type=submit]:hover {

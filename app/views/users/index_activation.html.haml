@@ -1,7 +1,7 @@
 #filters
   %form
     %fieldset#filters-simple
-      = text_field_tag :search_query, params[:search_query] ? params[:search_query] : 'Search'
+      = text_field_tag :search_query, params[:search_query] ? params[:search_query] : ''
       = render partial: 'shared/multiselect', locals: {name: 'Groups',items:@activation.groups}
       %input{type: 'submit', value: 'Apply Filters'}/
 = render 'index'

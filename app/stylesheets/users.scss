@@ -1,9 +1,54 @@
 @import 'includes';
 
+#filters {
+  // we need to change this padding because the users page uses
+  // different margins around content than the updates page
+  // and having it not match annoys me
+  padding-left: $pad2;
+  padding-right: $pad2;
+}
+
+.letters-list {
+  position: absolute;
+  background: $grey8;
+  // Sass seems to have a bug when this isn't in parens
+  margin: 0 (-$pad1);
+  width: 710px;
+  &.top { top: 45px; }
+  &.bot { bottom: 0; }
+  ul {
+    overflow: hidden;
+    li {
+      text-align: center;
+      float: left;
+
+      a {
+        font-size:   13px;
+        line-height: 20px;
+        width:       21px;
+        display: block;
+        padding: 7px 3px;
+        font-weight: bold;
+        &:hover {
+          text-decoration: none;
+          background: $grey2;
+          color: white
+        }
+        &.disabled {
+          color: $grey6;
+        }
+      }
+    }
+    li:first-child a { padding-left: 7px; }
+    li:last-child a  { padding-right: 7px; }
+  }
+}
+
 #users-list {
   overflow: auto;
   margin: -$pad1;
-  padding: ($pad1 + $pad3) $pad3 $pad3;
+  margin-top: 14px;
+  padding: ($pad1 + $pad3) $pad3 ($pad3 + 34px);
 }
   .drop-cap {
     position: relative;
@@ -38,6 +83,8 @@
     float: left;
     font-size: 13px;
     line-height: 16px;
+    height: 81px;
+    overflow: hidden;
     &.in-activation { width: 340px - ($pad2 * 2); }
     &.outside-activation { width: 306px - ($pad2 * 2); }
     @include border_radius(5px);
@@ -56,6 +103,7 @@
         line-height: 18px;
       }
       .orgs {
+        width: 10000px;
         li {
           float: left;
           margin-right: 5px;
@@ -63,6 +111,7 @@
       }
     }
     .lists {
+      width: 10000px;
       clear: both;
       .groups {
         li {
