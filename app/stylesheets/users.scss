@@ -21,7 +21,13 @@
     li {
       text-align: center;
       float: left;
-
+      &.disabled a {
+        color: $grey6;
+        &:hover {
+          background: $grey8;
+          color: $grey6;
+        }
+      }
       a {
         font-size:   13px;
         line-height: 20px;
