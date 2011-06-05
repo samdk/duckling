@@ -1,5 +1,6 @@
-class User < ActiveRecord::Base  
+class User < ActiveRecord::Base
   include Filters
+  
   is_soft_deleted
   
   include AuthorizedModel
@@ -29,13 +30,18 @@ class User < ActiveRecord::Base
             url: '/people/:id/avatar_:style.png',
             path: ':rails_root/attachments/avatars/:style/:id.png'}.freeze
   has_attached_file :avatar, FILE_STORAGE_OPTS.merge(THUMBS)
+  validates_length_of :avatar_file_name, maximum: 100
     
   serialize :phone_numbers, Hash
   serialize :email_addresses, Array
   
   # TODO: make this O(1) instead of O(n)
-  scope :with_email, lambda { |email| 
+  scope :with_email, ->(email){
     where('email_addresses LIKE ?', "%- #{email}\n%")
+  }
+  
+  scope :with_phone, ->(phone){
+    where('phone_numbers LIKE ?', "%: #{PhoneFormatter.format(phone)}\n")
   }
   
   has_many :addresses
@@ -91,8 +97,11 @@ class User < ActiveRecord::Base
   }
     
   validates :password_hash, presence: true
-  validates :first_name,    presence: true
-  validates :last_name,     presence: true
+  
+  validates_length_of :name_prefix, maximum: 50
+  validates :first_name,    presence: true, length: {maximum: 50}
+  validates :last_name,     presence: true, length: {maximum: 50}
+  validates_length_of :name_suffix, maximum: 50
   
   validate :password_validations
   def password_validations  
@@ -147,7 +156,7 @@ class User < ActiveRecord::Base
   end
   
   after_initialize do |user|
-    user.phone_numbers   ||= {cell: '', desk: ''}
+    user.phone_numbers   ||= {'Cell' => '', 'Desk' => ''}
     user.email_addresses ||= []
   end
 
@@ -199,6 +208,6 @@ class User < ActiveRecord::Base
     hash.all? do |action, object|
       object.send "permit_#{action}?", self, args
     end
-  end
+  end  
   
 end

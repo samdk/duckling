@@ -1,9 +1,13 @@
 class UsersController < AuthorizedController
   
-  respond_to :html
-  respond_to :json, :xml, except: [:new, :edit]
+  WITHOUT_LOGIN = [:new, :create, :forgot_password,
+                   :request_password_reset, :new_password,
+                   :reset_password]
   
-  skip_login only: [:new, :create]  
+  respond_to :html
+  respond_to :json, :xml, except: [:edit, *WITHOUT_LOGIN]
+  
+  skip_login only: WITHOUT_LOGIN
   
   def index
     if params[:activation_id]
@@ -95,4 +99,37 @@ class UsersController < AuthorizedController
     end
 
   end
+  
+  def forgot_password ; end
+  
+  def request_password_reset
+    u = User.with_email(email = params[:email_address]).first
+    p = PhoneFormatter.format(params[:phone])
+    
+    if u.phone_numbers.blank? or u.phone_numbers.values.include?(p)
+      u.update_attribute(:reset_token, ActiveSupport::SecureRandom.hex(64))
+      UserMailer.async.reset_password(email, u, new_passsword_account_url(u.id, u.reset_token))
+    end
+    
+    redirect_to login_url, notice: t('user.password.reset.check_email')
+  end
+  
+  def new_password
+    @token = params[:token]
+    unless (@user = User.find(params[:id])).reset_token == @token
+      redirect_to forgot_password_account_url, error: t('user.password.reset.token_invalid')
+    end
+  end
+  
+  def reset_password
+    token = params[:token]
+    if (user = User.find(params[:id])).reset_token == @token
+      user.update_attributes(params[:user])
+      log_in_as user
+      redirect_to '/', notice: t('user.password.reset.done') # TODO: is this the right path?
+    else
+      redirect_to :back, error: t('user.password.reset.token_invalid')
+    end
+  end
+  
 end

@@ -1,5 +1,5 @@
 class Address < ActiveRecord::Base  
-  include AuthorizedModel
+  include AsyncJob
 
   belongs_to :user
   
@@ -15,11 +15,12 @@ class Address < ActiveRecord::Base
     addr.address = addr.address.split("\n").map(&:strip).join("\n")
   end
   
+  include AuthorizedModel
+  
   def permit_edit?(user, args = {})
     self.user == user
   end
   
-  def permit_create?(user, args = {})
-    self.user == user
-  end
+  alias_method :permit_create?,  :permit_edit?
+  alias_method :permit_destroy?, :permit_edit?
 end

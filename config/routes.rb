@@ -15,9 +15,13 @@ Duckling::Application.routes.draw do
   end
   
   resource :account, controller: 'users' do
+    
     member do
        get :activate
+       
        get :forgot_password
+      post :request_password_reset
+       get 'new_password/:id_:token', to: :new_password, as: :new_password
       post :reset_password
     end
   end

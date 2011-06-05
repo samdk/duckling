@@ -1,2 +1,13 @@
-Use this README file to introduce your application and point to useful places in the API for learning more.
-Run "rake doc:app" to generate API documentation for your models, controllers, helpers, and libraries.
+## Redis
+
+Start up redis with 
+
+  sudo redis-server /usr/local/etc/redis.conf
+  
+## Background Workers
+
+Start up a worker with:
+
+  QUEUE=* rake environment resque:work
+
+Check progress at http://0.0.0.0:5678 
