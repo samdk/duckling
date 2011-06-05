@@ -103,7 +103,9 @@ class UsersController < AuthorizedController
   def forgot_password ; end
   
   def request_password_reset
-    u = User.with_email(email = params[:email_address]).first
+    email = params[:email_address]
+    
+    u = User.with_email(email).first
     p = PhoneFormatter.format(params[:phone])
     
     if u.phone_numbers.blank? or u.phone_numbers.values.include?(p)

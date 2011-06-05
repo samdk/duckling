@@ -19,5 +19,7 @@ module Duckling
     config.action_view.javascript_expansions[:defaults] = %w[jquery rails]
     config.encoding = 'utf-8'
     config.filter_parameters += [:password, :password_hash]
+    
+    config.cache_store = :redis_store
   end
 end

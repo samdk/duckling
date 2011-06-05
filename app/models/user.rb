@@ -34,13 +34,24 @@ class User < ActiveRecord::Base
     
   serialize :phone_numbers, Hash
   serialize :email_addresses, Array
+  serialize :unverified_email_addresses, Array
   
-  # TODO: make this O(1) instead of O(n)
-  scope :with_email, ->(email){
+  def self.with_email(email, id_only = false)
+    cache("email_#{email}", ids_only: id_only) {
+      User.with_uncached_email(email).first
+    }.first
+  end
+  
+  # DANGER, slow
+  scope :with_uncached_email, ->(email){
     where('email_addresses LIKE ?', "%- #{email}\n%")
   }
   
-  scope :with_phone, ->(phone){
+  scope :with_uncached_unverified_email, ->(email){
+    where('unverified_email_addresses LIKE ?', "%- #{email}\n")
+  }
+  
+  scope :with_uncached_phone, ->(phone){
     where('phone_numbers LIKE ?', "%: #{PhoneFormatter.format(phone)}\n")
   }
   
@@ -131,8 +142,7 @@ class User < ActiveRecord::Base
     end
     
     dups = email_addresses.any? do |e|
-      u = User.with_email(e).first
-      u && u.id != self.id
+      User.with_email(e, true) != self.id
     end
     
     errors.add(:email_addresses, t('user.email.duplicate')) if dups
@@ -147,8 +157,12 @@ class User < ActiveRecord::Base
     user.phone_numbers.each do |k, v|
       user.phone_numbers[k] = PhoneFormatter.format(v)
     end
-        
-    user.email_addresses.map!(&:downcase)
+    
+    if user.email_addresses_changed?
+      user.email_addresses.map!(&:downcase).each do |email|
+        cache("email_#{email}", force_write: true) { user }
+      end
+    end
   end
 
   after_save do |user|

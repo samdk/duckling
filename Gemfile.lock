@@ -101,6 +101,8 @@ GEM
     redis (2.2.0)
     redis-namespace (1.0.3)
       redis (< 3.0.0)
+    redis-store (1.0.0.rc1)
+      redis (~> 2.2.0)
     resque (1.17.1)
       json (>= 1.4.6, < 1.6)
       redis-namespace (~> 1.0.2)
@@ -154,6 +156,7 @@ DEPENDENCIES
   paperclip
   rails (= 3.0.7)
   redis
+  redis-store (= 1.0.0.rc1)
   resque
   rspec-rails (~> 2.4)
   sqlite3-ruby

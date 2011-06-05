@@ -11,6 +11,8 @@ gem 'redis'
 gem 'haml'
 gem 'compass', '>= 0.10.6'
 gem 'jquery-rails', '>= 1.0.3'
+gem 'redis'
+gem 'redis-store', '1.0.0.rc1'
 gem 'resque'
 
 group :development, :test do
