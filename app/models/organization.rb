@@ -2,8 +2,20 @@ class Organization < ActiveRecord::Base
   include Filters
   
   include AuthorizedModel
-  def permit_read?(user, *_)
-    public? or users.exists?(user) or managers.exists?(user) or administrators.exists?(user)
+  def permit_create?(*)
+    true
+  end
+  
+  def permit_read?(user, *)
+    public? or users.exists?(user)
+  end
+  
+  def permit_update?(user, *)
+    user.memberships.where('organization_id = ? AND access_level = "admin"')
+  end
+  
+  def permit_destroy?(user, *)
+    false
   end
   
   is_soft_deleted
@@ -39,7 +51,7 @@ class Organization < ActiveRecord::Base
   end
   
   validates :name, presence: true,
-                   length: {minimum: 3},
+                   length: {within: (3..128)},
                    uniqueness: true,
                    format: {with: /[A-Za-z0-9\-_]+/}
   

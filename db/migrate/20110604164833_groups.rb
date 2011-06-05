@@ -1,8 +1,8 @@
 class Groups < ActiveRecord::Migration
   def self.up
     create_table 'groups', force: true do |t|
-      t.string   'name'
-      t.string   'description'
+      t.string   'name',            limit: 50
+      t.string   'description',     limit: 1000
       t.integer  'groupable_id'
       t.datetime 'created_at'
       t.datetime 'updated_at'

@@ -2,6 +2,25 @@ class User < ActiveRecord::Base
   include Filters
   is_soft_deleted
   
+  include AuthorizedModel
+  def permit_create?(*)
+    true
+  end
+  
+  def permit_read?(user, *)
+    conds = '(user_id = ? AND other_user_id = ?) OR (user_id = ? AND other_user_id = ?)'
+    Acquaintance.where(conds, id, user.id, user.id, id).exists?
+  end
+  
+  def permit_update?(user, *)
+    self == user
+  end
+  
+  def permit_destroy?(user, *)
+    self == user
+  end
+  
+  
   attr_accessor :password_confirmation, :password_confirmation_changed
   
   THUMBS = {styles: {large: ['100x100#', :png], small: ['60x60#', :png]},
@@ -28,7 +47,7 @@ class User < ActiveRecord::Base
   has_many :past_activations, through: :deployments, conditions: {active: true}
   
   has_many :memberships
-  has_many :organization, through: :memberships
+  has_many :organizations, through: :memberships
   
   def administrate(org)
     memberships.where(organization_id: org.id).delete_all
@@ -38,6 +57,10 @@ class User < ActiveRecord::Base
   def manage(org)
     memberships.where(organization_id: org.id).delete_all
     memberships.create(organization: org, access_level: 'manager')
+  end
+  
+  def manages?(org_id)
+    memberships.where("organization_id = ? AND access_level <> ''", org_id).exists?
   end
   
   has_and_belongs_to_many :groups
@@ -171,22 +194,11 @@ class User < ActiveRecord::Base
   def name
     [name_prefix,first_name,last_name,name_suffix].join(' ').strip.gsub(/\s+/, ' ')
   end
-  
-  def all_organizations
-    organizations | managed_organizations | administrated_organizations
-  end
-  
-  def all_organization_ids
-    organization_ids | managed_organization_ids | administrated_organization_ids
-  end
-  
+    
   def can?(hash, args = {})
     hash.all? do |action, object|
       object.send "permit_#{action}?", self, args
     end
-  end
-  
-  def can_see_organization?(org)
   end
   
 end

@@ -14,6 +14,23 @@ class Update < ActiveRecord::Base
   # TODO: too long titles will break UI, too long body will slow down database.
   # These limits should be sufficient.
   
-  validates :title, presence: true, length: { within: 2..1000 }
+  validates :title, presence: true, length: { within: 2..128 }
   validates :body, presence: true, length: { within: 2..100_000 }
+  
+  include AuthorizedModel
+  def permit_create?(user, opts)
+    activation.permit_read? user, opts
+  end
+  
+  def permit_read?(user, *)
+    user.deployments.where(activation: self).exists?
+  end
+  
+  def permit_update?(user, *)  
+    author == user or permit_administrate?(user)
+  end
+  
+  def permit_destroy?(user, *)
+    permit_update? user
+  end
 end
