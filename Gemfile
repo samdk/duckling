@@ -11,7 +11,7 @@ gem 'redis'
 gem 'haml'
 gem 'compass', '>= 0.10.6'
 gem 'jquery-rails', '>= 1.0.3'
-# gem 'delayed_job'
+gem 'resque'
 
 group :development, :test do
 	gem 'rspec-rails', '~> 2.4'
