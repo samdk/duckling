@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   serialize :unverified_email_addresses, Array
   
   def self.with_email(email, id_only = false)
-    cache("email_#{email}", ids_only: id_only) {
+    caching("email_#{email}", ids_only: id_only) {
       User.with_uncached_email(email).first
     }.try(:first)
   end
@@ -163,8 +163,14 @@ class User < ActiveRecord::Base
     
     if user.email_addresses_changed?
       user.email_addresses.map!(&:downcase).each do |email|
-        cache("email_#{email}", force_write: true) { user }
+        caching("email_#{email}", force: true) { user }
       end
+    end
+  end
+  
+  before_destroy do |user|
+    user.email_addresses.each do |email|
+      Rails.cache.delete("email_#{email}")
     end
   end
 

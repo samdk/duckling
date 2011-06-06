@@ -3,13 +3,13 @@ module Cacher
     base.extend(InstanceMethods)
   end
   
-  def cache(*args, &blk)
-    self.class.cache(*args, &blk)
+  def caching(*args, &blk)
+    self.class.caching(*args, &blk)
   end
   
   module InstanceMethods
-    def cache(key, opts = {})
-      if not opts[:force_write] and (ids = Array(Rails.cache.read(key))).size > 0
+    def caching(key, opts = {})      
+      if not opts[:force] and (ids = Array(Rails.cache.read(key))).size > 0
         opts[:ids_only] ? ids : find(*ids)
       else
         returning(yield) do |models|

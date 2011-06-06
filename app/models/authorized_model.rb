@@ -19,7 +19,7 @@ module AuthorizedModel
     func = new_record? ? :permit_create? : :permit_update?
 
     check_specific_permit func
-    
+
     true
   end
   
