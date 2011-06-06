@@ -69,15 +69,28 @@ group_names.each {|n| make_group(n,a)}
 @groups = Group.all
 puts "#{@groups.length} groups created"
 
+# set our own timestamps for updates
+ActiveRecord::Base.record_timestamps = false
+@current_time = Time.now - 7.days
+total_update_count = 50
+@base_interval = (Time.now - @current_time) / total_update_count
+@current_count = 1
+
 def make_random_update(activation,author)
-  title = @update_text[(30-(rand*30))..(40+(rand*50))]
   sentences = @update_text.split('. ').sort_by {rand}
+  title = sentences.sample[0..(30 + rand * (sentences.length-30))]
   length = (rand * (sentences.length-2)).to_i
   body = sentences[0..length].join('. ')
   groups = @groups.sample(rand * @groups.length)
-  activation.updates.create(author:author,title:title,body:body,groups:groups)
+  u = activation.updates.create(author:author,title:title,body:body,groups:groups)
+  @current_time = @current_time + @base_interval - (0..60).to_a.sample.minutes
+  u.created_at = u.updated_at = @current_time
+  unless u.save; puts u.errors; end
+  @current_count += 1
 end
-50.times { make_random_update(a,@users.sample) }
+total_update_count.times { make_random_update(a,@users.sample) }
 @updates = Update.all
 puts "#{@updates.length} updates created"
+# re-enable timestamping
+ActiveRecord::Base.record_timestamps = true
 
