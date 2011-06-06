@@ -22,7 +22,7 @@ USE_SECURE_COOKIES = !!APP_CONFIG['secure_cookies']
 # TODO: determine if this is a nasty hack
 module ActiveRecord
   class Base
-    extend ::Cacher
+    include Cacher
     
     def self.t(*args, &blk)
       I18n.t(*args, &blk)
@@ -32,5 +32,3 @@ module ActiveRecord
     end
   end
 end
-
-Rails.cache.namespace = 'cache'

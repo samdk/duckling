@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
   def self.with_email(email, id_only = false)
     cache("email_#{email}", ids_only: id_only) {
       User.with_uncached_email(email).first
-    }.first
+    }.try(:first)
   end
   
   # DANGER, slow
@@ -47,16 +47,18 @@ class User < ActiveRecord::Base
     where('email_addresses LIKE ?', "%- #{email}\n%")
   }
   
+  # DANGER, slow
   scope :with_uncached_unverified_email, ->(email){
     where('unverified_email_addresses LIKE ?', "%- #{email}\n")
   }
   
+  # DANGER, slow  
   scope :with_uncached_phone, ->(phone){
     where('phone_numbers LIKE ?', "%: #{PhoneFormatter.format(phone)}\n")
   }
   
   has_many :addresses
-  has_one :primary_address, class_name: 'Address'
+  belongs_to :primary_address, class_name: 'Address'
   
   has_many :deployments, as: :deployed
   has_many :activations, through: :deployments
@@ -142,7 +144,8 @@ class User < ActiveRecord::Base
     end
     
     dups = email_addresses.any? do |e|
-      User.with_email(e, true) != self.id
+      u = User.with_email(e, true)
+      u && u != self.id
     end
     
     errors.add(:email_addresses, t('user.email.duplicate')) if dups

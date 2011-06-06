@@ -20,6 +20,6 @@ module Duckling
     config.encoding = 'utf-8'
     config.filter_parameters += [:password, :password_hash]
     
-    config.cache_store = :redis_store
+    config.cache_store = :redis_store, {namespace: 'cache'}
   end
 end

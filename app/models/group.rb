@@ -1,6 +1,6 @@
 class Group < ActiveRecord::Base
   include Filters
-  belongs_to :activation, as: :groupable, polymorphic: true
+  belongs_to :activation, polymorphic: true, foreign_key: 'groupable_id'
   
   has_and_belongs_to_many :users
   has_and_belongs_to_many :updates

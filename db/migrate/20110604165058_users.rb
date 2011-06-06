@@ -9,9 +9,11 @@ class Users < ActiveRecord::Migration
       t.string   'reset_token',        limit: 64
       t.string   'state',              limit: 8
       t.string   'password_hash',      limit: 100
+      t.string   'cookie_token',       limit: 128
       t.text     'phone_numbers'
       t.text     'email_addresses'
       t.text     'unverified_email_addresses'
+      t.datetime 'cookie_token_expires_at'
       t.datetime 'created_at'
       t.datetime 'updated_at'
       t.datetime 'deleted_at'

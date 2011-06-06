@@ -64,13 +64,13 @@ class ActivationsController < AuthorizedController
   end
   
   def rejoin
-    a = current_user.activationships.where(activation_id: params[:activation_id]).first
+    a = current_user.deployments.where(activation_id: params[:activation_id]).first
     
     respond_with @activation
   end
   
   def leave
-    a = current_user.activationships.where(activation_id: params[:activation_id]).first
+    a = current_user.deployments.where(activation_id: params[:activation_id]).first
     a.update_attribute(:active, false)
     
     respond_to do |wants|

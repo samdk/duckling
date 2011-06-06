@@ -18,7 +18,7 @@ class Update < ActiveRecord::Base
   validates :body, presence: true, length: { within: 2..100_000 }
   
   include AuthorizedModel
-  def permit_create?(user, opts)
+  def permit_create?(user, opts = {})
     activation.permit_read? user, opts
   end
   
