@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+# TODO: check rcov
+
 describe User do
 
   it_behaves_like 'soft deletable'
