@@ -2,54 +2,50 @@ require 'spec_helper'
 
 describe User do
 
-  context "with a saved subject" do
-    before :each do
-      subject.first_name = 'Bob'
-      subject.last_name = 'Smith'
-      subject.email_addresses << 'bob@example.com'
-      subject.password = 'password99'
-      subject.save
-    end
-    
-    it_behaves_like 'soft deletable'
-  end
+  it_behaves_like 'soft deletable'
 
-  it "should have many organizations" do
-    should have_and_belong_to_many(:organizations)
-  end
-  
-  it "can be the administrator of many organizations" do
-    should have_and_belong_to_many(:administrated_organizations)
-  end
-  
-  it "can be the manager of many organizations" do
-    should have_and_belong_to_many(:managed_organizations)
-  end
-  
-  it "should have many addresses" do
-    should have_many(:addresses)
-  end
-  
-  it "should have many aquaintances" do
-    should have_and_belong_to_many(:acquaintances)
+  context "for preventing cheating" do
+    it 'should stop mass-assignment' do
+      unsafe = { reset_token: 'abcd', state: 'abcd', password_hash: 'abcd',
+          cookie_token: 'abcd', api_token: 'abcd',
+          email_addresses: ['a@b.c'], cookie_token_expires_at: Time.now,
+          created_at: Time.now, updated_at: Time.now, deleted_at: Time.now,
+          avatar_updated_at: Time.now}
+        
+      u = User.new
+      
+      before_attributes = unsafe.keys.inject({}) {|h,k| h[k] = u.send(k) ; h }
+      
+      u.attributes = unsafe
+        
+      for key in unsafe.keys
+        u.send(key).should == before_attributes[key]
+      end
+    end
   end
   
   context "two amigos" do
-    before do
+    before :all do
+      User.delete_all
+      
       @u = User.new first_name: 'Bob', last_name: 'Smith'
-      @u.password = 'blah'
+      @u.password = @u.password_confirmation = 'password'
       @u.email_addresses << 'bob@example.com'
       @u.save
-      
+                  
       @u2 = User.new first_name: 'Jane', last_name: 'White'
-      @u2.password = 'blah'
+      @u2.password = @u2.password_confirmation = 'password'
       @u2.email_addresses << 'jane@example.com'
       @u2.save
     end
     
+    it 'should have valid users' do
+      @u.persisted?.should be_true
+      @u2.persisted?.should be_true
+    end
+    
     it 'should assign em correctly' do
       @u.acquaintances << @u2
-      @u.save
       
       @u2.acquaintances.should include(@u)
       @u.acquaintances.should include(@u2)
@@ -64,19 +60,11 @@ describe User do
       SQL
       
       @u.acquaintances << @u2      
-      @u2.acquaintances.clear
+      @u.acquaintances.clear
       
       @u.acquaintances(true).should  == []
       @u2.acquaintances(true).should == []
     end
-  end
-  
-  it "can belong to many groups" do
-    should have_and_belong_to_many(:groups)
-  end
-  
-  it "can belong to many sections" do
-    should have_and_belong_to_many(:sections)
   end
   
   it "should update its password hash securely" do
@@ -115,44 +103,58 @@ describe User do
     subject.should have(2).phone_numbers
 
     subject.save(validate: false)    
-    subject.phone_numbers['home'].should == '+15855551234'
-    subject.phone_numbers['cell'].should == '+15855554321'
+    subject.phone_numbers['home'].should == '585-555-1234'
+    subject.phone_numbers['cell'].should == '585-555-4321'
   end
   
   context "for credentialing" do
-    before(:all) do
+    before :all do
+      User.delete_all
+      Rails.cache.clear
+      
       subject.first_name = 'John'
       subject.last_name = 'Smith'
-      subject.password = 'abc123'
+      subject.password = subject.password_confirmation = 'password'
       subject.email_addresses << 'foo@example.com'
       subject.email_addresses << 'bar@example.com'
-      subject.save
+      subject.save      
+    end
+    
+    it 'caches email addresses' do
+      Rails.cache.read("email_foo@example.com").should include(subject.id)
+      Rails.cache.read("email_foo@example.com").should include(subject.id)
+      old = subject.email_addresses
+      subject.update_attribute(:email_addresses, %w[barbara@example.com])
+      Rails.cache.read("email_foo@example.com").should be_nil
+      Rails.cache.read("email_barbara@example.com").should include(subject.id)
+      subject.update_attribute(:email_addresses, old)
     end
     
     it 'should be saved' do
-      subject.changed?.should be_false
+      subject.persisted?.should be_true
+      subject.valid?.should be_true
     end
     
     it 'should credential either email address' do
-      User.with_credentials('bar@example.com', 'abc123').should == subject
-      User.with_credentials('foo@example.com', 'abc123').should == subject
+      User.with_credentials('foo@example.com', 'password').should == subject
+      User.with_credentials('bar@example.com', 'password').should == subject      
     end
     
     it 'should be case agnostic' do
-      User.with_credentials('BAR@EXAmplE.Com', 'abc123').should == subject
+      User.with_credentials('BAR@EXAmplE.Com', 'password').should == subject
     end
     
     it 'should deny other email addresses' do
-      User.with_credentials('qux@example.com', 'abc123').should be_false
+      User.with_credentials('qux@example.com', 'password').should be_false
     end
     
     it 'should deny bad passwords' do
-      User.with_credentials('foo@example.com', 'ABC123').should be_false
+      User.with_credentials('foo@example.com', 'PaSsWoRd').should be_false
     end
     
     it 'should error on multiple users with the same email' do
       u = User.new(first_name: 'Jane', last_name: 'Smith')
-      u.password = 'abc123'
+      u.password = u.password_confirmation = 'password'
       u.email_addresses << 'foo@example.com'
       u.should have(1).errors_on(:email_addresses)
     end

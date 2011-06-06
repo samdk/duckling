@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(:version => 20110605222920) do
     t.string   "state",                      :limit => 8
     t.string   "password_hash",              :limit => 100
     t.string   "cookie_token",               :limit => 128
+    t.string   "api_token",                  :limit => 64
     t.text     "phone_numbers"
     t.text     "email_addresses"
     t.text     "unverified_email_addresses"

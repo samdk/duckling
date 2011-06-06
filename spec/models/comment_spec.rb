@@ -3,7 +3,10 @@ require 'spec_helper'
 describe Comment do
   
   it "should have a reasonable size" do
-    subject.body = '1234' * 1000
+    subject.body = '12345' * 1000
+    subject.should have(0).errors_on(:body)
+    
+    subject.body += 'a'
     subject.should have_at_least(1).errors_on(:body)
   end
   

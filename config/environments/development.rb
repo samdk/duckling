@@ -26,6 +26,15 @@ Duckling::Application.configure do
   
   Paperclip.options[:command_path] = File.dirname(`which convert`)
   
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.alert = true
+    Bullet.console = true
+    Bullet.rails_logger = true
+    Bullet.disable_browser_cache = true
+  end
+  
+  config.cache_store = :redis_store, {namespace: 'cache'}
 end
 
 module ActiveSupport

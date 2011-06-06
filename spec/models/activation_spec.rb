@@ -9,14 +9,6 @@ describe Activation do
     
     it_behaves_like 'soft deletable'
   end
-
-  it 'should have many organizations' do
-    should have_and_belong_to_many(:organizations)
-  end
-  
-  it 'should have many updates' do
-    should have_many(:updates)
-  end
   
   it 'must have a title' do
     should have_at_least(1).errors_on(:title)

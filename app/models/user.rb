@@ -24,6 +24,10 @@ class User < ActiveRecord::Base
   
   attr_accessor :password_confirmation, :password_confirmation_changed
   
+  attr_accessible :first_name, :last_name, :name_prefix, :name_suffix,
+    :phone_numbers, :unverified_email_addresses, :primary_address_id,
+    :password, :password_confirmation
+  
   THUMBS = {styles: {large: ['100x100#', :png], small: ['60x60#', :png]},
             default_url: '/images/avatars/default_:style_avatar.png',
             default_style: :small,
@@ -39,7 +43,7 @@ class User < ActiveRecord::Base
   def self.with_email(email, id_only = false)
     caching("email_#{email}", ids_only: id_only) {
       User.with_uncached_email(email).first
-    }.try(:first)
+    }
   end
   
   # DANGER, slow
@@ -88,18 +92,18 @@ class User < ActiveRecord::Base
     association_foreign_key: 'group_id'
   }
   
-  ACQ_FINDER_SQL = <<-SQL
+  ACQ_FINDER_SQL = ->(*){ %[
       SELECT * FROM users
       INNER JOIN acquaintances
-        ON ((users.id = acquaintances.user_id AND acquaintances.other_user_id = \#{id})
-        OR  (users.id = acquaintances.other_user_id AND acquaintances.user_id = \#{id}))
+        ON ((users.id = acquaintances.user_id AND acquaintances.other_user_id = #{id})
+        OR  (users.id = acquaintances.other_user_id AND acquaintances.user_id = #{id}))
       WHERE (users.deleted_at IS NULL)
-  SQL
+    ]
+  }
   
-  ACQ_DELETE_SQL = <<-SQL
-    DELETE FROM acquaintances
-    WHERE ((user_id = \#{id}) OR (other_user_id = \#{id}))
-  SQL
+  ACQ_DELETE_SQL = ->(*){
+    "DELETE FROM acquaintances WHERE user_id = #{id} OR other_user_id = #{id}"
+  }
   
   has_and_belongs_to_many :acquaintances, {
     class_name:              'User',
@@ -118,10 +122,6 @@ class User < ActiveRecord::Base
   
   validate :password_validations
   def password_validations  
-    if (1..7).include? password.size
-      errors.add(:password, t('user.password.too_short'))
-    end
-    
     if new_record?
       if password_confirmation.blank?
         errors.add(:password_confirmation, t('user.password.confirmation_required'))
@@ -132,13 +132,21 @@ class User < ActiveRecord::Base
       end
     end
     
-    unless password_confirmation.blank? or @raw_password == password_confirmation
-      errors.add(:password_confirmation, t('user.password.match_confirmation'))
+    if password_hash_changed?
+      if @raw_password.size <= 7
+        errors.add(:password, t('user.password.too_short'))
+      end
+      
+      unless @raw_password == password_confirmation
+        errors.add(:password_confirmation, t('user.password.match_confirmation'))
+      end
     end
   end
   
   validate :email_validations
   def email_validations
+    return unless email_addresses_changed?
+    
     if email_addresses.blank?
       errors.add(:email_addresses, t('user.email.missing'))
     end
@@ -153,25 +161,34 @@ class User < ActiveRecord::Base
     email_addresses.select {|x| x !~ /\A[^@]+@[^@]+\.[^@]+\z/}.each_with_index do |addr, i|
       errors.add("email_address_#{i}".to_sym, t('user.email.bad_format'))
     end
-    
   end
+  
+  validate :primary_address_validation
+  def primary_address_validation
+    unless primary_address_id.blank? or addresses.find(primary_address_id)
+      errors.add(:primary_address, t('user.address.primary.invalid_id'))
+    end
+  end
+  
+  protected
+  
+  before_update :recache_emails!
+  after_create  :recache_emails!
   
   before_save do |user|
     user.phone_numbers.each do |k, v|
       user.phone_numbers[k] = PhoneFormatter.format(v)
     end
     
-    if user.email_addresses_changed?
-      user.email_addresses.map!(&:downcase).each do |email|
-        caching("email_#{email}", force: true) { user }
-      end
-    end
+    email_addresses.map!(&:downcase)
   end
-  
+    
   before_destroy do |user|
     user.email_addresses.each do |email|
       Rails.cache.delete("email_#{email}")
     end
+    
+    true
   end
 
   after_save do |user|
@@ -179,9 +196,28 @@ class User < ActiveRecord::Base
   end
   
   after_initialize do |user|
-    user.phone_numbers   ||= {'Cell' => '', 'Desk' => ''}
+    user.phone_numbers   ||= {}
     user.email_addresses ||= []
+    user.api_token       ||= ActiveSupport::SecureRandom.hex(32)
   end
+  
+  def recache_emails!
+    outdated, updated = email_addresses_change
+    
+    return if updated == outdated
+    
+    for email in Array(outdated) - Array(updated)
+      Rails.cache.delete("email_#{email}")
+    end
+        
+    for email in Array(updated) - Array(outdated)
+      caching("email_#{email}", force: true) { self }
+    end
+    
+    true
+  end
+  
+  public
 
   def primary_email
     email_addresses.first
@@ -200,14 +236,18 @@ class User < ActiveRecord::Base
   end
   
   def password
-    @password ||= BCrypt::Password.new(password_hash)
+    if password_hash.blank?
+      ''
+    else
+      @password ||= BCrypt::Password.new(password_hash)
+    end
   end
   
   def password=(new_pass)    
     return false if new_pass.blank?
-    @password = BCrypt::Password.create(new_pass)
     @raw_password = new_pass
-    self.password_hash = @password
+    self.password_hash = BCrypt::Password.create(new_pass)
+    @password = BCrypt::Password.new(password_hash)
   end
   
   def password?(pass)
@@ -219,7 +259,7 @@ class User < ActiveRecord::Base
   end
   
   def self.with_credentials(email, pass)
-    u = User.with_email(email).first
+    u = User.with_email(email)
     u.try(:password?, pass) && u
   end
   

@@ -78,7 +78,7 @@ class AuthorizedController < ApplicationController
   end
   
   def log_in_from_signature
-    # HMAC fun stuff here.
+    # TODO: HMAC fun stuff here.
     
     false
   end

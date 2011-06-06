@@ -1,6 +1,6 @@
 class Section < Group
   include Filters
-  belongs_to :organization, as: :groupable, polymorphic: true
+  belongs_to :organization, foreign_key: 'groupable_id', polymorphic: true
   has_and_belongs_to_many :users
   
   

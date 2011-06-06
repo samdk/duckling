@@ -19,9 +19,12 @@ class SessionController < AuthorizedController
       unauthorized! 'login.failure'
     else
       log_in_as(u)
-      # TODO: is this sensible?
+      
+      remember_with_cookie! unless params[:cookie].blank?
       
       notice 'login.success', u.name
+      
+      # TODO: is this a good url?
       redirect_to activations_url
     end
   end
