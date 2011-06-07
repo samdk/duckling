@@ -1,4 +1,12 @@
+#inner-header
+  %h2= "All People (#{@users.length})"
 #filters
+  .simple
+    %a{href:'#'} show all updates
+    &middot;
+    %a{href:'#'} show updates in your groups
+    &middot;
+    %a{href:'#'} advanced filters&#x25BC;
   %form
     %fieldset#filters-simple
       = text_field_tag :search_query, params[:search_query] ? params[:search_query] : ''

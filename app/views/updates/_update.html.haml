@@ -1,18 +1,15 @@
 .update-when
   .update-time= update.created_at.to_s(:time)
+  .update-author= link_to update.author.full_name, user_url(update.author)
   .update-date= update.created_at.to_s(:mdy)
 .update-main
   .update-title= link_to update.title, activation_update_url(@activation,update)
-  .update-author
-    Posted by
-    = link_to update.author.full_name, user_url(update.author)
-  .update-text= update.body
+  .update-text= truncate(update.body,length: 350)
   .update-files
     %ul
       - update.file_uploads.each do |attachment|
         %li.file= link_to attachment.upload_file_name,'#'
   .update-comments
-    %h3 Comments:
     %ul
       - update.comments.each do |comment|
         %li.comment
@@ -22,6 +19,8 @@
           .comment-body= comment.body
           = link_to 'x', [@activation,update,comment], method: :delete, confirm: 'Really delete comment?', class: 'comment-delete'
     .new-comment
-      = form_for [update.activation,update,Comment.new] do |cf|
-        = cf.text_field :body, class: 'comment-input'
-        = cf.submit 'Add Comment', class: 'comment-submit'
+      %a{href:'#'} add comment
+      /
+        = form_for [update.activation,update,Comment.new] do |cf|
+          = cf.text_field :body, class: 'comment-input'
+          = cf.submit 'Add Comment', class: 'comment-submit'

@@ -11,52 +11,74 @@
 /* centered, standard-width content wrapper */
 /* small button for general use */
 /* medium button for .pane headers (add update and the like) */
-/* line 7, ../../app/stylesheets/updates.scss */
-#updates-header {
-  padding: 20px 0;
-  position: relative;
-}
-/* line 10, ../../app/stylesheets/updates.scss */
-#updates-header h2 {
-  font-size: 21px;
-  font-weight: bold;
-  color: #585858;
-}
-
-/* line 16, ../../app/stylesheets/updates.scss */
+/* line 8, ../../app/stylesheets/updates.scss */
 #updates {
   font-size: 14px;
+  margin-top: -19px;
 }
 
-/* line 19, ../../app/stylesheets/updates.scss */
-li.update {
-  position: relative;
+/* line 14, ../../app/stylesheets/updates.scss */
+li.day {
+  margin: 20px 0;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
 }
-/* line 22, ../../app/stylesheets/updates.scss */
+
+/* line 20, ../../app/stylesheets/updates.scss */
+li.update {
+  margin-bottom: 1px;
+  position: relative;
+  color: #2e2e2e;
+}
+/* line 25, ../../app/stylesheets/updates.scss */
 li.update .update-when {
-  text-transform: lowercase;
+  background: #eee;
   position: absolute;
   left: 0;
   top: 0;
+  bottom: 0;
+  padding: 10px;
+  width: 80px;
+  text-align: right;
 }
-/* line 27, ../../app/stylesheets/updates.scss */
+/* line 32, ../../app/stylesheets/updates.scss */
+li.update .update-when .update-time {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 18px;
+  text-transform: lowercase;
+}
+/* line 38, ../../app/stylesheets/updates.scss */
+li.update .update-when .update-author {
+  padding: 5px 0;
+}
+/* line 41, ../../app/stylesheets/updates.scss */
+li.update .update-when .update-date {
+  color: #939393;
+}
+/* line 45, ../../app/stylesheets/updates.scss */
 li.update .update-main {
+  background: white;
+  padding: 10px;
+  margin-left: 100px;
   position: relative;
-  margin-left: 70px;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  clear: both;
+  min-height: 76px;
 }
-/* line 33, ../../app/stylesheets/updates.scss */
+/* line 53, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-title {
   font-weight: bold;
+  font-size: 16px;
+  line-height: 18px;
 }
-/* line 36, ../../app/stylesheets/updates.scss */
+/* line 58, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-author {
   position: absolute;
   right: 0;
   top: 0;
 }
-/* line 41, ../../app/stylesheets/updates.scss */
+/* line 63, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-text {
   padding: 5px 0;
 }
@@ -68,7 +90,7 @@ li.update .update-main .update-text a {
 li.update .update-main .update-text a:hover {
   text-decoration: none;
 }
-/* line 45, ../../app/stylesheets/updates.scss */
+/* line 67, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-files {
   padding-left: 0;
 }
@@ -80,7 +102,7 @@ li.update .update-main .update-files a {
 li.update .update-main .update-files a:hover {
   text-decoration: none;
 }
-/* line 49, ../../app/stylesheets/updates.scss */
+/* line 71, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments {
   padding: 5px 0 0 0;
   font-size: 12px;
@@ -94,12 +116,12 @@ li.update .update-main .update-comments a {
 li.update .update-main .update-comments a:hover {
   text-decoration: none;
 }
-/* line 55, ../../app/stylesheets/updates.scss */
+/* line 77, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments h3 {
   font-weight: bold;
   color: #707070;
 }
-/* line 59, ../../app/stylesheets/updates.scss */
+/* line 81, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment {
   position: relative;
   background: #f7f7f7;
@@ -107,16 +129,16 @@ li.update .update-main .update-comments .comment {
   padding: 5px;
   margin: 5px 0;
 }
-/* line 65, ../../app/stylesheets/updates.scss */
+/* line 87, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment .comment-heading {
   color: #585858;
   margin-bottom: 3px;
 }
-/* line 70, ../../app/stylesheets/updates.scss */
+/* line 92, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment.yours {
   background: #feffd6;
 }
-/* line 71, ../../app/stylesheets/updates.scss */
+/* line 93, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment .comment-delete {
   display: block;
   position: absolute;
@@ -128,21 +150,21 @@ li.update .update-main .update-comments .comment .comment-delete {
   padding: 0 3px 1px;
   vertical-align: middle;
 }
-/* line 80, ../../app/stylesheets/updates.scss */
+/* line 102, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment .comment-delete:hover {
   background: #3f71fb;
   color: white;
 }
-/* line 86, ../../app/stylesheets/updates.scss */
+/* line 108, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .new-comment {
   position: relative;
   width: 600px;
 }
-/* line 90, ../../app/stylesheets/updates.scss */
+/* line 112, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment-input {
   width: 487px;
 }
-/* line 93, ../../app/stylesheets/updates.scss */
+/* line 115, ../../app/stylesheets/updates.scss */
 li.update .update-main .update-comments .comment-submit {
   color: #2e2e2e;
   font-size: 12px;
@@ -165,6 +187,7 @@ li.update .update-main .update-comments .comment-submit {
   -webkit-border-radius: 0;
   border-radius: 0;
   background: #eee;
+  display: none;
 }
 /* line 82, ../../app/stylesheets/_includes.scss */
 li.update .update-main .update-comments .comment-submit:hover {

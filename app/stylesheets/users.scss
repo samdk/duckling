@@ -1,20 +1,10 @@
 @import 'includes';
 
-#filters {
-  // we need to change this padding because the users page uses
-  // different margins around content than the updates page
-  // and having it not match annoys me
-  padding-left: $pad2;
-  padding-right: $pad2;
-}
-
 .letters-list {
   position: absolute;
-  background: $grey8;
-  // Sass seems to have a bug when this isn't in parens
-  margin: 0 (-$pad1);
-  width: 710px;
-  &.top { top: 45px; }
+  background: white;
+  width: 709px;
+  &.top { top: 61px; }
   &.bot { bottom: 0; }
   ul {
     overflow: hidden;
@@ -22,10 +12,10 @@
       text-align: center;
       float: left;
       &.disabled a {
-        color: $grey6;
+        color: $grey7;
         &:hover {
           background: $grey8;
-          color: $grey6;
+          color: $grey7;
         }
       }
       a {
@@ -52,48 +42,35 @@
 
 #users-list {
   overflow: auto;
-  margin: -$pad1;
-  margin-top: 14px;
-  padding: ($pad1 + $pad3) $pad3 ($pad3 + 34px);
+  margin-top: 34px;
 }
   .drop-cap {
     position: relative;
     clear: both;
-    background: white;
-    padding: $pad3;
     text-transform: uppercase;
+    padding-top: 1px;
     .letter {
       font-size:   21px;
       line-height: 21px;
-      padding: 4px;
       background: $grey8;
-      width: 21px;
-      text-align: center;
+      padding: 4px;
       font-weight: bold;
-      @include border_radius(5px);
       position: relative;
       z-index: 2;
-    }
-    .extra {
-      position: absolute;
-      border-bottom: 1px dashed $grey8;
-      top: 50%; left: $pad3; right: $pad3;
-      z-index: 1;
     }
   }
   .user {
     position: relative;
-    background: $grey8;
+    background: white;
+    margin-top: 1px;
     padding: $pad2;
-    margin: $pad3;
     float: left;
     font-size: 13px;
     line-height: 16px;
     height: 81px;
     overflow: hidden;
-    &.in-activation { width: 340px - ($pad2 * 2); }
+    &.in-activation { width: 354px - ($pad2 * 2); }
     &.outside-activation { width: 306px - ($pad2 * 2); }
-    @include border_radius(5px);
     img {
       float: left;
       width: 60px;

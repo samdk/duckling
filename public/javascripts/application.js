@@ -1,6 +1,14 @@
 $(function(){
   toggle($('#multiselect-groups a'),$('#multiselect-groups ul'));
   defaultText($('#search_query'),'Search');
+
+  $('#inner-header').waypoint(function(e,direction){
+    if (direction === 'down'){
+      $('#nav-holder').css('position','fixed');
+    } else {
+      $('#nav-holder').css('position','absolute');
+    }
+  });
 });
 
 /*

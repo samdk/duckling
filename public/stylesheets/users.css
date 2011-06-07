@@ -12,45 +12,38 @@
 /* small button for general use */
 /* medium button for .pane headers (add update and the like) */
 /* line 3, ../../app/stylesheets/users.scss */
-#filters {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-/* line 11, ../../app/stylesheets/users.scss */
 .letters-list {
   position: absolute;
-  background: #eeeeee;
-  margin: 0 -20px;
-  width: 710px;
+  background: white;
+  width: 709px;
 }
-/* line 17, ../../app/stylesheets/users.scss */
+/* line 7, ../../app/stylesheets/users.scss */
 .letters-list.top {
-  top: 45px;
+  top: 61px;
 }
-/* line 18, ../../app/stylesheets/users.scss */
+/* line 8, ../../app/stylesheets/users.scss */
 .letters-list.bot {
   bottom: 0;
 }
-/* line 19, ../../app/stylesheets/users.scss */
+/* line 9, ../../app/stylesheets/users.scss */
 .letters-list ul {
   overflow: hidden;
 }
-/* line 21, ../../app/stylesheets/users.scss */
+/* line 11, ../../app/stylesheets/users.scss */
 .letters-list ul li {
   text-align: center;
   float: left;
 }
-/* line 24, ../../app/stylesheets/users.scss */
+/* line 14, ../../app/stylesheets/users.scss */
 .letters-list ul li.disabled a {
-  color: #d2d2d8;
+  color: #dddddd;
 }
-/* line 26, ../../app/stylesheets/users.scss */
+/* line 16, ../../app/stylesheets/users.scss */
 .letters-list ul li.disabled a:hover {
   background: #eeeeee;
-  color: #d2d2d8;
+  color: #dddddd;
 }
-/* line 31, ../../app/stylesheets/users.scss */
+/* line 21, ../../app/stylesheets/users.scss */
 .letters-list ul li a {
   font-size: 13px;
   line-height: 20px;
@@ -59,122 +52,102 @@
   padding: 7px 3px;
   font-weight: bold;
 }
-/* line 38, ../../app/stylesheets/users.scss */
+/* line 28, ../../app/stylesheets/users.scss */
 .letters-list ul li a:hover {
   text-decoration: none;
   background: #585858;
   color: white;
 }
-/* line 43, ../../app/stylesheets/users.scss */
+/* line 33, ../../app/stylesheets/users.scss */
 .letters-list ul li a.disabled {
   color: #d2d2d8;
 }
-/* line 48, ../../app/stylesheets/users.scss */
+/* line 38, ../../app/stylesheets/users.scss */
 .letters-list ul li:first-child a {
   padding-left: 7px;
 }
-/* line 49, ../../app/stylesheets/users.scss */
+/* line 39, ../../app/stylesheets/users.scss */
 .letters-list ul li:last-child a {
   padding-right: 7px;
 }
 
-/* line 53, ../../app/stylesheets/users.scss */
+/* line 43, ../../app/stylesheets/users.scss */
 #users-list {
   overflow: auto;
-  margin: -20px;
-  margin-top: 14px;
-  padding: 25px 5px 39px;
+  margin-top: 34px;
 }
 
-/* line 59, ../../app/stylesheets/users.scss */
+/* line 47, ../../app/stylesheets/users.scss */
 .drop-cap {
   position: relative;
   clear: both;
-  background: white;
-  padding: 5px;
   text-transform: uppercase;
+  padding-top: 1px;
 }
-/* line 65, ../../app/stylesheets/users.scss */
+/* line 52, ../../app/stylesheets/users.scss */
 .drop-cap .letter {
   font-size: 21px;
   line-height: 21px;
-  padding: 4px;
   background: #eeeeee;
-  width: 21px;
-  text-align: center;
+  padding: 4px;
   font-weight: bold;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
   position: relative;
   z-index: 2;
 }
-/* line 77, ../../app/stylesheets/users.scss */
-.drop-cap .extra {
-  position: absolute;
-  border-bottom: 1px dashed #eeeeee;
-  top: 50%;
-  left: 5px;
-  right: 5px;
-  z-index: 1;
-}
 
-/* line 84, ../../app/stylesheets/users.scss */
+/* line 62, ../../app/stylesheets/users.scss */
 .user {
   position: relative;
-  background: #eeeeee;
+  background: white;
+  margin-top: 1px;
   padding: 10px;
-  margin: 5px;
   float: left;
   font-size: 13px;
   line-height: 16px;
   height: 81px;
   overflow: hidden;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
 }
-/* line 94, ../../app/stylesheets/users.scss */
+/* line 72, ../../app/stylesheets/users.scss */
 .user.in-activation {
-  width: 320px;
+  width: 334px;
 }
-/* line 95, ../../app/stylesheets/users.scss */
+/* line 73, ../../app/stylesheets/users.scss */
 .user.outside-activation {
   width: 286px;
 }
-/* line 97, ../../app/stylesheets/users.scss */
+/* line 74, ../../app/stylesheets/users.scss */
 .user img {
   float: left;
   width: 60px;
   height: 60px;
   margin-bottom: 5px;
 }
-/* line 103, ../../app/stylesheets/users.scss */
+/* line 80, ../../app/stylesheets/users.scss */
 .user .text {
   margin-left: 70px;
   margin-top: -3px;
   position: relative;
 }
-/* line 107, ../../app/stylesheets/users.scss */
+/* line 84, ../../app/stylesheets/users.scss */
 .user .text .name {
   font-size: 16px;
   line-height: 18px;
 }
-/* line 111, ../../app/stylesheets/users.scss */
+/* line 88, ../../app/stylesheets/users.scss */
 .user .text .orgs {
   width: 10000px;
 }
-/* line 113, ../../app/stylesheets/users.scss */
+/* line 90, ../../app/stylesheets/users.scss */
 .user .text .orgs li {
   float: left;
   margin-right: 5px;
 }
-/* line 119, ../../app/stylesheets/users.scss */
+/* line 96, ../../app/stylesheets/users.scss */
 .user .lists {
   width: 10000px;
   clear: both;
 }
-/* line 123, ../../app/stylesheets/users.scss */
+/* line 100, ../../app/stylesheets/users.scss */
 .user .lists .groups li {
   float: left;
   margin-right: 5px;

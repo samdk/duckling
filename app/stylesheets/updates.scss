@@ -4,34 +4,56 @@
 #body-body { }
   .main { }
     .pane { }
-      #updates-header {
-        padding: $pad1 0;
-        position: relative;
-        h2 {
-          font-size: 21px;
-          font-weight: bold;
-          color: $grey2;
-        }
-      }
+      #inner-header { }
       #updates {
         font-size: 14px;
+        margin-top: -($pad1) + 1;
       }
+        li {
+        }
+        li.day {
+          margin: $pad1 0;
+          font-size: 16px;
+          line-height: 16px;
+          text-align: center;
+        }
         li.update {
+          margin-bottom: 1px;
           position: relative;
+          color: $grey1;
 
           .update-when {
-            text-transform: lowercase;
+            background: #eee;
             position: absolute;
-            left: 0; top: 0;
+            left: 0; top: 0; bottom: 0;
+            padding: $pad2;
+            width: 80px;
+            text-align: right;
+            .update-time {
+              font-size: 16px;
+              font-weight: bold;
+              line-height: 18px;
+              text-transform: lowercase;
+            }
+            .update-author {
+              padding: $pad3 0;
+            }
+            .update-date {
+              color: $grey4;
+            }
           }
           .update-main {
+            background: white;
+            padding: $pad2;
+            margin-left: 100px;
             position: relative;
-            margin-left: 70px;
-            padding-bottom: $pad1;
-            margin-bottom: $pad1;
+            clear: both;
+            min-height: 96px - (2 * $pad2);
 
             .update-title {
               font-weight: bold;
+              font-size: 16px;
+              line-height: 18px;
             }
             .update-author {
               position: absolute;
@@ -98,6 +120,7 @@
                   right: 0; top: 0;
                   @include border_radius(0);
                   background: #eee;
+                  display: none;
                 }
             }
           }

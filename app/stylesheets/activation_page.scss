@@ -1,7 +1,5 @@
 @import 'includes';
 
-$filters-height: 45px;
-
 #body-header {
   padding-bottom: $pad1;
   position: relative;
@@ -22,90 +20,105 @@ $filters-height: 45px;
 #body-body {
   position: relative;
 }
-  #body-nav {
-    width: $nav-width;
+  #nav-holder {
     position: absolute;
-    top: $filters-height; right: 0; bottom: 0;
-    z-index: 2;
-
-    > ul {
+    width: 960px;
+    left: 50%; margin-left: -480px;
+    top: 0;
+  }
+    #body-nav {
+      width: $nav-width;
       position: absolute;
-      width: 100%;
-      background: $grey7;
-      @include box_shadow(0 0 3px $grey4);
+      top: 0; right: 0;
+      z-index: 2;
+      width: 249px;
+      background: $grey8;
 
-      > li {
-        clear: both;
-        position: relative;
-        font-size: 13px;
+      > ul {
 
-        &:hover, &.active {
-          background: $grey6;
-          color: black;
-        }
-        .extra { display: none; }
-        &.active {
-          @include box_shadow(0 0 3px $grey4);
-          margin: 1px 0;
-          > a {
-            border-bottom: 1px dashed $grey5;
-            padding-bottom: $pad3;
+        > li {
+          clear: both;
+          position: relative;
+          font-size: 13px;
+
+          &:hover, &.active {
+            background: white;
+            color: black;
           }
-          .extra {
-            display: block;
-            padding: $pad2;
-            @include reversed_links;
-            a { color: $dark-blue; }
-            h3 {
-              font-weight: bold;
-              margin:  $pad2 0 $pad3;
+          .extra { display: none; }
+          &.active {
+            > a {
+              border-bottom: 1px dashed $grey5;
+              padding-bottom: $pad3;
             }
-            ul {
-              list-style-type: disc;
-              color: $grey4;
-              li {
-                margin: 3px 0 3px 15px;
+            .extra {
+              display: block;
+              padding: $pad2;
+              @include reversed_links;
+              h3 {
+                font-weight: bold;
+                margin:  $pad2 0 $pad3;
+              }
+              ul {
+                list-style-type: disc;
+                color: $grey4;
+                li {
+                  margin: 3px 0 3px 15px;
+                }
+              }
+              .calendar {
+                // actual width is 160, but it looks centered this way
+                width: 165px;
+                margin: 0 auto;
+                .cal-title a { text-decoration: none; }
               }
             }
           }
-        }
-        > a {
-          @include block_link;
-          padding: $pad2 $pad2 $pad2 $pad2 + 22px;
-          font-size: 16px;
-          color: black;
-          text-shadow: 0 1px 1px white;
-          font-weight: bold;
-          &.updates { @include icon('is_bubbles_16b.png',9px,11px); }
-          &.people  { @include icon('is_person_16b.png',$pad2,9px); }
-          &.groups  { @include icon('is_people_16b.png',$pad2,9px); }
-          &.summary { @include icon('is_chart_16b.png',11px,10px);  }
-          opacity: 0.8;
+          > a {
+            @include block_link;
+            padding: $pad2 $pad2 $pad2 $pad2 + 22px;
+            font-size: 16px;
+            color: black;
+            text-shadow: 0 1px 1px white;
+            font-weight: bold;
+            &.updates { @include icon('is_bubbles_16b.png',9px,11px); }
+            &.people  { @include icon('is_person_16b.png',$pad2,9px); }
+            &.groups  { @include icon('is_people_16b.png',$pad2,9px); }
+            &.summary { @include icon('is_chart_16b.png',11px,10px);  }
+            opacity: 0.8;
+          }
         }
       }
     }
-  }
   .main {
     position: relative;
     left: 0; top: 0; right: 0; bottom: 0;
     padding-right: $nav-width;
     .pane {
-      background: white;
       position: relative;
       z-index: 3;
-      padding: $pad1;
-      @include box_shadow(0 0 3px $grey4);
     }
   }
+      #inner-header {
+        padding: $pad2;
+        position: relative;
+        background: white;
+        h2 {
+          font-size: 21px;
+          font-weight: bold;
+        }
+      }
       #filters {
         position: relative;
         z-index: 50;
-        padding: $pad3 $pad1;
-        margin: -$pad1;
-        margin-bottom: 0;
-        background: $grey2;
-        height: 35px;
+        padding: 0 $pad2 $pad2;
+        margin-top: -$pad2;
+        margin-bottom: 1px;
+        background: white;
+        font-size: 13px;
+        @include reversed_links;
         form {
+          display: none;
           input[type=text],select {
             width: 184px;
             border: 1px solid $grey4;
