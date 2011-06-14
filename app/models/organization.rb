@@ -7,18 +7,18 @@ class Organization < ActiveRecord::Base
   end
   
   def permit_read?(user, *)
-    public? or users.exists?(user)
+    users.exists?(user.id)
   end
   
   def permit_update?(user, *)
-    user.memberships.where('organization_id = ? AND access_level = "admin"')
+    user && user.memberships.where('organization_id = ? AND access_level = "admin"').exists?
   end
   
   def permit_destroy?(user, *)
     false
   end
   
-  is_soft_deleted
+  acts_as_paranoid
   
   has_many :deployments, as: :deployed
   

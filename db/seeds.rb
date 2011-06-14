@@ -12,7 +12,7 @@ last_names = %w[Smith Johnson Williams Jones Brown Davis Miller Wilson Moore Tay
 @used_emails = Set.new
 
 def make_user(first_name,last_name)
-  u = User.new.ignore_permissions!
+  u = User.new
   u.first_name = first_name
   u.last_name = last_name
   email = "#{first_name[0]}#{last_name}".downcase
@@ -22,7 +22,7 @@ def make_user(first_name,last_name)
   u.password = u.password_confirmation = 'testtest'
   u.phone_numbers['Desk'] = "555-555-01#{@user_index % 100}"
   u.phone_numbers['Cell'] = "555-555-01#{@user_index * 2 % 100}"
-  unless u.save
+  unless u.skipping_auth!(&:save)
     puts "0 #{u.errors}"
   end
   
@@ -43,35 +43,35 @@ puts "#{@users.length} users created"
 
 organization_names = %w[AARP\ Foundation Adventist\ Development\ &\ Relief\ Agency\ International Air\ Compassion\ America Alley\ Cat\ Allie Alley Cat Rescue AmeriCares America\ Responds\ with\ Love,\ Inc. America's\ Second\ Harvest American\ Cancer\ Society American\ Humane\ Association American\ Kidney\ Fund American\ Lung\ Association American\ Red\ Cross Ananda\ Marga\ Universal\ Relief\ Team,\ Inc. Angel\ Flight Angel\ Flight\ America ASPCA:\ American\ Society\ for\ the\ Prevention\ of\ Cruelty\ to\ Animals Association\ of\ Gospel\ Rescue\ Missions Baptist\ World\ Alliance Big\ Brothers\ Big\ Sisters\ of\ America Brother's\ Brother\ Foundation Catholic\ Charities\ USA Children's\ Miracle\ Networ Children's\ Network\ International Child\ Welfare\ League\ of\ America Christian\ Appalachian\ Project Christian\ Reformed\ World\ Relief\ Committee Church\ World\ Service/CROP CitiHope\ International,\ Inc. Coast\ Guard\ Foundation Cystic\ Fibrosis\ Foundation Days\ End\ Farm\ Horse\ Rescu Direct\ Relief\ International Disabled\ American\ Veterans Dogs\ for\ Deaf\ and\ Disabled\ Americans Dollars\ for\ Scholars Easter\ Seals FARM\ AID Federal\ Employee\ Education\ and\ Assistance\ Fund Feed\ The\ Children First\ Book Gifts\ In\ Kind\ International Giving\ Children\ Hope Greyhound\ Foundation Habitat\ for\ Humanity\ International Heart\ To\ Heart\ International Hearts\ United\ for\ Animals Human\ Care\ Charities\ of\ America Humane\ Society\ of\ the\ United\ States,\ The Huntington's\ Disease\ Society\ of\ America In\ Defense\ of\ Animals International\ Aid,\ Inc. International\ Association\ for\ Human\ Values International\ Fund\ for\ Animal\ Welfare International\ Medical\ Corps International\ Orthodox\ Christian\ Charities International\ Relief\ &\ Development,\ Inc. International\ Relief\ Teams International\ Rescue\ Committee Leukemia\ &\ Lymphoma\ Society,\ The Lions\ Clubs\ International\ Foundation MADRE,\ Inc March\ of\ Dimes\ Birth\ Defects\ Foundation Medical\ Teams\ International Mercy\ Corps Mercy\ Medical\ Airlift Mercy-USA\ for\ Aid\ and\ Development,\ Inc. Mr.\ Holland's\ Opus\ Foundation Operation\ Blessing\ International\ Relief\ and\ Development\ Corp. Operation\ USA Oxfam\ America PETA:\ People\ for\ the\ Ethical\ Treatment\ of\ Animals PETsMART\ Charities Points\ of\ Light\ Foundation Project\ HOP ProLiteracy\ Worldwide Rebuilding\ Together,\ Inc. Salvation\ Army\ World\ Service\ Office Samaritan's\ Purse Save\ the\ Children Spina\ Bifida\ Association\ of\ America St.\ Jude\ Children's\ Research\ Hospital Society\ of\ St.\ Vincent\ de\ Paul\ Council\ of\ the\ United\ States Starlight\ Starbright\ Children's\ Foundation Trickle\ Up\ Program,\ Inc. United\ Animal\ Nations United\ Cerebral\ Palsy\ Associations United\ Methodist\ Committee\ on\ Relief United\ Way\ of\ America Volunteers\ of\ America Water\ Missions\ International World\ Hope\ International,\ Inc. World\ Vision]
 def make_organization(name)
-  o = Organization.new.ignore_permissions!
+  o = Organization.new
   o.name = name
   o.users = @users[1..-1].sample(1 + (rand * (@users.length - 10)))
   
   User.first.administrate(o)
-  unless o.save; puts "2 #{o.errors}"; end
+  unless o.skipping_auth!(&:save); puts "2 #{o.errors}"; end
 end
 organization_names[0..5].each {|n| make_organization(n)}
 @orgs = Organization.all
 puts "#{@orgs.length} organizations created"
 
 # makes an activation, adds some users to it
-a = Activation.new.ignore_permissions!
+a = Activation.new
 a.title = "Super Scary Snowstorm"
 a.active = true
 a.description = "There was a really scary snowstorm and we need to make it less scary."
 a.organizations = @orgs
 a.users = @users
-unless a.save; puts "1 #{a.errors}"; end
+unless a.skipping_auth!(&:save) ; puts "1 #{a.errors}"; end
 
 @update_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est. \nVivamus fermentum semper porta. Nunc diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi. Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis. Quisque mi metus, ornare sit amet fermentum et, tincidunt et orci. Fusce eget orci a orci congue vestibulum. Ut dolor diam, elementum et vestibulum eu, porttitor vel elit. Curabitur venenatis pulvinar tellus gravida ornare. Sed et erat faucibus nunc euismod ultricies ut id justo. Nullam cursus suscipit nisi, et ultrices justo sodales nec. Fusce venenatis facilisis lectus ac semper. Aliquam at massa ipsum. Quisque bibendum purus convallis nulla ultrices ultricies. Nullam aliquam, mi eu aliquam tincidunt, purus velit laoreet tortor, viverra pretium nisi quam vitae mi. Fusce vel volutpat elit. Nam sagittis nisi dui.\nSuspendisse lectus leo, consectetur in tempor sit amet, placerat quis neque. Etiam luctus porttitor lorem, sed suscipit est rutrum non. Curabitur lobortis nisl a enim congue semper. Aenean commodo ultrices imperdiet. Vestibulum ut justo vel sapien venenatis tincidunt. Phasellus eget dolor sit amet ipsum dapibus condimentum vitae quis lectus. Aliquam ut massa in turpis dapibus convallis. Praesent elit lacus, vestibulum at malesuada et, ornare et est. Ut augue nunc, sodales ut euismod non, adipiscing vitae orci. Mauris ut placerat justo. Mauris in ultricies enim. Quisque nec est eleifend nulla ultrices egestas quis ut quam. Donec sollicitudin lectus a mauris pulvinar id aliquam urna cursus. Cras quis ligula sem, vel elementum mi. Phasellus non ullamcorper urna."
 group_names = %w[Medical Health Sanitation Grounds Food Shelter Government Public\ Relations Cleanup Construction Police Fire\ Department Volunteer\ Coordination Pets]
 def make_group(name,activation)
-  g = Group.new.ignore_permissions!
+  g = Group.new
   g.name = name
   g.description = [@update_text.split('. ').sample,''].sample
   g.users = @users.sample(1 + (rand * (@users.length - 10)))
   g.activation = activation
-  unless g.save; puts "3 #{g.errors}"; end
+  unless g.skipping_auth!(&:save); puts "3 #{g.errors}"; end
 end
 group_names.each {|n| make_group(n,a)}
 @groups = Group.all

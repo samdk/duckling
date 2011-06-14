@@ -2,9 +2,23 @@ require 'spec_helper'
 
 # TODO: check rcov
 
+def make_user(first, last, cheating = false)
+  User.new(first_name: first, last_name: last).tap {|x|
+    x.password = x.password_confirmation = 'password'
+    x.email_addresses << "#{first[0]}#{last}@example.com"
+    x.instance_variable_set :@cheating, true if cheating
+    x.save
+  }
+end
+
 describe User do
 
-  it_behaves_like 'soft deletable'
+  it_behaves_like 'soft deletable', ->(*){ 
+    Rails.cache.clear
+    make_user('John', 'Smith', true)
+  }
+  
+  it_behaves_like 'an authorized model', ->(*){ make_user 'John', 'Smith' }
 
   context "for preventing cheating" do
     it 'should stop mass-assignment' do
@@ -27,23 +41,9 @@ describe User do
   end
   
   context "two amigos" do
-    before :all do
-      User.delete_all
-      
-      @u = User.new first_name: 'Bob', last_name: 'Smith'
-      @u.password = @u.password_confirmation = 'password'
-      @u.email_addresses << 'bob@example.com'
-      @u.save
-                  
-      @u2 = User.new first_name: 'Jane', last_name: 'White'
-      @u2.password = @u2.password_confirmation = 'password'
-      @u2.email_addresses << 'jane@example.com'
-      @u2.save
-    end
-    
-    it 'should have valid users' do
-      @u.persisted?.should be_true
-      @u2.persisted?.should be_true
+    before :each do      
+      @u  = make_user 'Bob', 'Smith', true
+      @u2 = make_user 'Jane', 'Smith', true
     end
     
     it 'should assign em correctly' do
@@ -57,10 +57,6 @@ describe User do
     end
     
     it 'should remove em correctly' do
-      ActiveRecord::Base.connection.execute <<-SQL
-        DELETE FROM acquaintances
-      SQL
-      
       @u.acquaintances << @u2      
       @u.acquaintances.clear
       
@@ -110,10 +106,8 @@ describe User do
   end
   
   context "for credentialing" do
-    before :all do
-      User.delete_all
+    before :each do      
       Rails.cache.clear
-      
       subject.first_name = 'John'
       subject.last_name = 'Smith'
       subject.password = subject.password_confirmation = 'password'
@@ -126,15 +120,13 @@ describe User do
       Rails.cache.read("email_foo@example.com").should include(subject.id)
       Rails.cache.read("email_foo@example.com").should include(subject.id)
       old = subject.email_addresses
-      subject.update_attribute(:email_addresses, %w[barbara@example.com])
+      
+      subject.skipping_auth! {
+        subject.update_attribute(:email_addresses, %w[barbara@example.com])
+      }
+      
       Rails.cache.read("email_foo@example.com").should be_nil
       Rails.cache.read("email_barbara@example.com").should include(subject.id)
-      subject.update_attribute(:email_addresses, old)
-    end
-    
-    it 'should be saved' do
-      subject.persisted?.should be_true
-      subject.valid?.should be_true
     end
     
     it 'should credential either email address' do

@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   include Filters
   
-  is_soft_deleted
+  acts_as_paranoid
   
   include AuthorizedModel
   def permit_create?(*)

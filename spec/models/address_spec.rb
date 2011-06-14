@@ -1,10 +1,6 @@
 require 'spec_helper'
 
-describe Address do
-  it 'should belony to a user' do
-    should belong_to(:user)
-  end
-  
+describe Address do  
   it 'should preserve multi-line formatting' do
     addr = "123 Fake Street\nMiddletown, NY 05281" 
     Address.create(name: 'Work', address: addr)   

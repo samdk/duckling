@@ -7,20 +7,24 @@ module AuthorizedModel
   def permit_update?(*args)  ; true ; end
   def permit_destroy?(*args) ; true ; end
   
-  def self.included?(base)
-    base.validate :check_permits
-    
+  def self.included(base)    
     base.before_destroy {|instance|
       instance.check_specific_permit(:permit_destroy?)
     }
+    
+    base.before_save :check_permits
+    
+    def base.cheating_create(*args)
+      self.new(*args).tap {|x| x.skipping_auth!(&:save) }
+    end
+    
+    def base.cheating_create!(*args)
+      cheating_create(*args).tap {|x| x.instance_variable_set :@cheating, true }
+    end
   end
   
   def check_permits
-    func = new_record? ? :permit_create? : :permit_update?
-
-    check_specific_permit func
-
-    true
+    check_specific_permit(new_record? ? :permit_create? : :permit_update?)
   end
   
   def check_specific_permit(func)
@@ -29,50 +33,9 @@ module AuthorizedModel
     end
   end
   
-  
-  
-  # TODO: use validation hooks instead of this cheatery
-  # 
-  # 
-  # def create
-  #   begin
-  #     if @cheating.blank? and not permit_create?(@notary, @notarizing_args)
-  #       raise Unauthorized
-  #     end
-  #   rescue
-  #     raise Unauthorized
-  #   end
-  #   
-  #   super
-  # end
-  # 
-  # def update
-  #   begin
-  #     if @cheating.blank? and not permit_update?(@notary, @notarizing_args)
-  #       raise Unauthorized
-  #     end
-  #   rescue
-  #     raise Unauthorized
-  #   end
-  #   
-  #   super
-  # end
-  # 
-  # def destroy
-  #   begin
-  #     if @cheating.blank? and not permit_destroy?(@notary, @notarized_args)
-  #       raise Unauthorized
-  #     end
-  #   rescue
-  #     raise Unauthorized
-  #   end
-  #   
-  #   super
-  # end
-  
-  def ignore_permissions!
+  def skipping_auth!
     @cheating = true
-    self
+    yield(self).tap { @cheating = false }
   end
   
   def authorize_with(user, args = {})

@@ -1,7 +1,7 @@
 class Activation < ActiveRecord::Base
   include Filters
   
-  is_soft_deleted
+  acts_as_paranoid
   
   has_many :updates
   has_many :groups, as: :groupable
@@ -23,11 +23,11 @@ class Activation < ActiveRecord::Base
   
   include AuthorizedModel
   def permit_create?(user, *)
-    user.organizations.exists?
+    !user.blank? and user.organizations.exists?
   end
   
   def permit_read?(user, *)
-    user.deployments.where(activation_id: id).exists?
+    !user.blank? and user.deployments.where(activation_id: id).exists?
   end
   
   def permit_update?(user, *)
@@ -35,7 +35,7 @@ class Activation < ActiveRecord::Base
   end
   
   def permit_destroy?(user, *)
-    created_at > 5.minutes.ago and permit_read? user
+    created_at < 5.minutes.ago and permit_read? user
   end
   
   def self.permit_administrate?(id, user)

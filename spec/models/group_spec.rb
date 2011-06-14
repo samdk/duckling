@@ -12,10 +12,12 @@ describe Group, Section do
     subject.should have_at_least(1).errors_on(:description)
   end
   
-  it 'should require a name but not a description' do
+  it 'should require a name' do
     should have_at_least(1).errors_on(:name)
-    should have(0).errors_on(:descrption)
   end
   
+  it 'should not require a description' do
+    should have(0).errors_on(:descrption)
+  end
   
 end
