@@ -1,7 +1,7 @@
 $(function(){
-  toggle($('#multiselect-groups a'),$('#multiselect-groups ul'));
   defaultText($('#search_query'),'Search');
 
+  $.waypoints.settings.scrollThrottle = 30;
   $('#inner-header').waypoint(function(e,direction){
     if (direction === 'down'){
       $('#nav-holder').css('position','fixed');

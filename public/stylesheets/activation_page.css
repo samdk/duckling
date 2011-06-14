@@ -15,13 +15,16 @@
 #body-header {
   padding-bottom: 20px;
   position: relative;
+  background: white;
+  padding: 10px;
+  margin-bottom: 1px;
 }
-/* line 6, ../../app/stylesheets/activation_page.scss */
+/* line 9, ../../app/stylesheets/activation_page.scss */
 #body-header h1 {
-  font-size: 36px;
+  font-size: 18px;
   font-weight: bold;
 }
-/* line 12, ../../app/stylesheets/activation_page.scss */
+/* line 15, ../../app/stylesheets/activation_page.scss */
 #body-header #add-update {
   display: block;
   display: block;
@@ -58,12 +61,12 @@
   padding-bottom: 9px;
 }
 
-/* line 20, ../../app/stylesheets/activation_page.scss */
+/* line 23, ../../app/stylesheets/activation_page.scss */
 #body-body {
   position: relative;
 }
 
-/* line 23, ../../app/stylesheets/activation_page.scss */
+/* line 26, ../../app/stylesheets/activation_page.scss */
 #nav-holder {
   position: absolute;
   width: 960px;
@@ -72,37 +75,36 @@
   top: 0;
 }
 
-/* line 29, ../../app/stylesheets/activation_page.scss */
+/* line 32, ../../app/stylesheets/activation_page.scss */
 #body-nav {
-  width: 250px;
+  width: 189px;
   position: absolute;
   top: 0;
   right: 0;
   z-index: 2;
-  width: 249px;
   background: #eeeeee;
 }
-/* line 39, ../../app/stylesheets/activation_page.scss */
+/* line 41, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li {
   clear: both;
   position: relative;
   font-size: 13px;
 }
-/* line 44, ../../app/stylesheets/activation_page.scss */
+/* line 46, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li:hover, #body-nav > ul > li.active {
   background: white;
   color: black;
 }
-/* line 48, ../../app/stylesheets/activation_page.scss */
+/* line 50, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li .extra {
   display: none;
 }
-/* line 50, ../../app/stylesheets/activation_page.scss */
+/* line 52, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li.active > a {
   border-bottom: 1px dashed #b0b0b0;
   padding-bottom: 5px;
 }
-/* line 54, ../../app/stylesheets/activation_page.scss */
+/* line 56, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li.active .extra {
   display: block;
   padding: 10px;
@@ -115,30 +117,30 @@
 #body-nav > ul > li.active .extra a:hover {
   text-decoration: none;
 }
-/* line 58, ../../app/stylesheets/activation_page.scss */
+/* line 60, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li.active .extra h3 {
   font-weight: bold;
   margin: 10px 0 5px;
 }
-/* line 62, ../../app/stylesheets/activation_page.scss */
+/* line 64, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li.active .extra ul {
   list-style-type: disc;
   color: #939393;
 }
-/* line 65, ../../app/stylesheets/activation_page.scss */
+/* line 67, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li.active .extra ul li {
   margin: 3px 0 3px 15px;
 }
-/* line 69, ../../app/stylesheets/activation_page.scss */
+/* line 71, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li.active .extra .calendar {
   width: 165px;
   margin: 0 auto;
 }
-/* line 73, ../../app/stylesheets/activation_page.scss */
+/* line 75, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li.active .extra .calendar .cal-title a {
   text-decoration: none;
 }
-/* line 77, ../../app/stylesheets/activation_page.scss */
+/* line 79, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li > a {
   display: block;
   padding: 10px 10px 10px 32px;
@@ -152,51 +154,52 @@
 #body-nav > ul > li > a:hover {
   text-decoration: none;
 }
-/* line 84, ../../app/stylesheets/activation_page.scss */
+/* line 86, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li > a.updates {
   background: url("/images/icons/is_bubbles_16b.png") no-repeat 9px 11px;
 }
-/* line 85, ../../app/stylesheets/activation_page.scss */
+/* line 87, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li > a.people {
   background: url("/images/icons/is_person_16b.png") no-repeat 10px 9px;
 }
-/* line 86, ../../app/stylesheets/activation_page.scss */
+/* line 88, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li > a.groups {
   background: url("/images/icons/is_people_16b.png") no-repeat 10px 9px;
 }
-/* line 87, ../../app/stylesheets/activation_page.scss */
+/* line 89, ../../app/stylesheets/activation_page.scss */
 #body-nav > ul > li > a.summary {
   background: url("/images/icons/is_chart_16b.png") no-repeat 11px 10px;
 }
 
-/* line 93, ../../app/stylesheets/activation_page.scss */
+/* line 95, ../../app/stylesheets/activation_page.scss */
 .main {
   position: relative;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
-  padding-right: 250px;
+  padding-right: 190px;
 }
-/* line 97, ../../app/stylesheets/activation_page.scss */
+/* line 99, ../../app/stylesheets/activation_page.scss */
 .main .pane {
   position: relative;
   z-index: 3;
 }
 
-/* line 102, ../../app/stylesheets/activation_page.scss */
+/* line 104, ../../app/stylesheets/activation_page.scss */
 #inner-header {
   padding: 10px;
   position: relative;
   background: white;
+  color: black;
 }
-/* line 106, ../../app/stylesheets/activation_page.scss */
+/* line 109, ../../app/stylesheets/activation_page.scss */
 #inner-header h2 {
   font-size: 21px;
   font-weight: bold;
 }
 
-/* line 111, ../../app/stylesheets/activation_page.scss */
+/* line 114, ../../app/stylesheets/activation_page.scss */
 #filters {
   position: relative;
   z-index: 50;
@@ -214,11 +217,11 @@
 #filters a:hover {
   text-decoration: none;
 }
-/* line 120, ../../app/stylesheets/activation_page.scss */
+/* line 123, ../../app/stylesheets/activation_page.scss */
 #filters form {
   display: none;
 }
-/* line 122, ../../app/stylesheets/activation_page.scss */
+/* line 125, ../../app/stylesheets/activation_page.scss */
 #filters form input[type=text], #filters form select {
   width: 184px;
   border: 1px solid #939393;
@@ -233,11 +236,11 @@
   font-size: 16px;
   line-height: 17px;
 }
-/* line 133, ../../app/stylesheets/activation_page.scss */
+/* line 136, ../../app/stylesheets/activation_page.scss */
 #filters form input[type=text].default-text, #filters form select.default-text {
   color: #939393;
 }
-/* line 135, ../../app/stylesheets/activation_page.scss */
+/* line 138, ../../app/stylesheets/activation_page.scss */
 #filters form .multiselect {
   width: 184px;
   float: left;
@@ -249,22 +252,22 @@
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 143, ../../app/stylesheets/activation_page.scss */
+/* line 146, ../../app/stylesheets/activation_page.scss */
 #filters form .multiselect a {
   color: black;
   padding: 9px;
   display: block;
   text-align: right;
 }
-/* line 148, ../../app/stylesheets/activation_page.scss */
+/* line 151, ../../app/stylesheets/activation_page.scss */
 #filters form .multiselect a:hover {
   text-decoration: none;
 }
-/* line 152, ../../app/stylesheets/activation_page.scss */
+/* line 155, ../../app/stylesheets/activation_page.scss */
 #filters form .multiselect ul {
   display: none;
 }
-/* line 157, ../../app/stylesheets/activation_page.scss */
+/* line 160, ../../app/stylesheets/activation_page.scss */
 #filters form input[type=submit] {
   color: #2e2e2e;
   font-size: 12px;

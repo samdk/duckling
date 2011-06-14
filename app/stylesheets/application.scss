@@ -13,7 +13,7 @@ input, select {
 }
 select { padding: 3px; }
 body {
-  background: $grey7;
+  background: $grey6;
   color: black;
   font: {
     family: Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -59,7 +59,7 @@ body {
     top: $nav-height; left: 0; right: 0;
     .wrapper {
       @include body_width;
-      padding: $pad1 0;
+      padding: 0 0 $pad1;
     }
   }
   #footer {

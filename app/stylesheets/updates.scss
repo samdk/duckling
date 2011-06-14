@@ -1,21 +1,22 @@
 @import 'includes';
 
-
 #body-body { }
   .main { }
     .pane { }
-      #inner-header { }
       #updates {
         font-size: 14px;
-        margin-top: -($pad1) + 1;
+        margin-top: -($pad2) + 1;
       }
         li {
         }
         li.day {
-          margin: $pad1 0;
-          font-size: 16px;
-          line-height: 16px;
+          padding: $pad2 0;
+          font-size: 14px;
+          line-height: 14px;
           text-align: center;
+          margin-top: $pad2;
+          background: $grey8;
+          margin-bottom: 1px;
         }
         li.update {
           margin-bottom: 1px;
@@ -23,11 +24,11 @@
           color: $grey1;
 
           .update-when {
-            background: #eee;
+            background: white;
             position: absolute;
             left: 0; top: 0; bottom: 0;
             padding: $pad2;
-            width: 80px;
+            width: 79px;
             text-align: right;
             .update-time {
               font-size: 16px;

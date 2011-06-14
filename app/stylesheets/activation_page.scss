@@ -3,9 +3,12 @@
 #body-header {
   padding-bottom: $pad1;
   position: relative;
+  background: white;
+  padding: $pad2;
+  margin-bottom: 1px;
   h1 {
     font: {
-      size: 36px;
+      size: 18px;
       weight: bold;
     }
   }
@@ -27,11 +30,10 @@
     top: 0;
   }
     #body-nav {
-      width: $nav-width;
+      width: $nav-width - 1;
       position: absolute;
       top: 0; right: 0;
       z-index: 2;
-      width: 249px;
       background: $grey8;
 
       > ul {
@@ -103,6 +105,7 @@
         padding: $pad2;
         position: relative;
         background: white;
+        color: black;
         h2 {
           font-size: 21px;
           font-weight: bold;
