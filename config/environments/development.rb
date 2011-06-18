@@ -34,7 +34,7 @@ Duckling::Application.configure do
     Bullet.disable_browser_cache = true
   end
   
-  config.cache_store = :redis_store, {namespace: 'cache'}
+  config.cache_store = :redis_store, {db: 1, namespace: 'cache'}
 end
 
 module ActiveSupport
