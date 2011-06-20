@@ -2,11 +2,13 @@ $(function(){
   defaultText($('#search_query'),'Search');
 
   $.waypoints.settings.scrollThrottle = 30;
-  $('#inner-header').waypoint(function(e,direction){
+  $($('li.day')[0]).waypoint(function(e,direction){
     if (direction === 'down'){
       $('#nav-holder').css('position','fixed');
+      $('#nav-holder').css('top','10px');
     } else {
       $('#nav-holder').css('position','absolute');
+      $('#nav-holder').css('top','0');
     }
   });
 });

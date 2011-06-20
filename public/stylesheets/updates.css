@@ -25,12 +25,12 @@ li.day {
   text-align: center;
   margin-top: 10px;
   background: #eeeeee;
-  margin-bottom: 1px;
 }
 
-/* line 21, ../../app/stylesheets/updates.scss */
+/* line 20, ../../app/stylesheets/updates.scss */
 li.update {
-  margin-bottom: 1px;
+  border: 1px solid #eeeeee;
+  border-width: 0 1px 1px;
   position: relative;
   color: #2e2e2e;
 }
@@ -85,11 +85,11 @@ li.update .update-main .update-author {
 li.update .update-main .update-text {
   padding: 5px 0;
 }
-/* line 46, ../../app/stylesheets/_includes.scss */
+/* line 50, ../../app/stylesheets/_includes.scss */
 li.update .update-main .update-text a {
   text-decoration: underline;
 }
-/* line 48, ../../app/stylesheets/_includes.scss */
+/* line 52, ../../app/stylesheets/_includes.scss */
 li.update .update-main .update-text a:hover {
   text-decoration: none;
 }
@@ -97,11 +97,11 @@ li.update .update-main .update-text a:hover {
 li.update .update-main .update-files {
   padding-left: 0;
 }
-/* line 46, ../../app/stylesheets/_includes.scss */
+/* line 50, ../../app/stylesheets/_includes.scss */
 li.update .update-main .update-files a {
   text-decoration: underline;
 }
-/* line 48, ../../app/stylesheets/_includes.scss */
+/* line 52, ../../app/stylesheets/_includes.scss */
 li.update .update-main .update-files a:hover {
   text-decoration: none;
 }
@@ -111,11 +111,11 @@ li.update .update-main .update-comments {
   font-size: 12px;
   margin-right: 103px;
 }
-/* line 46, ../../app/stylesheets/_includes.scss */
+/* line 50, ../../app/stylesheets/_includes.scss */
 li.update .update-main .update-comments a {
   text-decoration: underline;
 }
-/* line 48, ../../app/stylesheets/_includes.scss */
+/* line 52, ../../app/stylesheets/_includes.scss */
 li.update .update-main .update-comments a:hover {
   text-decoration: none;
 }
@@ -192,7 +192,7 @@ li.update .update-main .update-comments .comment-submit {
   background: #eee;
   display: none;
 }
-/* line 82, ../../app/stylesheets/_includes.scss */
+/* line 86, ../../app/stylesheets/_includes.scss */
 li.update .update-main .update-comments .comment-submit:hover {
   background: -webkit-gradient(linear, 0 top, 0 bottom, from(#7ba1db), to(#3468db));
   cursor: pointer;
@@ -200,7 +200,7 @@ li.update .update-main .update-comments .comment-submit:hover {
   text-shadow: -1px 0 0 #585858;
   border-color: #244193;
 }
-/* line 89, ../../app/stylesheets/_includes.scss */
+/* line 93, ../../app/stylesheets/_includes.scss */
 li.update .update-main .update-comments .comment-submit:active {
   background: -webkit-gradient(linear, 0 top, 0 bottom, from(#3468db), to(#7ba1db));
   padding-top: 6px;

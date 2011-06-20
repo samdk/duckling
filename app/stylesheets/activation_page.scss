@@ -3,8 +3,7 @@
 #body-header {
   padding-bottom: $pad1;
   position: relative;
-  background: white;
-  padding: $pad2;
+  padding: $pad2 0;
   margin-bottom: 1px;
   h1 {
     font: {
@@ -12,14 +11,14 @@
       weight: bold;
     }
   }
+}
   #add-update {
     display: block;
     @include med_button;
     margin: 0 0 $pad2 $pad2;
     position: absolute;
-    top: 0; right: 0;
+    top: $pad1; right: 0;
   }
-}
 #body-body {
   position: relative;
 }
@@ -30,27 +29,43 @@
     top: 0;
   }
     #body-nav {
-      width: $nav-width - 1;
+      width: $nav-width + 1;
       position: absolute;
       top: 0; right: 0;
-      z-index: 2;
-      background: $grey8;
+      z-index: 20;
 
       > ul {
+        border: 1px solid $border-color;
+        border-width: 1px 1px 0;
 
         > li {
           clear: both;
           position: relative;
           font-size: 13px;
+          border-bottom: 1px solid $border-color;
+
+          > a {
+            @include block_link;
+            padding: $pad2 $pad2 $pad2 ($pad2 + 22px);
+            font-size: 16px;
+            color: black;
+            text-shadow: 0 1px 1px white;
+            font-weight: bold;
+            &.updates { @include icon('is_bubbles_16b.png',9px,11px); }
+            &.people  { @include icon('is_person_16b.png',$pad2,9px); }
+            &.groups  { @include icon('is_people_16b.png',$pad2,9px); }
+            &.summary { @include icon('is_chart_16b.png',11px,10px);  }
+            opacity: 0.4;
+          }
 
           &:hover, &.active {
             background: white;
             color: black;
+            > a { opacity: 1; }
           }
           .extra { display: none; }
           &.active {
             > a {
-              border-bottom: 1px dashed $grey5;
               padding-bottom: $pad3;
             }
             .extra {
@@ -76,94 +91,80 @@
               }
             }
           }
-          > a {
-            @include block_link;
-            padding: $pad2 $pad2 $pad2 $pad2 + 22px;
-            font-size: 16px;
-            color: black;
-            text-shadow: 0 1px 1px white;
-            font-weight: bold;
-            &.updates { @include icon('is_bubbles_16b.png',9px,11px); }
-            &.people  { @include icon('is_person_16b.png',$pad2,9px); }
-            &.groups  { @include icon('is_people_16b.png',$pad2,9px); }
-            &.summary { @include icon('is_chart_16b.png',11px,10px);  }
-            opacity: 0.8;
-          }
         }
       }
     }
   .main {
     position: relative;
     left: 0; top: 0; right: 0; bottom: 0;
-    padding-right: $nav-width;
     .pane {
       position: relative;
       z-index: 3;
+      padding-right: $nav-width;
     }
   }
       #inner-header {
         padding: $pad2;
         position: relative;
-        background: white;
+        background: $light-yellow;
         color: black;
+        h1 {
+          font-size: 13px;
+        }
         h2 {
           font-size: 21px;
           font-weight: bold;
         }
       }
-      #filters {
-        position: relative;
-        z-index: 50;
-        padding: 0 $pad2 $pad2;
-        margin-top: -$pad2;
-        margin-bottom: 1px;
-        background: white;
-        font-size: 13px;
-        @include reversed_links;
-        form {
-          display: none;
-          input[type=text],select {
-            width: 184px;
-            border: 1px solid $grey4;
-            float: left;
-            padding: 8px;
-            color: black;
-            background: $grey8;
-            border: 0;
-            @include border_radius(3px);
-            font-size: 16px;
-            line-height: 17px;
-            &.default-text { color: $grey4; }
-          }
-          .multiselect {
-            width: 184px;
-            float: left;
-            margin-left: 4px;
-            font-size: 16px;
-            line-height: 17px;
-            background: $grey8;
-            @include border_radius(3px);
-            a {
+        #filters {
+          position: relative;
+          z-index: 50;
+          font-size: 13px;
+          @include reversed_links;
+          form {
+            display: none;
+            input[type=text],select {
+              width: 184px;
+              border: 1px solid $grey4;
+              float: left;
+              padding: 8px;
               color: black;
-              padding: 9px;
-              display: block;
-              text-align: right;
-              &:hover {
-                text-decoration: none;
+              background: $grey8;
+              border: 0;
+              @include border_radius(3px);
+              font-size: 16px;
+              line-height: 17px;
+              &.default-text { color: $grey4; }
+            }
+            .multiselect {
+              width: 184px;
+              float: left;
+              margin-left: 4px;
+              font-size: 16px;
+              line-height: 17px;
+              background: $grey8;
+              @include border_radius(3px);
+              a {
+                color: black;
+                padding: 9px;
+                display: block;
+                text-align: right;
+                &:hover {
+                  text-decoration: none;
+                }
+              }
+              ul {
+                display: none;
+
               }
             }
-            ul {
-              display: none;
-
+            input[type=submit] {
+              @include small_button;
+              padding: 9px ($pad2+2);
+              position: absolute;
+              right: $pad1;
+              border-width: 0;
+              line-height: 17px;
             }
           }
-          input[type=submit] {
-            @include small_button;
-            padding: 9px ($pad2+2);
-            position: absolute;
-            right: $pad1;
-            border-width: 0;
-            line-height: 17px;
-          }
         }
-      }
