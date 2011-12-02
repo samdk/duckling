@@ -11,7 +11,7 @@ class Organization < ActiveRecord::Base
   end
   
   def permit_update?(user, *)
-    user && user.memberships.where('organization_id = ? AND access_level = "admin"').exists?
+    user && user.memberships.where(organization_id: id, access_level: 'admin').exists?
   end
   
   def permit_destroy?(user, *)
@@ -32,13 +32,13 @@ class Organization < ActiveRecord::Base
   has_many :managers, class_name: 'User',
                       through: :memberships,
                       source: :user,
-                      conditions: 'memberships.access_level = "manager"',
+                      conditions: {'memberships.access_level' => 'manager'},
                       before_add: ->(*){ raise 'Do not add through this' }
   
   has_many :administrators, class_name: 'User',
                             through: :memberships,
                             source: :user,
-                            conditions: 'memberships.access_level = "admin"',
+                            conditions: {'memberships.access_level' => 'admin'},
                             before_add: ->(*){ raise 'Do not add through this' }
   
   has_many :sections, as: :groupable
