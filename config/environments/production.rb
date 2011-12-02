@@ -11,5 +11,5 @@ Duckling::Application.configure do
   # config.action_mailer.raise_delivery_errors = false
   config.i18n.fallbacks = true
   config.active_support.deprecation = :notify
-  # config.cache_store = :redis_store, {namespace: 'cache'}
+  config.cache_store = :redis_store, {namespace: 'cache'}
 end
