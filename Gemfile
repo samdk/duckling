@@ -26,7 +26,7 @@ gem 'pg'
 gem 'bullet', group: :development
 
 group :production do
-  gem 'therubyracer-heroku',  '0.8.1.pre3'
+  gem 'therubyracer-heroku'
 end
 
 group :test do
