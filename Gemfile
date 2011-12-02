@@ -1,6 +1,15 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.9'
+gem 'rails', '>= 3.1.3'
+# Rails 3.1 - Asset Pipeline
+gem 'json'
+gem 'sass'
+gem 'coffee-script'
+gem 'uglifier'
+# Rails 3.1 - JavaScript
+gem 'jquery-rails'
+
+# Our specific gems
 gem 'sqlite3-ruby', require: 'sqlite3'
 gem 'capistrano'
 gem 'paranoia'
@@ -9,11 +18,10 @@ gem 'paperclip'
 gem 'aws-s3'
 gem 'redis'
 gem 'haml'
-gem 'compass', '>= 0.10.6'
-gem 'jquery-rails', '>= 1.0.3'
 gem 'redis'
-gem 'redis-store', '1.0.0.rc1'
+gem 'redis-store'
 gem 'resque'
+gem 'pg'
 
 gem 'bullet', group: :development
 

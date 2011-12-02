@@ -9,6 +9,7 @@ class UpdatesController < AuthorizedController
 
   def index
     @updates = @activation.updates
+                .includes(:comments, :file_uploads, :author, :activation)
                 .order('created_at DESC')
                 .in_date_range(params[:start_date], params[:end_date])
                 .matching_search(params[:search_query], [:title, :body])

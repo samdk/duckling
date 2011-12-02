@@ -11,7 +11,6 @@ Duckling::Application.configure do
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
-  config.action_view.debug_rjs             = true
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
@@ -27,7 +26,7 @@ Duckling::Application.configure do
   Paperclip.options[:command_path] = File.dirname(`which convert`)
   
   config.after_initialize do
-    Bullet.enable = true
+    Bullet.enable = false
     Bullet.alert = true
     Bullet.console = true
     Bullet.rails_logger = true

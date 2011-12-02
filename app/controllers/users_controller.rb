@@ -18,8 +18,8 @@ class UsersController < AuthorizedController
   end
 
   def index_activation
-    @activation = Activation.find(params[:activation_id])
-    respond_with(@users = @activation.users,@activation) do |format|
+    @activation = Activation.includes(:users => [:organizations, :groups]).find(params[:activation_id])
+    respond_with(@users = @activation.users, @activation) do |format|
       format.html do
         render :index_activation, layout: 'activation_page'
       end

@@ -1,6 +1,6 @@
 module NotificationService
   def Base
-    REDIS_SETTINGS.blank? ? SQLBacking : RedisBacking
+    REDIS_SETTINGS.nil? ? SQLBacking : RedisBacking
   end
   
   class SQLBacking

@@ -15,6 +15,8 @@ FILE_STORAGE_OPTS[:url] = APP_CONFIG['file_upload_url'] || '/attachments/:id'
 REDIS_SETTINGS = if redis = APP_CONFIG['redis']
   { host: redis['host'] || 'localhost',
     port: redis['port'] || 6379 }
+else
+  false
 end
 
 USE_SECURE_COOKIES = !!APP_CONFIG['secure_cookies']

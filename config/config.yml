@@ -8,3 +8,4 @@ test:
     
 production:
     secure_cookies: y
+    redis: n
