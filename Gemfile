@@ -25,10 +25,6 @@ gem 'pg'
 
 gem 'bullet', group: :development
 
-group :production do
-  gem 'therubyracer-heroku'
-end
-
 group :test do
 	gem 'rspec-rails', '~> 2.4'
 	gem 'guard'
