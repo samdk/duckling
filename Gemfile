@@ -10,7 +10,9 @@ gem 'uglifier'
 gem 'jquery-rails'
 
 # Our specific gems
-gem 'sqlite3-ruby', require: 'sqlite3'
+gem 'sqlite3-ruby', require: 'sqlite3', group: :development
+gem 'pg', group: :production
+
 gem 'capistrano'
 gem 'paranoia'
 gem 'bcrypt-ruby', require: 'bcrypt'
@@ -21,7 +23,7 @@ gem 'haml'
 gem 'redis'
 gem 'redis-store'
 gem 'resque'
-gem 'pg'
+
 
 gem 'bullet', group: :development
 
