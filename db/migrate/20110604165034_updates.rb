@@ -4,7 +4,7 @@ class Updates < ActiveRecord::Migration
       t.string   'title',              limit: 128
       t.integer  'author_id'
       t.integer  'activation_id'
-      t.text     'body',               limit: 100_000
+      t.text     'body'
       t.integer  'comments_count'
       t.datetime 'created_at'
       t.datetime 'updated_at'
