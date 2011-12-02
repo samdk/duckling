@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -37,7 +38,7 @@ ActiveRecord::Schema.define(:version => 20110605222920) do
   end
 
   create_table "comments", :force => true do |t|
-    t.text     "body",       :limit => 5000
+    t.text     "body"
     t.integer  "author_id"
     t.integer  "update_id"
     t.datetime "created_at"
@@ -118,7 +119,7 @@ ActiveRecord::Schema.define(:version => 20110605222920) do
     t.string   "title",              :limit => 128
     t.integer  "author_id"
     t.integer  "activation_id"
-    t.text     "body",               :limit => 100000
+    t.text     "body"
     t.integer  "comments_count"
     t.datetime "created_at"
     t.datetime "updated_at"
