@@ -2,7 +2,10 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-Bundler.require(:default, Rails.env) if defined?(Bundler)
+if defined? Bundler
+  Bundler.require :default, :assets, Rails.env
+end
+
 
 
 APP_CONFIG = YAML.load_file(File.expand_path('../config.yml', __FILE__))[Rails.env]
@@ -36,7 +39,8 @@ module Duckling
     config.action_view.javascript_expansions[:defaults] = %w[jquery rails]
     config.encoding = 'utf-8'
     config.filter_parameters += [:password, :password_hash]
-    
+    config.assets.enabled = true
+    config.assets.version = '0.1'
     
   end
 end

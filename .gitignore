@@ -4,3 +4,4 @@ db/*.sqlite3
 tmp
 lib/tasks/local.rake
 attachments
+.sass-cache/

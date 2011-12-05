@@ -1,18 +1,8 @@
 source 'http://rubygems.org'
 
 gem 'rails', '>= 3.1.3'
-# Rails 3.1 - Asset Pipeline
-gem 'json'
-gem 'sass'
-gem 'coffee-script'
-gem 'uglifier'
-# Rails 3.1 - JavaScript
+
 gem 'jquery-rails'
-
-# Our specific gems
-gem 'sqlite3-ruby', require: 'sqlite3', group: :development
-gem 'pg', group: :production
-
 gem 'capistrano'
 gem 'paranoia'
 gem 'bcrypt-ruby', require: 'bcrypt'
@@ -24,8 +14,20 @@ gem 'redis'
 gem 'redis-store'
 gem 'resque'
 
+group :assets do
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  gem 'uglifier'
+end
 
-gem 'bullet', group: :development
+group :development do
+  gem 'sqlite3-ruby', require: 'sqlite3'
+  gem 'bullet'
+end
+
+group :production do
+  gem 'pg'
+end
 
 group :test do
 	gem 'rspec-rails', '~> 2.4'

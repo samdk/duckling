@@ -11,4 +11,7 @@ Duckling::Application.configure do
   
   config.cache_store = :memory_store
   
+  config.serve_static_assets = true
+  config.static_cache_control = "public, max-age=3600"
+  config.assets.allow_debugging = true
 end
