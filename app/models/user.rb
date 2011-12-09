@@ -145,7 +145,7 @@ class User < ActiveRecord::Base
   
   validate :email_validations
   def email_validations
-    return unless email_addresses_changed?
+    return unless new_record? or email_addresses_changed?
     
     if email_addresses.blank?
       errors.add(:email_addresses, t('user.email.missing'))
@@ -153,7 +153,7 @@ class User < ActiveRecord::Base
     
     dups = email_addresses.any? do |e|
       u = User.with_email(e, true)
-      u && u != self.id
+      not (u.nil? or u == self.id)
     end
     
     errors.add(:email_addresses, t('user.email.duplicate')) if dups
@@ -173,7 +173,7 @@ class User < ActiveRecord::Base
   protected
   
   before_update :recache_emails!
-  after_create  :recache_emails!
+  after_create  :cache_emails!
   
   before_save do |user|
     user.phone_numbers.each do |k, v|
@@ -184,7 +184,7 @@ class User < ActiveRecord::Base
   end
     
   before_destroy do |user|
-    user.email_addresses.each do |email|
+    for email in user.email_addresses
       Rails.cache.delete("email_#{email}")
     end
     
@@ -198,23 +198,29 @@ class User < ActiveRecord::Base
   after_initialize do |user|
     user.phone_numbers   ||= {}
     user.email_addresses ||= []
-    user.api_token       ||= ActiveSupport::SecureRandom.hex(32)
+    user.api_token       ||= SecureRandom.hex(32)
   end
   
   def recache_emails!
-    outdated, updated = email_addresses_change
-    
-    return if updated == outdated
-    
-    for email in Array(outdated) - Array(updated)
-      Rails.cache.delete("email_#{email}")
-    end
+    if email_addresses_changed?
+      outdated, updated = email_addresses_change
         
-    for email in Array(updated) - Array(outdated)
-      caching("email_#{email}", force: true) { self }
+      for email in Array(outdated) - Array(updated)
+        Rails.cache.delete("email_#{email}")
+      end
+        
+      for email in Array(updated) - Array(outdated)
+        caching("email_#{email}", force: true) { self }
+      end
     end
     
     true
+  end
+  
+  def cache_emails!
+    for email in email_addresses
+      caching("email_#{email}") { self }
+    end
   end
   
   public

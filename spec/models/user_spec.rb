@@ -118,7 +118,7 @@ describe User do
     
     it 'caches email addresses' do
       Rails.cache.read("email_foo@example.com").should include(subject.id)
-      Rails.cache.read("email_foo@example.com").should include(subject.id)
+      Rails.cache.read("email_bar@example.com").should include(subject.id)
       old = subject.email_addresses
       
       subject.skipping_auth! {
