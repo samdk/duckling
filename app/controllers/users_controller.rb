@@ -27,7 +27,12 @@ class UsersController < AuthorizedController
   end
 
   def show
-    @user = current_user.acquaintances.find(params[:id])
+    @user = if params[:id].to_i == current_user.id
+      current_user
+    else
+      current_user.acquaintances.includes(:organizations).find(params[:id])
+    end
+    
     respond_with @user
   end
 

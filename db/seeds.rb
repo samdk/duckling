@@ -20,8 +20,8 @@ def make_user(first_name,last_name)
   @used_emails << email
   u.email_addresses << email
   u.password = u.password_confirmation = 'testtest'
-  u.phone_numbers['Desk'] = "555-555-01#{@user_index % 100}"
-  u.phone_numbers['Cell'] = "555-555-01#{@user_index * 2 % 100}"
+  u.phone_numbers['Desk'] = "555-555-01%02d" % (@user_index % 100)
+  u.phone_numbers['Cell'] = "555-555-02%02d" % (@user_index * 2 % 100)
   unless u.skipping_auth!(&:save)
     puts "0 #{u.errors}"
   end

@@ -1,10 +1,38 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
+  activation:
+    editing: Editing Activation
+    groups:
+      none: This activation has no groups
   update:
     create:
-      success: "Update created successfully"
+      success: Update created
     edit:
-      success: "Update edited successfully"
+      title: Edit Update
+      success: Update edited
+    attached_files:
+      current: Currently Attached Files
+      more: Attach More Files
+      delete: 'delete'
+      undelete: "wait&mdash;don't delete"
+  group:
+    group: Group
+  organization:
+    organization: Organization
+  user:
+    introduction:
+      propose: Send contact request
+    self_view: This is your profile
+    cannot_see: "Sorry, you can't see this user"
+    acquaintances:
+      your_acquaintances: Your Acquaintances
+      activation_acquaintances: "Your Acquaintances in %{activation_name}"
 
+  error: error
+  
+  errors:
+    error: error
+    notfound: Page Not Found
+  
+  link:
+    show: 'show'
+    back: 'back'

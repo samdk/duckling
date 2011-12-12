@@ -6,8 +6,10 @@ class Comment < ActiveRecord::Base
   validates :body, presence: true, length: { within: 2..5000 }
   
   include AuthorizedModel
-  def permit_create?(user, opts)
-    user.activations.where(id: opts[:activation_id]).exists?
+  def permit_create?(user, *)
+    [author, user].any? do |u|
+      u.activations.exists?(update.activation_id)
+    end
   end
   
   def permit_read?(user, opts)
@@ -18,8 +20,8 @@ class Comment < ActiveRecord::Base
     author == user
   end
   
-  def permit_destroy?(user, opts)
-    Activation.permit_administrate? opts[:activation_id], user
+  def permit_destroy?(user, *)
+    Activation.permit_administrate? update.activation_id, user
   end
   
 end

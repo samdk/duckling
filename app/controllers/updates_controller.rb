@@ -2,7 +2,7 @@ class UpdatesController < AuthorizedController
   layout 'activation_page'
 
   respond_to :html
-  respond_to :json, :xml, except: [:new, :edit]
+  respond_to :json, :xml, except: [:new, :edit, :attachment]
   
   before_filter :set_activation, except: [:attachment]
   before_filter :set_update, only: [:edit, :show, :update, :destroy]

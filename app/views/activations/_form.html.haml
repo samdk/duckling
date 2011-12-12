@@ -1,7 +1,7 @@
-= form_for(@activation) do |f|
+= form_for @activation do |f|
   - if @activation.errors.any?
     .errors
-      %h2= pluralize(@activation.errors.count, 'error')
+      %h2= pluralize(@activation.errors.count, t('errors.error'))
       %ul
         - @activation.errors.full_messages.each do |msg|
           %li= msg
@@ -14,7 +14,7 @@
     = f.text_field :description
   - if @activation.new_record?
     .subscribers
-      - for org in current_user.all_organizations
+      - for org in current_user.organizations
         .organization-subscription
           = check_box_tag 'activation[organizations][]', org.id
           = f.label org.name

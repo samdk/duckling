@@ -1,6 +1,22 @@
 class User < ActiveRecord::Base
   include Filters
   
+  def serializable_hash(opts)
+    opts[:except] = Array.wrap(opts[:except]) + %w[
+      api_token
+      created_at deleted_at updated_at
+      state
+      unverified_email_addresses
+      cookie_token_expires_at cookie_token
+      reset_token
+      primary_address_id
+      avatar_updated_at avatar_file_name
+      password_hash
+    ]
+    
+    super opts
+  end
+  
   acts_as_paranoid
   
   include AuthorizedModel

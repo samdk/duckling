@@ -27,7 +27,10 @@ Duckling::Application.configure do
   end
   
   config.cache_store = :redis_store, {db: 1, namespace: 'cache'}
+  
+  config.assets.logger = nil
 end
+
 
 
 module ActiveSupport
