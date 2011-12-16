@@ -3,7 +3,7 @@
     %li.user{:class => @activation ? 'in-activation' : 'outside-activation' }
       %img{src: u.avatar.url}
       .text
-        .name= u.name
+        .name= link_to u.name, user_path(u.name)
         .email
           = u.email_addresses[0]
           //= " *" if u.email_addresses.length > 1
@@ -13,5 +13,5 @@
         %ul.orgs!= array_to_li u.organizations
       .lists
         %ul.groups
-          %li Groups:
+          %li= pluralize(u.groups.size, t('group.group'))
           != array_to_li u.groups

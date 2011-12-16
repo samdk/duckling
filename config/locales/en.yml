@@ -1,4 +1,7 @@
 en:
+  session:
+    login:
+      required: Please sign in to proceed
   activation:
     editing: Editing Activation
     groups:
@@ -25,7 +28,7 @@ en:
     cannot_see: "Sorry, you can't see this user"
     acquaintances:
       your_acquaintances: Your Acquaintances
-      activation_acquaintances: "Your Acquaintances in %{activation_name}"
+      activation_acquaintances: "Your Acquaintances in %{activation_title}"
 
   error: error
   
