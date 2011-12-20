@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '>= 3.1'
+gem 'rails', '>= 3.2.0rc1'
 
 gem 'jquery-rails'
 gem 'capistrano'
