@@ -1,9 +1,9 @@
 %ul#users-list
   - @users.each do |u|
     %li.user{:class => @activation ? 'in-activation' : 'outside-activation' }
-      %img{src: u.avatar.url}
+      = image_tag(u.avatar.url)
       .text
-        .name= link_to u.name, user_path(u.name)
+        .name= link_to u.name, user_path(u)
         .email
           = u.email_addresses[0]
           //= " *" if u.email_addresses.length > 1

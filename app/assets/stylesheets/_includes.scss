@@ -37,6 +37,10 @@
       float: left;
       @if $align == left { padding-right: 10px; }
       @else              { padding-left:  10px; }
+    
+      &.active a {
+        text-decoration: underline;
+      }
     }
   }
 
@@ -57,7 +61,7 @@
 
   /* adds an icon to an element */
   @mixin icon($name,$pos1:left,$pos2:center) {
-    background: url('/images/icons/'+$name) no-repeat $pos1 $pos2;
+    background: url('/assets/icons/'+$name) no-repeat $pos1 $pos2;
   }
 
   /* centered, standard-width content wrapper */

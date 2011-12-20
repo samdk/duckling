@@ -3,6 +3,7 @@ class SessionController < AuthorizedController
   skip_login only: [:new, :create]
 
   def new
+    @return_to = params[:return_to]
   end
 
   def destroy
@@ -24,8 +25,7 @@ class SessionController < AuthorizedController
       
       notice 'login.success', u.name
       
-      # TODO: is this a good url?
-      redirect_to activations_url
+      redirect_to(params[:return_to] || overview_url)
     end
   end
 

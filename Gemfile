@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '>= 3.1.3'
+gem 'rails', '>= 3.1'
 
 gem 'jquery-rails'
 gem 'capistrano'
@@ -23,7 +23,6 @@ end
 group :development do
   gem 'sqlite3-ruby', require: 'sqlite3'
   gem 'bullet'
-  # gem 'awesome_print'
 end
 
 group :production do

@@ -1,9 +1,13 @@
 class ActivationsController < AuthorizedController
   
   respond_to :html
-  respond_to :json, :xml, except: [:new, :edit]
+  respond_to :json, :xml, except: [:new, :edit, :overview]
   
   before_filter :set_activation, only: [:edit, :update, :destroy]
+  
+  def overview
+    
+  end
   
   def index
     @activations = current_user.activations
@@ -64,14 +68,15 @@ class ActivationsController < AuthorizedController
   end
   
   def rejoin
-    a = current_user.deployments.where(activation_id: params[:activation_id]).first
+    deployment = current_user.deployments.where(activation_id: params[:activation_id]).first!
+    deployment.update_attribute(:active, true)
     
     respond_with @activation
   end
   
   def leave
-    a = current_user.deployments.where(activation_id: params[:activation_id]).first
-    a.update_attribute(:active, false)
+    deployment = current_user.deployments.where(activation_id: params[:activation_id]).first!
+    deployment.update_attribute(:active, false)
     
     respond_to do |wants|
       wants.html { redirect_to activations_path }

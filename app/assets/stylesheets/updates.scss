@@ -105,6 +105,9 @@ $filters-height: 45px;
                     color: white;
                   }
                 }
+                .fresh-comment {
+                  background: $highlight;
+                }
               }
               .new-comment {
                 position: relative;

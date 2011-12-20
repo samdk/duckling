@@ -8,11 +8,13 @@ class CommentsController < AuthorizedController
   
   # we never see comments on their own, always in the context of an update
   def index
-    redirect_to activation_update_path(@activation,@update)
+    redirect_to activation_update_path(@activation, @update)
   end
 
-  def show
-    redirect_to "#{activation_update_path(@activation,@update)}#comment-#{params[:id]}"
+  def show    
+    respond_with @comment do |format|
+      format.html { redirect_to "#{activation_update_path(@activation,@update)}#comment-#{params[:id]}" }
+    end
   end
 
   def new
@@ -29,15 +31,29 @@ class CommentsController < AuthorizedController
       notice 'comment.created'
     end
     
-    respond_with @activation,@update,@comment do |format|
-      format.html { redirect_to :back }
+    respond_with @activation, @update, @comment do |format|
+      format.html do 
+        if request.xhr?
+          if @comment.persisted?
+            render 'show', layout: false
+          else
+            render text: "Invalid comment", status: 400
+          end
+        else
+          redirect_to :back
+        end
+      end    
+      format.any { head :ok }
     end
-    
   end
 
   def update
-    notice 'comment.updated' if @comment.update_attributes(params[:comment])
-    respond_with @activation, @update, @comment
+    notice 'comment.updated' if @comment.authorize_with(current_user).update_attributes(params[:comment])
+
+    respond_with @activation, @update, @comment do |format|
+      format.html { redirect_to :back }
+      format.any { head :ok }
+    end
   end
 
   def destroy
@@ -52,6 +68,6 @@ class CommentsController < AuthorizedController
   end
 
   def set_comment
-    @comment = @update.comments.find(params[:id])
+    @comment = @update.comments.includes(:author, :update).find(params[:id])
   end
 end

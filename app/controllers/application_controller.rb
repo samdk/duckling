@@ -3,6 +3,14 @@ class ApplicationController < ActionController::Base
   
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   
+  #before_filter { raise 'hello' if !request.get? }
+  
+  after_filter do
+    if !request.get? and request.headers['X-CSRF-Token']
+      session[:_csrf_token] = request.headers['X-CSRF-Token']
+    end
+  end
+  
   protected
   
   def current_model(id = nil)
@@ -31,6 +39,7 @@ class ApplicationController < ActionController::Base
       
     respond_to do |wants|
       wants.html { redirect_to loc, notice: msg }
+      wants.js   { head :ok }
       wants.any  { head :ok }
     end
   end

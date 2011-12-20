@@ -1,11 +1,13 @@
 Duckling::Application.routes.draw do
     
-  get "session/new"
-  delete "session/destroy"
-  post "session/create"
+  get 'session/new'
+  delete 'session/destroy'
+  post 'session/create'
 
   match '/login'  => 'session#new', :via => :get, :as => :login
   match '/logout' => 'session#destroy', :via => :delete, :as => :logout
+  match '/overview' => 'activations#overview', :via => :get, :as => :overview
+  
   resource :session, only: [:new, :destroy, :create]
 
   match '/attachments/:id', to: 'updates#attachment'
@@ -48,8 +50,5 @@ Duckling::Application.routes.draw do
     resources :activations, only: [:index]
   end
   
-  # TODO: change this to something more sane
-  root to: 'activations#index'
-  #root to: 'users#new'
-  
+  root to: 'activations#overview'  
 end

@@ -42,6 +42,7 @@ body {
         @include nav_links(left);
         font-weight: bold;
       }
+      
       #account {
         @include nav_links(right);
         @include reversed_links;

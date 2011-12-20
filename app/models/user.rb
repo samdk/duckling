@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
     :password, :password_confirmation
   
   THUMBS = {styles: {large: ['100x100#', :png], small: ['60x60#', :png]},
-            default_url: '/images/avatars/default_:style_avatar.png',
+            default_url: '/assets/avatars/default_:style_avatar.png',
             default_style: :small,
             url: '/people/:id/avatar_:style.png',
             path: ':rails_root/attachments/avatars/:style/:id.png'}.freeze
@@ -128,6 +128,13 @@ class User < ActiveRecord::Base
     finder_sql:              ACQ_FINDER_SQL,
     delete_sql:              ACQ_DELETE_SQL
   }
+  
+  def ensure_acquaintances(users)
+    diff = users - acquaintances
+    for user in diff
+      acquaintances << user
+    end
+  end
     
   validates :password_hash, presence: true
   

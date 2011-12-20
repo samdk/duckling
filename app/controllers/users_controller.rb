@@ -19,6 +19,9 @@ class UsersController < AuthorizedController
 
   def index_activation
     @activation = Activation.includes(:users => [:organizations, :groups]).find(params[:activation_id])
+    
+    current_user.ensure_acquaintances(@activation.users)
+    
     respond_with(@users = @activation.users, @activation) do |format|
       format.html do
         render :index_activation, layout: 'activation_page'
@@ -30,7 +33,7 @@ class UsersController < AuthorizedController
     @user = if params[:id].to_i == current_user.id
       current_user
     else
-      current_user.acquaintances.includes(:organizations).find(params[:id])
+      current_user.acquaintances.includes(:organizations).find(params[:id].to_i)
     end
     
     respond_with @user
