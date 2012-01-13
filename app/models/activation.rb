@@ -4,7 +4,7 @@ class Activation < ActiveRecord::Base
   acts_as_paranoid
   
   has_many :updates
-  has_many :groups, as: :groupable
+  has_many :sections, as: :groupable
   
   has_many :deployments
   

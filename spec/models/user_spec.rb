@@ -44,6 +44,8 @@ describe User do
     before :each do      
       @u  = make_user 'Bob', 'Smith', true
       @u2 = make_user 'Jane', 'Smith', true
+      @u.reload
+      @u2.reload
     end
     
     it 'should assign em correctly' do

@@ -102,10 +102,10 @@ class User < ActiveRecord::Base
     memberships.where("organization_id = ? AND access_level <> ''", org_id).exists?
   end
   
-  has_and_belongs_to_many :groups
-  has_and_belongs_to_many :sections, {
-    join_table: 'groups_users',
-    association_foreign_key: 'group_id'
+  has_and_belongs_to_many :sections
+  has_and_belongs_to_many :groups, {
+    join_table: 'sections_users',
+    association_foreign_key: 'section_id'
   }
   
   ACQ_FINDER_SQL = ->(*){ %[
@@ -117,9 +117,11 @@ class User < ActiveRecord::Base
     ]
   }
   
-  ACQ_DELETE_SQL = ->(*){
-    "DELETE FROM acquaintances WHERE user_id = #{id} OR other_user_id = #{id}"
-  }
+  ACQ_DELETE_SQL = ->(other){ %[
+    DELETE FROM acquaintances
+    WHERE (user_id = #{id} AND other_user_id = #{other.id})
+       OR (user_id = #{other.id} AND other_user_id = #{id})
+  ] }
   
   has_and_belongs_to_many :acquaintances, {
     class_name:              'User',

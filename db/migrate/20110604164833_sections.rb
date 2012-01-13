@@ -1,6 +1,6 @@
-class Groups < ActiveRecord::Migration
+class Sections < ActiveRecord::Migration
   def self.up
-    create_table 'groups', force: true do |t|
+    create_table 'sections', force: true do |t|
       t.string   'name',            limit: 50
       t.string   'description',     limit: 1000
       t.integer  'groupable_id'
@@ -11,6 +11,6 @@ class Groups < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table 'groups'
+    drop_table 'sections'
   end
 end

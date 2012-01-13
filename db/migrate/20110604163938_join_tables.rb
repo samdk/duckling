@@ -5,13 +5,13 @@ class JoinTables < ActiveRecord::Migration
       t.integer 'other_user_id'
     end
     
-    create_table 'groups_updates', id: false do |t|
-      t.integer 'group_id'
+    create_table 'sections_updates', id: false do |t|
+      t.integer 'section_id'
       t.integer 'update_id'
     end
 
-    create_table 'groups_users', id: false do |t|
-      t.integer 'group_id'
+    create_table 'sections_users', id: false do |t|
+      t.integer 'section_id'
       t.integer 'user_id'
     end
 
@@ -35,8 +35,8 @@ class JoinTables < ActiveRecord::Migration
   end
 
   def self.down
-    %w[acquaintances administrated_organizations_users groups_updates
-       groups_users managed_organizations_users organizations_users
+    %w[acquaintances administrated_organizations_users sections_updates
+       sections_users managed_organizations_users organizations_users
        tags_updates deployments].each {|table| drop_table table }
   end
 end

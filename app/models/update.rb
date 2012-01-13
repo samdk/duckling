@@ -8,7 +8,7 @@ class Update < ActiveRecord::Base
 
   accepts_nested_attributes_for :file_uploads, allow_destroy: true
   
-  has_and_belongs_to_many :groups
+  has_and_belongs_to_many :sections
   has_and_belongs_to_many :tags
   
   # TODO: too long titles will break UI, too long body will slow down database.

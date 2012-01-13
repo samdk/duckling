@@ -63,25 +63,6 @@ ActiveRecord::Schema.define(:version => 20110605222920) do
     t.datetime "updated_at"
   end
 
-  create_table "groups", :force => true do |t|
-    t.string   "name",           :limit => 50
-    t.string   "description",    :limit => 1000
-    t.integer  "groupable_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "groupable_type"
-  end
-
-  create_table "groups_updates", :id => false, :force => true do |t|
-    t.integer "group_id"
-    t.integer "update_id"
-  end
-
-  create_table "groups_users", :id => false, :force => true do |t|
-    t.integer "group_id"
-    t.integer "user_id"
-  end
-
   create_table "memberships", :id => false, :force => true do |t|
     t.integer "organization_id"
     t.integer "user_id"
@@ -104,6 +85,25 @@ ActiveRecord::Schema.define(:version => 20110605222920) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "sections", :force => true do |t|
+    t.string   "name",           :limit => 50
+    t.string   "description",    :limit => 1000
+    t.integer  "groupable_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "groupable_type"
+  end
+
+  create_table "sections_updates", :id => false, :force => true do |t|
+    t.integer "section_id"
+    t.integer "update_id"
+  end
+
+  create_table "sections_users", :id => false, :force => true do |t|
+    t.integer "section_id"
+    t.integer "user_id"
   end
 
   create_table "tags", :force => true do |t|

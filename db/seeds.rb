@@ -64,26 +64,26 @@ a.users = @users
 unless a.skipping_auth!(&:save) ; puts "1 #{a.errors}"; end
 
 @update_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est. \nVivamus fermentum semper porta. Nunc diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi. Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis. Quisque mi metus, ornare sit amet fermentum et, tincidunt et orci. Fusce eget orci a orci congue vestibulum. Ut dolor diam, elementum et vestibulum eu, porttitor vel elit. Curabitur venenatis pulvinar tellus gravida ornare. Sed et erat faucibus nunc euismod ultricies ut id justo. Nullam cursus suscipit nisi, et ultrices justo sodales nec. Fusce venenatis facilisis lectus ac semper. Aliquam at massa ipsum. Quisque bibendum purus convallis nulla ultrices ultricies. Nullam aliquam, mi eu aliquam tincidunt, purus velit laoreet tortor, viverra pretium nisi quam vitae mi. Fusce vel volutpat elit. Nam sagittis nisi dui.\nSuspendisse lectus leo, consectetur in tempor sit amet, placerat quis neque. Etiam luctus porttitor lorem, sed suscipit est rutrum non. Curabitur lobortis nisl a enim congue semper. Aenean commodo ultrices imperdiet. Vestibulum ut justo vel sapien venenatis tincidunt. Phasellus eget dolor sit amet ipsum dapibus condimentum vitae quis lectus. Aliquam ut massa in turpis dapibus convallis. Praesent elit lacus, vestibulum at malesuada et, ornare et est. Ut augue nunc, sodales ut euismod non, adipiscing vitae orci. Mauris ut placerat justo. Mauris in ultricies enim. Quisque nec est eleifend nulla ultrices egestas quis ut quam. Donec sollicitudin lectus a mauris pulvinar id aliquam urna cursus. Cras quis ligula sem, vel elementum mi. Phasellus non ullamcorper urna."
-group_names = %w[Medical Health Sanitation Grounds Food Shelter Government Public\ Relations Cleanup Construction Police Fire\ Department Volunteer\ Coordination Pets]
+section_names = %w[Medical Health Sanitation Grounds Food Shelter Government Public\ Relations Cleanup Construction Police Fire\ Department Volunteer\ Coordination Pets]
 def make_group(name,activation)
-  g = Group.new
-  g.name = name
-  g.description = [@update_text.split('. ').sample,''].sample
-  g.users = @users.sample(1 + (rand * (@users.length - 10)))
-  g.activation = activation
-  unless g.skipping_auth!(&:save); puts "3 #{g.errors}"; end
+  section = Section.new
+  section.name = name
+  section.description = [@update_text.split('. ').sample,''].sample
+  section.users = @users.sample(1 + (rand * (@users.length - 10)))
+  section.activation = activation
+  unless section.skipping_auth!(&:save); puts "3 #{g.errors}"; end
 end
-group_names.each {|n| make_group(n,a)}
-@groups = Group.all
-puts "#{@groups.length} groups created"
+section_names.each {|n| make_group(n,a)}
+@sections = Section.all
+puts "#{@sections.length} groups created"
 
 def make_random_update(activation,author)
   title = @update_text[(30-(rand*30))..(40+(rand*50))]
   sentences = @update_text.split('. ').sort_by {rand}
   length = (rand * (sentences.length-2)).to_i
   body = sentences[0..length].join('. ')
-  groups = @groups.sample(rand * @groups.length)
-  activation.updates.build(author:author,title:title,body:body,groups:groups).authorize_with(author).save
+  groups = @sections.sample(rand * @sections.length)
+  activation.updates.build(author:author,title:title,body:body,sections:groups).authorize_with(author).save
 end
 
 50.times { make_random_update(a,@users.sample) }
