@@ -20,6 +20,6 @@
         %span= link_to 'Log In', login_url
 - unless flash.empty?
   #flash
-    - flash.each do |k,v|
+    - flash.each do |k, v|
       %div{id: "flash-#{k}"}= v
 

@@ -27,8 +27,6 @@ Duckling::Application.configure do
   end
   
   config.cache_store = :redis_store, {db: 1, namespace: 'cache', marshalling: true}
-  
-  config.assets.logger = Logger.new('/dev/null')
 end
 
 

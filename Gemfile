@@ -23,6 +23,7 @@ end
 group :development do
   gem 'sqlite3-ruby', require: 'sqlite3'
   gem 'bullet'
+  gem 'thin'
 end
 
 group :production do

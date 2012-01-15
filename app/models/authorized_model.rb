@@ -29,7 +29,7 @@ module AuthorizedModel
   
   def check_specific_permit(func)
     if @cheating.blank? and not send(func, @notary, @notarizing_args)
-      raise Unauthorized
+      raise Unauthorized, t("#{self.class.name.downcase}.security.no_permission")
     end
   end
   

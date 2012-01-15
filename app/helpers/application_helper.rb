@@ -19,7 +19,7 @@ module ApplicationHelper
   end
   
   def active(arg)
-    arg = current_scope?(arg) unless true === arg or false === arg
+    arg = current_scope?(arg) unless true === arg || false === arg
     arg ? 'active' : 'inactive'
   end
   

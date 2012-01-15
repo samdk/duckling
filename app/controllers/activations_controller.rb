@@ -21,7 +21,6 @@ class ActivationsController < AuthorizedController
   # the default view for an activation is its updates, and the
   # handling of those is managed by the updates controller
   def show
-    flash.keep # TODO: is this actually necessary?
     redirect_to activation_updates_path(params[:id])
   end
 
@@ -31,25 +30,15 @@ class ActivationsController < AuthorizedController
 
   def edit ; end
 
-  def create
-    orgs = params[:activation].delete(:organizations) & current_user.all_organization_ids
-    
+  def create    
     @activation = Activation.new(params[:activation])
     @activation.active = true
-    
+
     @activation.users << current_user
-    @activation.organization_ids = orgs
-    
-    for org in orgs
-      for user in Organization.find(org).user_ids
-        @activation.user_ids << user
-      end
-    end
-    
-    
+
     # TODO: setup permissions, etc.
 
-    notice 'activation.created' if @activation.save
+    notice 'activation.created' if @activation.authorize_with(current_user).save
     
     respond_with @activation
   end

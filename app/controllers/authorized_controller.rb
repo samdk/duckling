@@ -48,6 +48,15 @@ class AuthorizedController < ApplicationController
     end
   end
   
+  def restore_login(user)
+    if user.blank?
+      false
+    else
+      self.current_user = user
+      true
+    end
+  end
+  
   def log_in
     log_in_from_session or log_in_from_cookie or log_in_from_signature
   end
@@ -71,13 +80,12 @@ class AuthorizedController < ApplicationController
   def log_in_from_cookie
     return false unless cookies[:token]
     
-    log_in_as User.where(cookie_token: cookies[:token]).first
+    restore_login User.where(cookie_token: cookies[:token]).first
   end
   
   def log_in_from_session
     return false unless session[:user_id]
-    
-    log_in_as User.find(session[:user_id].to_i)
+    restore_login User.find(session[:user_id].to_i)
   end
   
   def log_in_from_signature

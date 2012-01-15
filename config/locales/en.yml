@@ -4,8 +4,10 @@ en:
       required: Please sign in to proceed
   activation:
     editing: Editing Activation
-    groups:
-      none: This activation has no groups
+    activate: Active?
+    activate_description: 'If inactive, it will be unobtrusive. All data is preserved when you change between active and inactive. You can always reactivate. Deactivation affects everyone in it.'
+    sections:
+      none: There are no sections in this activation yet.
   update:
     create:
       success: Update created
@@ -21,6 +23,8 @@ en:
     group: Group
   organization:
     organization: Organization
+  section:
+    section: Section
   user:
     introduction:
       propose: Send contact request

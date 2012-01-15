@@ -3,8 +3,6 @@ class ApplicationController < ActionController::Base
   
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   
-  #before_filter { raise 'hello' if !request.get? }
-  
   after_filter do
     if !request.get? and request.headers['X-CSRF-Token']
       session[:_csrf_token] = request.headers['X-CSRF-Token']
@@ -29,7 +27,7 @@ class ApplicationController < ActionController::Base
   
   def back_or_403(error)
     respond_to do |wants|
-      wants.html { redirect_to :back, error: error }
+      wants.html { redirect_to :back, flash: {error: error.to_s} }
       wants.any  { render status: 403, text: error.to_s }
     end
   end

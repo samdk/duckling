@@ -27,30 +27,16 @@ class UpdatesController < AuthorizedController
 
   def new
     @update = Update.new
-    @update.file_uploads.build
   end
 
   def edit
-    @update.file_uploads.build
   end
 
   def create
     @update = @activation.updates.build(params[:update])
-    @update.author = @current_user
-    if params[:groups]
-      params[:groups].each_pair do |k,v|
-        @update.groups << Group.find(k) if v
-      end
-    end
+    @update.author = current_user
 
-    #unless params[:update][:file_uploads_attributes].blank?
-    #  params[:update][:file_uploads_attributes].each do |fu|
-    #    @update.file_uploads.create(fu)
-    #  end
-    #end
-
-    if @update.save
-      # TODO: associate to things
+    if @update.authorize_with(current_user).save and handle_files_and_sections
       notice 'update.created'
     end
     
@@ -58,12 +44,7 @@ class UpdatesController < AuthorizedController
   end
 
   def update
-    @update.groups.clear
-    params[:groups].each_pair do |k,v|
-      @update.groups << Group.find(k) if v
-    end
-
-    if @update.update_attributes(params[:update])
+    if handle_files_and_sections and @update.update_attributes(params[:update])
       notice 'update.updated'
     end
     
@@ -81,6 +62,20 @@ class UpdatesController < AuthorizedController
   end
 
   private
+  
+  def handle_files_and_sections
+    if params[:sections]
+      @update.section_ids = params[:sections].to_a.filter(&:last).map(&:first)
+    end
+    
+    # unless params[:update][:upload].blank?
+    #   params[:update].delete[:upload].each do |fu|
+    #     @update.file_uploads.create(fu)
+    #   end
+    # end
+    
+    true
+  end
   
   def set_activation
     @activation = current_user.activations.find(params[:activation_id])
