@@ -20,9 +20,8 @@ class Update < ActiveRecord::Base
   has_and_belongs_to_many :sections
   has_and_belongs_to_many :tags
   
-  # TODO: too long titles will break UI, too long body will slow down database.
+  # Too long titles will break UI, too long body will slow down database.
   # These limits should be sufficient.
-  
   validates :title, presence: true, length: { within: 2..128 }
   validates :body, presence: true, length: { within: 2..100_000 }
 

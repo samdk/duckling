@@ -1,7 +1,11 @@
 en:
   session:
     login:
+      success: "Welcome, %{full_name}"
+      failure: "Sorry, your username or password is incorrect"
       required: Please sign in to proceed
+    logout:
+      success: You've logged out
   activation:
     editing: Editing Activation
     activate: Active?
