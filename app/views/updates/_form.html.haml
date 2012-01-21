@@ -29,9 +29,8 @@
       %li
         #{link_to_attachment(upload)} (#{delete_upload_link(upload.id)})
     %h3= t('update.attached_files.more')
-    = f.fields_for :new_file_uploads do |file_uploads|
-      %ul#new-uploads
-        %li= file_uploads.file_field 'upload[]'
+    %ul#new-uploads
+      %li= file_field_tag 'update[new_file_uploads][][upload]'
   .submit
     = f.submit
 

@@ -36,7 +36,7 @@ class UpdatesController < AuthorizedController
     @update = @activation.updates.build(params[:update])
     @update.author = current_user
 
-    if @update.authorize_with(current_user).save and handle_files_and_sections
+    if @update.authorize_with(current_user).save and handle_sections
       notice 'update.created'
     end
     
@@ -44,7 +44,9 @@ class UpdatesController < AuthorizedController
   end
 
   def update
-    if handle_files_and_sections and @update.update_attributes(params[:update])
+    logger.shout params.inspect
+    
+    if handle_sections and @update.update_attributes(params[:update])
       notice 'update.updated'
     end
     
@@ -63,17 +65,10 @@ class UpdatesController < AuthorizedController
 
   private
   
-  def handle_files_and_sections
+  def handle_sections
     if params[:sections]
       @update.section_ids = params[:sections].to_a.filter(&:last).map(&:first)
     end
-    
-    # unless params[:update][:upload].blank?
-    #   params[:update].delete[:upload].each do |fu|
-    #     @update.file_uploads.create(fu)
-    #   end
-    # end
-    
     true
   end
   
