@@ -4,10 +4,11 @@ class UpdatesController < AuthorizedController
   respond_to :html
   respond_to :json, :xml, except: [:new, :edit, :attachment]
   
-  before_filter :set_activation, except: [:attachment]
+  before_filter :set_activation, except: [:index, :attachment]
   before_filter :set_update, only: [:edit, :show, :update, :destroy]
 
   def index
+    @activation = current_user.activations.includes(:users).find(params[:activation_id])
     @updates = @activation.updates
                 .includes(:comments, :file_uploads, :author, :activation)
                 .order('created_at DESC')
@@ -15,6 +16,8 @@ class UpdatesController < AuthorizedController
                 .matching_search(params[:search_query], [:title, :body])
                 .matching_joins(:groups, params[:groups_ids])
                 #.matching_joins(:organizations, params[:organizations_ids])
+
+    current_user.ensure_acquaintances @activation.users
 
     respond_with @activation, @updates
   end
@@ -43,9 +46,7 @@ class UpdatesController < AuthorizedController
     respond_with @activation, @update
   end
 
-  def update
-    logger.shout params.inspect
-    
+  def update    
     if handle_sections and @update.update_attributes(params[:update])
       notice 'update.updated'
     end
