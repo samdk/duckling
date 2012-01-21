@@ -43,7 +43,9 @@ en:
   errors:
     error: error
     notfound: Page Not Found
-  
+  layout:
+    title:
+      default: 'FlareTeam'
   link:
     show: 'show'
     back: 'back'
