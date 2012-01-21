@@ -5,7 +5,7 @@ module ApplicationHelper
   end
   
   def link_to_attachment(upload)
-    link_to "/attachment/#{upload.inspect}", upload.upload_file_name
+    link_to upload.upload_file_name, "/attachments/#{upload.id}/#{upload.upload_file_name}"
   end
   
   def current_scope?(*args)

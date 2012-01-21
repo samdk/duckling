@@ -59,8 +59,12 @@ class UpdatesController < AuthorizedController
   end
 
   def attachment
-    # TODO: DANGER DANGER DANGER, can the user access this file?
-    send_file FileUpload.find(params[:id]).upload.path
+    attachment = FileUpload.includes(:update).find(params[:id])
+    if current_user.can? read: attachment
+      send_file attachment.upload.path
+    else
+      raise Unauthorized, t('attachment.unauthorized')
+    end
   end
 
   private
@@ -77,6 +81,6 @@ class UpdatesController < AuthorizedController
   end
   
   def set_update
-    @update = @activation.updates.find(params[:id])
+    @update = @activation.updates.includes(:file_uploads).find(params[:id])
   end
 end

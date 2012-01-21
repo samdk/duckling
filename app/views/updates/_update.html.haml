@@ -11,7 +11,7 @@
   .update-files
     %ul
       - update.file_uploads.each do |attachment|
-        %li.file= link_to attachment.upload_file_name,'#'
+        %li.file= link_to_attachment attachment
   .update-comments
     %h3 Comments:
     %ul

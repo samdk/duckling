@@ -33,7 +33,7 @@ class Update < ActiveRecord::Base
   end
   
   def permit_read?(user, *)
-    user.deployments.where(activation: self).exists?
+    user.deployments.where(activation_id: activation_id).exists?
   end
   
   def permit_update?(user, *)  
