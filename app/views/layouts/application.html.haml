@@ -3,10 +3,7 @@
   %head
     %title= content_for?(:title) ? (yield :title) : t('layout.title.default')
     %meta{'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8'}
-    = stylesheet_link_tag 'application'
-    = yield :stylesheets
     = stylesheet_link_tag controller_name
-    = javascript_include_tag 'application'
     = javascript_include_tag controller_name
     = csrf_meta_tag
   %body

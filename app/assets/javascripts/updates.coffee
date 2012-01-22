@@ -1,3 +1,6 @@
+#= require application
+#= require comments
+
 $ ->
   $('a[data-delete-upload]').live 'click', ->
     toggle = if $(this).data('delete-upload') is 1 then 0 else 1
