@@ -27,6 +27,8 @@ en:
     group: Group
   organization:
     organization: Organization
+    security:
+      no_permission: "You aren't allowed to do that for this organization"
   section:
     section: Section
   user:
@@ -37,6 +39,8 @@ en:
     acquaintances:
       your_acquaintances: Your Acquaintances
       activation_acquaintances: "Your Acquaintances in %{activation_title}"
+    email:
+      duplicate: "This email address is already taken"
 
   error: error
   
