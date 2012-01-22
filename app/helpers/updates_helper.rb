@@ -44,4 +44,12 @@ module UpdatesHelper
     first_line = "<a href=\"#\">&#x25C0</a>#{first_line}<a href=\"#\">&#x25B6</a>"
     "<pre class=\"calendar\"><div class=\"cal-title\">#{first_line}</div>#{x.join}</pre>"
   end
+
+  def delete_upload_link(upload_id)
+    link_to(t('update.attached_files.delete'), "#", html: {
+      'data-delete-upload' => 1,
+      'data-upload'        => upload_id,
+      'data-swap-text'     => t('update.attached_files.undelete')
+    })
+  end
 end

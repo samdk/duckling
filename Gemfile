@@ -1,19 +1,41 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.7'
-gem 'sqlite3-ruby', require: 'sqlite3'
+gem 'rails', '>= 3.2.0rc1'
+
+gem 'jquery-rails'
 gem 'capistrano'
-gem 'cloudelete', '>= 0.0.3'
+gem 'paranoia'
 gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'paperclip'
 gem 'aws-s3'
 gem 'redis'
 gem 'haml'
-gem 'compass', '>= 0.10.6'
-gem 'jquery-rails', '>= 1.0.3'
+gem 'redis'
+gem 'redis-store'
+gem 'resque'
 
-group :development, :test do
+group :assets do
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  gem 'uglifier'
+end
+
+group :development do
+  gem 'sqlite3-ruby', require: 'sqlite3'
+  gem 'bullet'
+  gem 'thin'
+end
+
+group :production do
+  gem 'pg'
+end
+
+group :test do
 	gem 'rspec-rails', '~> 2.4'
-	gem 'autotest'
+	gem 'guard'
+	gem 'guard-rspec'
 	gem 'webrat'
+	gem 'spork'
+	gem 'rb-fsevent'
+	gem 'growl'
 end

@@ -1,5 +1,5 @@
-= form_for [@activation,@update], html: {multipart: true} do |f|
-  - if @update.errors.any?
+= form_for [@activation, @update], html: {multipart: true, id: 'update-form'} do |f|
+  - unless @update.errors.empty?
     .errors
       %h2= pluralize(@update.errors.count, 'error')
       %ul
@@ -12,19 +12,25 @@
   .body
     = f.label :body
     = f.text_field :body
-  .groups
-    %h3 Groups
+  .sections
+    %h3= pluralize(@activation.sections.size, t('section.section'))
     %ul
-      - @activation.groups.each do |g|
-        = check_box_tag("groups[#{g.id}]",'',@update.groups.include?(g))
-        = label_tag("groups[#{g.id}]",g.name)
+      - if @activation.sections.empty?
+        %p= t('activation.sections.none')
+      -else
+        - @activation.sections.each do |g|
+          %li
+            = check_box_tag("sections[#{g.id}]",'',@update.sections.include?(g))
+            = label_tag("sections[#{g.id}]",g.name)
   .files
-    = f.fields_for :file_uploads do |fu|
-      - if fu.object.new_record?
-        = fu.file_field :upload
-      - else
-        = link_to fu.object.upload.url, fu.object.upload.url
-        = fu.check_box :_destroy
+    %h3= t('update.attached_files.current')
+    %ul
+    - for upload in @update.file_uploads
+      %li
+        #{link_to_attachment(upload)} (#{delete_upload_link(upload.id)})
+    %h3= t('update.attached_files.more')
+    %ul#new-uploads
+      %li= file_field_tag 'update[new_file_uploads][][upload]'
   .submit
     = f.submit
 

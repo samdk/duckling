@@ -1,1 +1,23 @@
-oh hi
+.wrapper
+  - if @user.nil?
+    %h2= t('user.cannot_see')
+    = link_to introduce_user_path(params[:id]), t('user.introduction.propose')
+  - else
+    - if @user == current_user
+      %span.notice= t('user.self_view')
+    %h2#name= @user.full_name
+    #phone-numbers
+      %h3= t('user.phone_numbers')
+      %table
+        - for name, number in @user.phone_numbers
+          %tr
+            %th= name
+            %td= number
+    #organizations
+      %h3= pluralize(@user.organizations.size, t('organization.organization'))
+      %ul
+        - for org in @user.organizations
+          %li= org.name
+        
+      
+      

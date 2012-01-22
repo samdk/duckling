@@ -15,8 +15,11 @@ class AuthorizedController < ApplicationController
   
   def require_login
     unless logged_in?
-      redirect_to login_path, notice:    t('session.login.required'),
-                              return_to: request.url
+      if request.xhr?
+        head 401
+      else
+        redirect_to login_path(return_to: request.url), notice: t('session.login.required')
+      end                    
     end
   end
   
@@ -45,11 +48,25 @@ class AuthorizedController < ApplicationController
     end
   end
   
+  def restore_login(user)
+    if user.blank?
+      false
+    else
+      self.current_user = user
+      true
+    end
+  end
+  
   def log_in
     log_in_from_session or log_in_from_cookie or log_in_from_signature
   end
   
   def remember_with_cookie!
+    current_user.update_attributes({
+      cookie_token: ActiveSupport::RandomSecure.base64(128),
+      cookie_token_expires_at: Time.now + 2.weeks
+    })
+    
     cookies[:token] = {
       value:    current_user.cookie_token,
       expires:  current_user.cookie_expires_at,
@@ -63,17 +80,16 @@ class AuthorizedController < ApplicationController
   def log_in_from_cookie
     return false unless cookies[:token]
     
-    log_in_as User.where(cookie_token: cookies[:token]).first
+    restore_login User.where(cookie_token: cookies[:token]).first
   end
   
   def log_in_from_session
     return false unless session[:user_id]
-    
-    log_in_as User.find(session[:user_id].to_i)
+    restore_login User.find(session[:user_id].to_i)
   end
   
   def log_in_from_signature
-    # HMAC fun stuff here.
+    # TODO: HMAC fun stuff here.
     
     false
   end

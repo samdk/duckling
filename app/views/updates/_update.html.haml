@@ -3,24 +3,22 @@
   .update-author= link_to update.author.full_name, user_url(update.author)
   .update-date= update.created_at.to_s(:mdy)
 .update-main
-  .update-title= link_to update.title, activation_update_url(@activation,update)
-  .update-text= truncate(update.body,length: 350)
+  - url = activation_update_url(@activation,update)
+  %h2.update-title= link_to_unless current_page?(url), update.title, url
+  .update-author
+    Posted by
+    = link_to update.author.full_name, user_url(update.author)
+  .update-text= current_page?(url) ? update.body : truncate(update.body, length: 350)
   .update-files
     %ul
       - update.file_uploads.each do |attachment|
-        %li.file= link_to attachment.upload_file_name,'#'
+        %li.file= link_to_attachment attachment
   .update-comments
     %ul
-      - update.comments.each do |comment|
-        %li.comment
-          .comment-heading
-            = link_to comment.author.full_name, user_url(comment.author)
-            = "at #{comment.created_at}"
-          .comment-body= comment.body
-          = link_to 'x', [@activation,update,comment], method: :delete, confirm: 'Really delete comment?', class: 'comment-delete'
+      - for comment in update.comments
+        %li
+          = render comment
     .new-comment
-      %a{href:'#'} add comment
-      /
-        = form_for [update.activation,update,Comment.new] do |cf|
-          = cf.text_field :body, class: 'comment-input'
-          = cf.submit 'Add Comment', class: 'comment-submit'
+      = form_for [update.activation,update,Comment.new], remote: true, html: {:id => "new-comment-#{update.id}", :'data-type' => 'html'} do |cf|
+        = cf.text_field :body, class: 'comment-input'
+        = cf.submit 'Add Comment', class: 'comment-submit'

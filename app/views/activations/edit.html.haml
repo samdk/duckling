@@ -1,4 +1,4 @@
-%h1 Editing activation
+%h1= t('activation.editing')
 = render 'form'
-= link_to 'show', @activation
-= link_to 'back', activations_path
+= link_to t('link.show'), @activation
+= link_to t('link.back'), activations_path

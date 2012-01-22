@@ -1,18 +1,13 @@
 = content_for :inner_header do
-  %h2= "All Updates (#{@updates.length})"
   #filters
-    .simple
-      %a{href:'#'} show all updates
-      &middot;
-      %a{href:'#'} show updates in your groups
-      &middot;
-      %a{href:'#'} advanced filters&#x25BC;
     %form
       %fieldset#filters-simple
-        = text_field_tag :search_query, params[:search_query] ? params[:search_query] : 'Search'
-        = render partial: 'shared/multiselect', locals: {name: 'Groups',items:@activation.groups}
+        %input{type: 'text', value: 'Search'}/
+        =# render partial: 'multiselect', locals: {name: 'Groups',items:@activation.groups}
+        =# render partial: 'multiselect', locals: {name: 'Organizations',items:@activation.organizations}
         %input{type: 'submit', value: 'Apply Filters'}/
-
+  #updates-header
+    %h2= "Showing all #{@updates.length} updates"
 #updates
   %ul
     - current_date = Time.now
@@ -22,4 +17,4 @@
         %li.day{id: "#{current_date.to_s(:mdy).gsub('/','-')}"}
           = interstitial_date(current_date)
       %li.update{:class => @current_user == update.author ? 'yours' : ''}
-        = render partial: 'update', locals: {update: update}
+        = render update

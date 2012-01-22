@@ -105,6 +105,9 @@
                     color: white;
                   }
                 }
+                .fresh-comment {
+                  background: $highlight;
+                }
               }
               .new-comment {
                 position: relative;
@@ -127,3 +130,6 @@
           }
         }
 
+.strikeout {
+  text-decoration: line-through;
+}

@@ -1,7 +1,7 @@
 class Organizations < ActiveRecord::Migration
   def self.up
     create_table 'organizations', force: true do |t|
-      t.string   'name'
+      t.string   'name',       limit: 128
       t.datetime 'deleted_at'
       t.datetime 'created_at'
       t.datetime 'updated_at'

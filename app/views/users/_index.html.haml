@@ -14,9 +14,9 @@
           = letter
         .extra
     %li.user{class: activation_class}
-      %img{src: u.avatar.url}
+      = image_tag(u.avatar.url)
       .text
-        .name= u.name
+        .name= link_to u.name, user_path(u)
         .email
           = u.email_addresses[0]
           //= " *" if u.email_addresses.length > 1
@@ -26,7 +26,7 @@
         %ul.orgs!= array_to_li u.organizations
       .lists
         %ul.groups
-          %li Groups:
+          %li= pluralize(u.groups.size, t('group.group'))
           != array_to_li u.groups
 .letters-list.top
   %ul

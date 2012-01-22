@@ -1,5 +1,6 @@
-class Address < ActiveRecord::Base
-  
+class Address < ActiveRecord::Base  
+  include AsyncJob
+
   belongs_to :user
   
   validates :address, length: {maximum: 300},
@@ -13,5 +14,13 @@ class Address < ActiveRecord::Base
   before_save do |addr|
     addr.address = addr.address.split("\n").map(&:strip).join("\n")
   end
-
+  
+  include AuthorizedModel
+  
+  def permit_edit?(user, args = {})
+    self.user == user
+  end
+  
+  alias_method :permit_create?,  :permit_edit?
+  alias_method :permit_destroy?, :permit_edit?
 end

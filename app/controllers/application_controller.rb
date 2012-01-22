@@ -3,6 +3,12 @@ class ApplicationController < ActionController::Base
   
   rescue_from ActiveRecord::RecordNotFound, with: :render_404
   
+  after_filter do
+    if !request.get? and request.headers['X-CSRF-Token']
+      session[:_csrf_token] = request.headers['X-CSRF-Token']
+    end
+  end
+  
   protected
   
   def current_model(id = nil)
@@ -15,14 +21,14 @@ class ApplicationController < ActionController::Base
   def render_404
     respond_to do |wants|
       wants.html { render status: 404, file: "#{Rails.root}/public/404.html" }
-      wants.any  { head 404, t('errors.notfound') }
+      wants.any  { head 404 }
     end
   end  
   
   def back_or_403(error)
     respond_to do |wants|
-      wants.html { redirect_to :back, error: error }
-      wants.any  { head 403, error.to_s }
+      wants.html { redirect_to :back, flash: {error: error.to_s} }
+      wants.any  { render status: 403, text: error.to_s }
     end
   end
   
@@ -31,6 +37,7 @@ class ApplicationController < ActionController::Base
       
     respond_to do |wants|
       wants.html { redirect_to loc, notice: msg }
+      wants.js   { head :ok }
       wants.any  { head :ok }
     end
   end

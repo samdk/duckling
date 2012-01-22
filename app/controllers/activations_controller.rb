@@ -1,9 +1,13 @@
 class ActivationsController < AuthorizedController
   
   respond_to :html
-  respond_to :json, :xml, except: [:new, :edit]
+  respond_to :json, :xml, except: [:new, :edit, :overview]
   
   before_filter :set_activation, only: [:edit, :update, :destroy]
+  
+  def overview
+    
+  end
   
   def index
     @activations = current_user.activations
@@ -17,7 +21,6 @@ class ActivationsController < AuthorizedController
   # the default view for an activation is its updates, and the
   # handling of those is managed by the updates controller
   def show
-    flash.keep # TODO: is this actually necessary?
     redirect_to activation_updates_path(params[:id])
   end
 
@@ -27,25 +30,15 @@ class ActivationsController < AuthorizedController
 
   def edit ; end
 
-  def create
-    orgs = params[:activation].delete(:organizations) & current_user.all_organization_ids
-    
+  def create    
     @activation = Activation.new(params[:activation])
     @activation.active = true
-    
+
     @activation.users << current_user
-    @activation.organization_ids = orgs
-    
-    for org in orgs
-      for user in Organization.find(org).user_ids
-        @activation.user_ids << user
-      end
-    end
-    
-    
+
     # TODO: setup permissions, etc.
 
-    notice 'activation.created' if @activation.save
+    notice 'activation.created' if @activation.authorize_with(current_user).save
     
     respond_with @activation
   end
@@ -64,14 +57,15 @@ class ActivationsController < AuthorizedController
   end
   
   def rejoin
-    a = current_user.activationships.where(activation_id: params[:activation_id]).first
+    deployment = current_user.deployments.where(activation_id: params[:activation_id]).first!
+    deployment.update_attribute(:active, true)
     
     respond_with @activation
   end
   
   def leave
-    a = current_user.activationships.where(activation_id: params[:activation_id]).first
-    a.update_attribute(:active, false)
+    deployment = current_user.deployments.where(activation_id: params[:activation_id]).first!
+    deployment.update_attribute(:active, false)
     
     respond_to do |wants|
       wants.html { redirect_to activations_path }

@@ -3,12 +3,13 @@ class SessionController < AuthorizedController
   skip_login only: [:new, :create]
 
   def new
+    @return_to = params[:return_to]
   end
 
   def destroy
     log_out!
     
-    notice 'logout.success'
+    notice 'session.logout.success'
     
     redirect_to login_path
   end
@@ -16,13 +17,15 @@ class SessionController < AuthorizedController
   def create
     u = User.with_credentials(params[:email], params[:password])
     if u.blank?
-      unauthorized! 'login.failure'
+      unauthorized! 'session.login.failure'
     else
       log_in_as(u)
-      # TODO: is this sensible?
       
-      notice 'login.success', u.name
-      redirect_to activations_url
+      remember_with_cookie! unless params[:cookie].blank?
+      
+      notice 'session.login.success', full_name: u.name
+      
+      redirect_to(params[:return_to] || overview_url)
     end
   end
 

@@ -2,24 +2,11 @@ require 'spec_helper'
 
 describe Activation do
   
-  context "with a saved subject" do
-    before :each do
-      subject.update_attributes title: 'Test Title'
-    end
-    
-    it_behaves_like 'soft deletable'
-  end
-
-  it 'should have many organizations' do
-    should have_and_belong_to_many(:organizations)
-  end
-  
-  it 'should have many updates' do
-    should have_many(:updates)
-  end
+  it_behaves_like 'soft deletable', ->(*){ Activation.cheating_create!(title: 'Foo Bar') }
+  it_behaves_like 'an authorized model', -> { Activation.cheating_create(title: 'Activation') }
   
   it 'must have a title' do
-    should have_at_least(1).errors_on(:title)
+    subject.should have_at_least(1).errors_on(:title)
   end
   
   it 'must have a reasonably sized title' do

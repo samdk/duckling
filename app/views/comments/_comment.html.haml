@@ -1,0 +1,5 @@
+.comment-heading
+  = link_to comment.author.full_name, user_url(comment.author)
+  = "at #{comment.created_at}"
+.comment-body= comment.body
+= link_to 'x', [@activation, comment.update, comment], method: :delete, remote: true, class: 'comment-delete'
