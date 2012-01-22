@@ -46,11 +46,11 @@ class UpdatesController < AuthorizedController
     if @update.authorize_with(current_user).save and handle_sections
       notice 'update.created'
     end
-    
+
     respond_with @activation, @update
   end
 
-  def update    
+  def update
     if handle_sections and @update.update_attributes(params[:update])
       notice 'update.updated'
     end
