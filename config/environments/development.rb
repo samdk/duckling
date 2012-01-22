@@ -4,8 +4,8 @@ Duckling::Application.configure do
   config.consider_all_requests_local = true
   
   config.assets.compress = false
-  config.assets.debug = true
-  
+  config.assets.debug    = true
+  # config.assets.logger   = false
   
   config.action_controller.perform_caching = false
 

@@ -25,11 +25,10 @@
         = f.text_field :primary_email, autocomplete: 'off'
       -else
         = f.fields_for :email_addresses do |fe|
-          %ul
+          %ul#email-addresses
             - for email in @user.email_addresses
-              %li= fe.text_field '', value: email
-            %li
-              = link_to 'Add', '#', id: 'add-email-address-field'
+              %li= fe.text_field '', value: email, id: nil
+          = link_to 'Add', '#', id: 'add-email-address-field'
     -unless @user.new_record?
       .phone
         %h3 Phone Numbers

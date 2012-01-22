@@ -15,3 +15,9 @@ $ ->
   $('#update-form').submit ->
     $('#new-uploads input:last').remove()
     true
+    
+  $('.comment-input').click ->
+    par = $(this).parent()
+    par.children('.comment-submit').show()
+    par.blur ->
+      $(this).children('.comment-submit').hide()

@@ -32,6 +32,7 @@ en:
   section:
     section: Section
   user:
+    updated: Account settings have been saved.
     introduction:
       propose: Send contact request
     self_view: This is your profile
@@ -41,7 +42,8 @@ en:
       activation_acquaintances: "Your Acquaintances in %{activation_title}"
     email:
       duplicate: "This email address is already taken"
-
+    security:
+      no_permission: "Sorry, you aren't allowed to edit this user."
   error: error
   
   errors:

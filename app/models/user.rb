@@ -254,7 +254,7 @@ class User < ActiveRecord::Base
     email_addresses.first
   end
   def primary_email=(email)
-    (self.email_addresses ||= []) << email
+    (self.email_addresses ||= [])[0] = email
   end
 
   def full_name

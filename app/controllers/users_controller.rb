@@ -84,7 +84,7 @@ class UsersController < AuthorizedController
       unauthorized! 'user.update_others'
     end
         
-    if current_user.update_attributes(params[:user])
+    if current_user.authorize_with(current_user).update_attributes(params[:user])
       notice 'user.updated'
     end
             
