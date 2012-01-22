@@ -99,7 +99,6 @@ end
 total_update_count.times { make_random_update(a,@users.sample) }
 
 50.times { make_random_update(a,@users.sample) }
->>>>>>> 42f58cbe0432863915652fe501d45140423ba258
 @updates = Update.all
 puts "#{@updates.length} updates created"
 # re-enable timestamping
