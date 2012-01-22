@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
   
   attr_accessible :first_name, :last_name, :name_prefix, :name_suffix,
     :phone_numbers, :unverified_email_addresses, :primary_address_id,
-    :password, :password_confirmation
+    :password, :password_confirmation, :primary_email
   
   THUMBS = {styles: {large: ['100x100#', :png], small: ['60x60#', :png]},
             default_url: '/assets/avatars/default_:style_avatar.png',
@@ -115,8 +115,7 @@ class User < ActiveRecord::Base
         ON ((users.id = acquaintances.user_id AND acquaintances.other_user_id = #{id})
         OR  (users.id = acquaintances.other_user_id AND acquaintances.user_id = #{id}))
       WHERE (users.deleted_at IS NULL)
-    ]
-  }
+  ] }
   
   ACQ_DELETE_SQL = ->(other){ %[
     DELETE FROM acquaintances
@@ -137,6 +136,14 @@ class User < ActiveRecord::Base
     for user in diff
       acquaintances << user
     end
+  end
+  
+  def acquainted_to?(u)
+    !! User.connection.select_value(%[
+      SELECT 1 FROM acquaintances
+      WHERE (user_id = #{id} AND other_user_id = #{u.id})
+         OR (user_id = #{u.id} AND other_user_id = #{id})
+    ])
   end
     
   validates :password_hash, presence: true
@@ -256,6 +263,7 @@ class User < ActiveRecord::Base
     email_addresses.first
   end
   def primary_email=(email)
+    self.email_addresses_will_change!
     (self.email_addresses ||= [])[0] = email
   end
 

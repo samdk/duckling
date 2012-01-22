@@ -51,8 +51,8 @@ describe User do
     it 'should assign em correctly' do
       @u.acquaintances << @u2
       
-      @u2.acquaintances.should include(@u)
-      @u.acquaintances.should include(@u2)
+      @u2.acquainted_to?(@u).should be_true
+      @u.acquainted_to?(@u2).should be_true
       
       @u2.destroy!
       @u.destroy!
@@ -129,6 +129,14 @@ describe User do
       
       Rails.cache.read("email_foo@example.com").should be_nil
       Rails.cache.read("email_barbara@example.com").should include(subject.id)
+    end
+    
+    it 'updates the cache appropriately' do
+      Rails.cache.read('email_foo@example.com').should include(subject.id)
+      subject.primary_email = 'qux@example.com'
+      subject.skipping_auth! { subject.save }
+      Rails.cache.read('email_qux@example.com').should include(subject.id)
+      Rails.cache.read('email_foo@example.com').should be_nil
     end
     
     it 'should credential either email address' do
