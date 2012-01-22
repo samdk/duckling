@@ -39,6 +39,7 @@ class User < ActiveRecord::Base
   
   
   attr_accessor :password_confirmation, :password_confirmation_changed
+  attr_accessor :new_email_addresses
   
   attr_accessible :first_name, :last_name, :name_prefix, :name_suffix,
     :phone_numbers, :unverified_email_addresses, :primary_address_id,
@@ -206,6 +207,7 @@ class User < ActiveRecord::Base
     end
     
     email_addresses.map!(&:downcase)
+    unverified_email_addresses.map!(&:downcase)
   end
     
   before_destroy do |user|

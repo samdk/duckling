@@ -19,16 +19,9 @@
     %h2 Your Contact Information
     .email
       %h3 Email Addresses
-      -if @user.new_record?
-        = f.label :primary_email, 'Email Address'
-        .hint (You will log in with this email address.)
-        = f.text_field :primary_email, autocomplete: 'off'
-      -else
-        = f.fields_for :email_addresses do |fe|
-          %ul#email-addresses
-            - for email in @user.email_addresses
-              %li= fe.text_field '', value: email, id: nil
-          = link_to 'Add', '#', id: 'add-email-address-field'
+      = f.label :primary_email, 'Email Address'
+      .hint (You will log in with this email address.)
+      = f.text_field :primary_email, autocomplete: 'off'
     -unless @user.new_record?
       .phone
         %h3 Phone Numbers
@@ -39,7 +32,6 @@
                 = fe.label name
                 = fe.text_field name, value: number
 
-        
   .section
     %h2= @user.new_record? ? 'Your Password' : 'Change Password'
     .hint (At least 7 characters, make it complex and unique.)
