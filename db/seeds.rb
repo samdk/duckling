@@ -1,7 +1,10 @@
 require 'set'
 
 def save(obj)
-  obj.save || ((puts obj.errors.full_messages) && (raise Error))
+  unless obj.skipping_auth! { obj.save }
+    puts obj.errors.full_messages
+    raise Error
+  end
 end
 
 Rails.cache.clear
