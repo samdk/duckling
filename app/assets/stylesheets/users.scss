@@ -1,20 +1,76 @@
 @import 'includes';
 
+.letters-list {
+  position: absolute;
+  background: white;
+  width: 709px;
+  &.top { top: 61px; }
+  &.bot { bottom: 0; }
+  ul {
+    overflow: hidden;
+    li {
+      text-align: center;
+      float: left;
+      &.disabled a {
+        color: $grey7;
+        &:hover {
+          background: $grey8;
+          color: $grey7;
+        }
+      }
+      a {
+        font-size:   13px;
+        line-height: 20px;
+        width:       21px;
+        display: block;
+        padding: 7px 3px;
+        font-weight: bold;
+        &:hover {
+          text-decoration: none;
+          background: $grey2;
+          color: white
+        }
+        &.disabled {
+          color: $grey6;
+        }
+      }
+    }
+    li:first-child a { padding-left: 7px; }
+    li:last-child a  { padding-right: 7px; }
+  }
+}
+
 #users-list {
   overflow: auto;
-  margin: -$pad1;
-  padding: $pad3;
+  margin-top: 34px;
 }
+  .drop-cap {
+    position: relative;
+    clear: both;
+    text-transform: uppercase;
+    padding-top: 1px;
+    .letter {
+      font-size:   21px;
+      line-height: 21px;
+      background: $grey8;
+      padding: 4px;
+      font-weight: bold;
+      position: relative;
+      z-index: 2;
+    }
+  }
   .user {
-    background: #eee;
+    position: relative;
+    background: white;
+    margin-top: 1px;
     padding: $pad2;
-    margin: $pad3;
     float: left;
     font-size: 13px;
     line-height: 16px;
-    &.in-activation { width: 340px - ($pad2 * 2); }
+    height: 81px;
+    overflow: hidden;
+    &.in-activation { width: 354px - ($pad2 * 2); }
     &.outside-activation { width: 306px - ($pad2 * 2); }
-    @include border_radius(5px);
     img {
       float: left;
       width: 60px;
@@ -30,6 +86,7 @@
         line-height: 18px;
       }
       .orgs {
+        width: 10000px;
         li {
           float: left;
           margin-right: 5px;
@@ -37,6 +94,7 @@
       }
     }
     .lists {
+      width: 10000px;
       clear: both;
       .groups {
         li {

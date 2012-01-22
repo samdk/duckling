@@ -13,9 +13,8 @@ class UpdatesController < AuthorizedController
                 .includes(:comments, :file_uploads, :author, :activation)
                 .order('created_at DESC')
                 .in_date_range(params[:start_date], params[:end_date])
-                .matching_search(params[:search_query], [:title, :body])
-                .matching_joins(:groups, params[:groups_ids])
-                #.matching_joins(:organizations, params[:organizations_ids])
+                .matching_search([:title, :body],params[:search_query])
+                #.matching_joins(:groups, params[:groups_ids])
 
     current_user.ensure_acquaintances @activation.users
 
@@ -37,7 +36,12 @@ class UpdatesController < AuthorizedController
 
   def create
     @update = @activation.updates.build(params[:update])
-    @update.author = current_user
+    @update.author = @current_user
+    #if params[:groups]
+    #  params[:groups].each_pair do |k,v|
+    #    @update.groups << Group.find(k) if v
+    #  end
+    #end
 
     if @update.authorize_with(current_user).save and handle_sections
       notice 'update.created'

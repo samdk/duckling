@@ -1,5 +1,9 @@
 require 'set'
 
+def save(obj)
+  obj.save || ((puts obj.errors.full_messages) && (raise Error))
+end
+
 Rails.cache.clear
 
 #ActiveRecord::Base.logger = Logger.new(STDOUT)
@@ -22,9 +26,7 @@ def make_user(first_name,last_name)
   u.password = u.password_confirmation = 'testtest'
   u.phone_numbers['Desk'] = "555-555-01%02d" % (@user_index % 100)
   u.phone_numbers['Cell'] = "555-555-02%02d" % (@user_index * 2 % 100)
-  unless u.skipping_auth!(&:save)
-    puts "0 #{u.errors}"
-  end
+  save(u)
   
   @user_index += 1
 end
@@ -48,7 +50,7 @@ def make_organization(name)
   o.users = @users[1..-1].sample(1 + (rand * (@users.length - 10)))
   
   User.first.administrate(o)
-  unless o.skipping_auth!(&:save); puts "2 #{o.errors}"; end
+  save(o)
 end
 organization_names[0..5].each {|n| make_organization(n)}
 @orgs = Organization.all
@@ -61,7 +63,7 @@ a.active = true
 a.description = "There was a really scary snowstorm and we need to make it less scary."
 a.organizations = @orgs
 a.users = @users
-unless a.skipping_auth!(&:save) ; puts "1 #{a.errors}"; end
+save(a)
 
 @update_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est. \nVivamus fermentum semper porta. Nunc diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi. Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis. Quisque mi metus, ornare sit amet fermentum et, tincidunt et orci. Fusce eget orci a orci congue vestibulum. Ut dolor diam, elementum et vestibulum eu, porttitor vel elit. Curabitur venenatis pulvinar tellus gravida ornare. Sed et erat faucibus nunc euismod ultricies ut id justo. Nullam cursus suscipit nisi, et ultrices justo sodales nec. Fusce venenatis facilisis lectus ac semper. Aliquam at massa ipsum. Quisque bibendum purus convallis nulla ultrices ultricies. Nullam aliquam, mi eu aliquam tincidunt, purus velit laoreet tortor, viverra pretium nisi quam vitae mi. Fusce vel volutpat elit. Nam sagittis nisi dui.\nSuspendisse lectus leo, consectetur in tempor sit amet, placerat quis neque. Etiam luctus porttitor lorem, sed suscipit est rutrum non. Curabitur lobortis nisl a enim congue semper. Aenean commodo ultrices imperdiet. Vestibulum ut justo vel sapien venenatis tincidunt. Phasellus eget dolor sit amet ipsum dapibus condimentum vitae quis lectus. Aliquam ut massa in turpis dapibus convallis. Praesent elit lacus, vestibulum at malesuada et, ornare et est. Ut augue nunc, sodales ut euismod non, adipiscing vitae orci. Mauris ut placerat justo. Mauris in ultricies enim. Quisque nec est eleifend nulla ultrices egestas quis ut quam. Donec sollicitudin lectus a mauris pulvinar id aliquam urna cursus. Cras quis ligula sem, vel elementum mi. Phasellus non ullamcorper urna."
 section_names = %w[Medical Health Sanitation Grounds Food Shelter Government Public\ Relations Cleanup Construction Police Fire\ Department Volunteer\ Coordination Pets]
@@ -71,22 +73,36 @@ def make_group(name,activation)
   section.description = [@update_text.split('. ').sample,''].sample
   section.users = @users.sample(1 + (rand * (@users.length - 10)))
   section.activation = activation
-  unless section.skipping_auth!(&:save); puts "3 #{g.errors}"; end
+  puts save(section)
 end
 section_names.each {|n| make_group(n,a)}
 @sections = Section.all
 puts "#{@sections.length} groups created"
 
+# set our own timestamps for updates
+ActiveRecord::Base.record_timestamps = false
+@current_time = Time.now - 7.days
+total_update_count = 50
+@base_interval = (Time.now - @current_time) / total_update_count
+@current_count = 1
+
 def make_random_update(activation,author)
-  title = @update_text[(30-(rand*30))..(40+(rand*50))]
   sentences = @update_text.split('. ').sort_by {rand}
+  title = sentences.sample[0..(30 + rand * (sentences.length-30))]
   length = (rand * (sentences.length-2)).to_i
   body = sentences[0..length].join('. ')
-  groups = @sections.sample(rand * @sections.length)
-  activation.updates.build(author:author,title:title,body:body,sections:groups).authorize_with(author).save
+  sections = @sections.sample(rand * @sections.length)
+  u = activation.updates.build(author:author,title:title,body:body,sections:sections).authorize_with(author)
+  @current_time = @current_time + @base_interval - (0..60).to_a.sample.minutes
+  u.created_at = u.updated_at = @current_time
+  save(u)
+  @current_count += 1
 end
+total_update_count.times { make_random_update(a,@users.sample) }
 
 50.times { make_random_update(a,@users.sample) }
 @updates = Update.all
 puts "#{@updates.length} updates created"
+# re-enable timestamping
+ActiveRecord::Base.record_timestamps = true
 

@@ -1,7 +1,9 @@
 // locals to pass in: name, items, is_checked
 - lc_name = name.downcase
-.multiselect{class: "multiselect-#{lc_name}"}
-  %h4= name
+.multiselect{id: "multiselect-#{lc_name}"}
+  %a.unselected{href:'#'}
+    = "Filter by #{name}"
+    &#x25BC;
   %ul
     - vals = params["#{lc_name}_ids".to_sym]
     - vals = vals.map(&:to_i) if vals

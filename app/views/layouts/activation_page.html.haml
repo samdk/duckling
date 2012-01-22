@@ -2,24 +2,34 @@
   = stylesheet_link_tag 'activation_page'
 = content_for :content do
   .wrapper
-    #body-header
+    -#body-header
       %h1= @activation.title
       %p= @activation.description
       = link_to 'Add Update', new_activation_update_path(@activation), id: 'add-update'
     #body-body
-      #body-nav
-        %ul
-          %li{ :class => @updates ? 'active' : ''}
-            = link_to 'Updates', activation_updates_url(@activation), :class => 'updates'
-            .extra
-              this is some content
-          %li{ :class => @users ? 'active' : ''}
-            =  link_to 'People',  activation_people_url(@activation), :class => 'people'
-          %li{ :class => @groups ? 'active' : ''}
-            =  link_to 'Groups',  activation_groups_url(@activation), :class => 'groups'
-          %li{ :class => @summary ? 'active' : ''}
-            = link_to 'Summary', '#', :class => 'summary'
       .main
+        #inner-header
+          %h1= @activation.title
+          = yield :inner_header
+          = link_to 'Add Update', new_activation_update_path(@activation), id: 'add-update'
         .pane
+          #nav-holder
+            #body-nav
+              %ul
+                %li{ :class => @updates ? 'active' : ''}
+                  = link_to 'Updates', activation_updates_url(@activation), :class => 'updates'
+                  .extra
+                    %ul
+                      %li
+                        %a{href:'#'} Change Email Alert Settings
+                      %li
+                        %a{href:'#'} Export Updates
+                    != month_jumper
+                %li{ :class => @users ? 'active' : ''}
+                  =  link_to 'People',  activation_people_url(@activation), :class => 'people'
+                %li{ :class => @groups ? 'active' : ''}
+                  =  link_to 'Groups',  activation_groups_url(@activation), :class => 'groups'
+                %li{ :class => @summary ? 'active' : ''}
+                  = link_to 'Summary', '#', :class => 'summary'
           = yield
 = render file: 'layouts/application'

@@ -1,5 +1,6 @@
 .update-when
   .update-time= update.created_at.to_s(:time)
+  .update-author= link_to update.author.full_name, user_url(update.author)
   .update-date= update.created_at.to_s(:mdy)
 .update-main
   - url = activation_update_url(@activation,update)
@@ -7,13 +8,12 @@
   .update-author
     Posted by
     = link_to update.author.full_name, user_url(update.author)
-  .update-text= update.body
+  .update-text= current_page?(url) ? update.body : truncate(update.body, length: 350)
   .update-files
     %ul
       - update.file_uploads.each do |attachment|
         %li.file= link_to_attachment attachment
   .update-comments
-    %h3 Comments:
     %ul
       - for comment in update.comments
         %li

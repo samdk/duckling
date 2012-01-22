@@ -19,7 +19,7 @@ input, select {
 }
 select { padding: 3px; }
 body {
-  background: $grey8;
+  background: white;
   color: black;
   font: {
     family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
@@ -31,8 +31,7 @@ body {
     position: absolute;
     top: 0; left: 0; right: 0;
     height: $nav-height;
-    background: $grey1;
-    color: white;
+    a { color: black; }
 
     .wrapper {
       @include body_width;
@@ -47,7 +46,6 @@ body {
         @include nav_links(right);
         @include reversed_links;
       }
-      a { color: white; }
     }
   }
   #flash {
@@ -66,7 +64,7 @@ body {
     top: $nav-height; left: 0; right: 0;
     .wrapper {
       @include body_width;
-      padding: $pad1 0;
+      padding: 0 0 $pad1;
     }
   }
   #footer {

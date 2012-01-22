@@ -1,14 +1,20 @@
-#filters
-  %form
-    %fieldset#filters-simple
-      %input{type: 'text', value: 'Search'}/
-      =# render partial: 'multiselect', locals: {name: 'Groups',items:@activation.groups}
-      =# render partial: 'multiselect', locals: {name: 'Organizations',items:@activation.organizations}
-      %input{type: 'submit', value: 'Apply Filters'}/
-#updates-header
-  %h2= "Showing all #{@updates.length} updates"
+= content_for :inner_header do
+  #filters
+    %form
+      %fieldset#filters-simple
+        %input{type: 'text', value: 'Search'}/
+        =# render partial: 'multiselect', locals: {name: 'Groups',items:@activation.groups}
+        =# render partial: 'multiselect', locals: {name: 'Organizations',items:@activation.organizations}
+        %input{type: 'submit', value: 'Apply Filters'}/
+  #updates-header
+    %h2= "Showing all #{@updates.length} updates"
 #updates
   %ul
+    - current_date = Time.now
     - @updates.each do |update|
+      - if update.created_at.day != current_date.day
+        - current_date = update.created_at
+        %li.day{id: "#{current_date.to_s(:mdy).gsub('/','-')}"}
+          = interstitial_date(current_date)
       %li.update{:class => @current_user == update.author ? 'yours' : ''}
         = render update
