@@ -23,14 +23,26 @@
             = check_box_tag("sections[#{g.id}]",'',@update.sections.include?(g))
             = label_tag("sections[#{g.id}]",g.name)
   .files
-    %h3= t('update.attached_files.current')
-    %ul
-    - for upload in @update.file_uploads
-      %li
-        #{link_to_attachment(upload)} (#{delete_upload_link(upload.id)})
-    %h3= t('update.attached_files.more')
-    %ul#new-uploads
-      %li= file_field_tag 'update[new_file_uploads][][upload]'
+    -#
+      - if @update.attachments.count > 0
+        %h3= t('update.attached_files.current')
+        %ul
+        - @update.attachments.each do |attachment|
+          %li
+            #{attachment_url attachment}
+        %h3= t('update.attached_files.more')
+        %ul#new-uploads
+          %li= file_field_tag "update[new_attachments][]"
+          %li= file_field_tag "update[new_attachments][]"
+          %li= file_field_tag "update[new_attachments][]"
+      - else
+    %h3= t('update.attached_files.new')
+    - 3.times { @update.attachments << Attachment.new }
+    = f.fields_for :attachments do |a|
+      - if a.object.persisted?
+        = a.object
+      - else
+        = a.file_field :file
   .submit
     = f.submit
 

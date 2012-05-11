@@ -37,6 +37,17 @@ ActiveRecord::Schema.define(:version => 20120511193050) do
     t.datetime "updated_at"
   end
 
+  create_table "attachments", :force => true do |t|
+    t.integer  "attachable_id"
+    t.string   "attachable_type"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
+  end
+
   create_table "comments", :force => true do |t|
     t.text     "body"
     t.integer  "author_id"
@@ -65,14 +76,6 @@ ActiveRecord::Schema.define(:version => 20120511193050) do
 
   add_index "emails", ["email", "state"], :name => "index_emails_on_email_and_state"
   add_index "emails", ["email"], :name => "index_emails_on_email"
-
-  create_table "file_uploads", :force => true do |t|
-    t.integer  "update_id"
-    t.string   "upload_file_name"
-    t.string   "upload_content_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "memberships", :id => false, :force => true do |t|
     t.integer "organization_id"
@@ -128,14 +131,13 @@ ActiveRecord::Schema.define(:version => 20120511193050) do
   end
 
   create_table "updates", :force => true do |t|
-    t.string   "title",              :limit => 128
+    t.string   "title",          :limit => 128
     t.integer  "author_id"
     t.integer  "activation_id"
     t.text     "body"
     t.integer  "comments_count"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "file_uploads_count"
   end
 
   create_table "users", :force => true do |t|

@@ -4,19 +4,10 @@ class Update < ActiveRecord::Base
   belongs_to :activation, counter_cache: true
   
   has_many :comments
-  has_many :file_uploads
 
-  accepts_nested_attributes_for :file_uploads, allow_destroy: true
-  attr_accessor :new_file_uploads
-  before_update :add_new_file_uploads
-  def add_new_file_uploads
-    logger.shout new_file_uploads.inspect
-    for upload in Array(new_file_uploads)
-      file_uploads.create(upload) # TODO: fix this
-    end
-    self.new_file_uploads = []
-  end
-  
+  has_many :attachments, as: :attachable
+  accepts_nested_attributes_for :attachments
+
   has_and_belongs_to_many :sections
   has_and_belongs_to_many :tags
   

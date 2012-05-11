@@ -10,7 +10,7 @@ class UpdatesController < AuthorizedController
   def index
     @activation = current_user.activations.includes(:users).find(params[:activation_id])
     @updates = @activation.updates
-                .includes(:comments, :file_uploads, :author, :activation)
+                .includes(:comments, :attachments, :author, :activation)
                 .order('created_at DESC')
                 .in_date_range(params[:start_date], params[:end_date])
                 .matching_search([:title, :body],params[:search_query])
@@ -37,39 +37,22 @@ class UpdatesController < AuthorizedController
   def create
     @update = @activation.updates.build(params[:update])
     @update.author = @current_user
-    #if params[:groups]
-    #  params[:groups].each_pair do |k,v|
-    #    @update.groups << Group.find(k) if v
-    #  end
-    #end
-
-    if @update.authorize_with(current_user).save and handle_sections
-      notice 'update.created'
-    end
+    @update.attachments.each {|a| a.attachable = @update}
+    notice 'update.created' if @update.authorize_with(current_user).save && handle_sections
 
     respond_with @activation, @update
   end
 
   def update
-    if handle_sections and @update.update_attributes(params[:update])
-      notice 'update.updated'
-    end
-    
+    save = @update.authorize_with(current_user).update_attributes(params[:update])
+    notice 'update.updated' if save && handle_sections
+   
     respond_with @activation, @update
   end
 
   def destroy
     @update.destroy
     destroyed_redirect_to activation_updates_url(@activation)
-  end
-
-  def attachment
-    attachment = FileUpload.includes(:update).find(params[:id])
-    if current_user.can? read: attachment
-      send_file attachment.upload.path
-    else
-      raise Unauthorized, t('attachment.unauthorized')
-    end
   end
 
   private
@@ -86,6 +69,6 @@ class UpdatesController < AuthorizedController
   end
   
   def set_update
-    @update = @activation.updates.includes(:file_uploads).find(params[:id])
+    @update = @activation.updates.includes(:attachments).find(params[:id])
   end
 end

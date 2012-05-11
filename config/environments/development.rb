@@ -25,8 +25,6 @@ Duckling::Application.configure do
     Bullet.rails_logger = true
     Bullet.disable_browser_cache = true
   end
-  
-  # config.cache_store = :redis_store, {db: 1, namespace: 'cache', marshalling: true}
 end
 
 

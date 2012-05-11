@@ -7,8 +7,6 @@ if defined? Bundler
   Bundler.require :default, :assets, Rails.env
 end
 
-
-
 APP_CONFIG = YAML.load_file(File.expand_path('../config.yml', __FILE__))[Rails.env]
 
 FILE_STORAGE_OPTS = if s3 = APP_CONFIG['s3']

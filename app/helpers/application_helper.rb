@@ -4,10 +4,6 @@ module ApplicationHelper
     items.collect {|i| "<li>#{h i}</li>"}.join("\n")
   end
   
-  def link_to_attachment(upload)
-    link_to upload.upload_file_name, "/attachments/#{upload.id}/#{upload.upload_file_name}"
-  end
-  
   def current_scope?(*args)
     args.any? do |arg|
       if Hash === arg

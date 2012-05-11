@@ -12,7 +12,7 @@ class CommentsController < AuthorizedController
   end
 
   def show    
-    respond_with @comment do |format|
+    respond_with @comment.authorize_with(current_user) do |format|
       format.html { redirect_to "#{activation_update_path(@activation,@update)}#comment-#{params[:id]}" }
     end
   end
@@ -25,9 +25,9 @@ class CommentsController < AuthorizedController
 
   def create
     @comment = @update.comments.build(params[:comment])
+    @comment.attachment.attachable = @comment
     @comment.author = @current_user
-
-    if @comment.save
+    if @comment.authorize_with(current_user).save
       notice 'comment.created'
     end
     
@@ -47,14 +47,14 @@ class CommentsController < AuthorizedController
     end
   end
 
-  def update
-    notice 'comment.updated' if @comment.authorize_with(current_user).update_attributes(params[:comment])
+  #def update
+  #  notice 'comment.updated' if @comment.authorize_with(current_user).update_attributes(params[:comment])
 
-    respond_with @activation, @update, @comment do |format|
-      format.html { redirect_to :back }
-      format.any { head :ok }
-    end
-  end
+  #  respond_with @activation, @update, @comment do |format|
+  #    format.html { redirect_to :back }
+  #    format.any { head :ok }
+  #  end
+  #end
 
   def destroy
     @comment.authorize_with(current_user).destroy
