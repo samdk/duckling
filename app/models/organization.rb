@@ -57,7 +57,7 @@ class Organization < ActiveRecord::Base
                    uniqueness: true,
                    format: {with: /[A-Za-z0-9\-_]+/}
 
-  validates :description, length: {maximum: 2500}
+  validates :description, length: {maximum: 25000}
   
   def to_s
     self.name
