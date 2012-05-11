@@ -1,4 +1,9 @@
 - content_for :title do
   Log In
 
-= render 'form'
+%div
+  %h2 I already have a FlareTeam account
+  = render 'form'
+%div
+  %h2 I don't yet have a FlareTeam account
+  = link_to 'Register in 2 minutes', new_account_url

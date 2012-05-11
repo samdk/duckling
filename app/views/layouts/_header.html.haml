@@ -16,8 +16,9 @@
           = link_to @current_user.first_name, edit_account_url
         %span= link_to('Log Out', logout_url, method: :delete)
     - else
-      #account
+      #nav
         %span= link_to 'Log In', login_url
+        %span= link_to 'Register', new_account_url
 - unless flash.empty?
   #flash
     - flash.each do |k, v|

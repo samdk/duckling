@@ -20,16 +20,14 @@ def make_user(first_name,last_name)
   u = User.new
   u.first_name = first_name
   u.last_name = last_name
-  email = "#{first_name[0]}#{last_name}".downcase
-  email = "#{email}#{@used_emails.include?(email) ? @user_index : ''}@example.com"
+  u.initial_email = email = "#{first_name[0]}#{last_name}".downcase
+  u.initial_email = "#{email}#{@used_emails.include?(email) ? @user_index : ''}@example.com"
   u.password = u.password_confirmation = 'testtest'
   u.phone_numbers['Desk'] = "555-555-01%02d" % (@user_index % 100)
   u.phone_numbers['Cell'] = "555-555-02%02d" % (@user_index * 2 % 100)
   save(u)
   
-  @used_emails << email
-  u.add_email(email, true)
-  
+  @used_emails << u.initial_email  
   @user_index += 1
 end
 

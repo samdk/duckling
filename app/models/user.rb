@@ -34,10 +34,10 @@ class User < ActiveRecord::Base
     false
   end
 
-  attr_accessor :password_confirmation, :password_confirmation_changed, :login_email
+  attr_accessor :password_confirmation, :password_confirmation_changed, :login_email, :initial_email
   
   attr_accessible :first_name, :last_name, :name_prefix, :name_suffix,
-    :phone_numbers, :primary_address_id, :password, :password_confirmation
+    :phone_numbers, :primary_address_id, :password, :password_confirmation, :initial_email
   
   THUMBS = {styles: {large: ['100x100#', :png], small: ['60x60#', :png]},
             default_url: '/assets/avatars/default_:style_avatar.png',
@@ -51,8 +51,6 @@ class User < ActiveRecord::Base
   
   has_many :addresses
   belongs_to :primary_address, class_name: 'Address'
-  
-  # default_scope includes(:primary_email)
   
   has_many :deployments, as: :deployed
   has_many :activations, through: :deployments
@@ -174,6 +172,11 @@ class User < ActiveRecord::Base
     user.api_token     ||= SecureRandom.hex(32)
   end
 
+  validates_presence_of :initial_email, on: :create
+  after_create do |user|
+    user.skipping_auth! { user.add_email @initial_email }
+  end
+
   public
   
   def deactivate
@@ -233,6 +236,10 @@ class User < ActiveRecord::Base
   end
   
   def add_email(email, active = false)
+    puts "Checking permits"
+    check_permits
+    puts "DONE"
+    
     self.emails.create(email: email.downcase, state: active ? 'active' : 'inactive').tap do |e|
       self.primary_email = e if primary_email.nil?
     end

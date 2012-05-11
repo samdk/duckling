@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(:version => 20120511193050) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "description", :limit => 2500
+    t.text     "description"
   end
 
   create_table "sections", :force => true do |t|

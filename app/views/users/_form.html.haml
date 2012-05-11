@@ -17,11 +17,14 @@
       = f.text_field :name_suffix
   .section
     %h2 Your Contact Information
+    - if @user.new_record?
     .email
-      = f.label :primary_email, 'Email Address'
+      = f.label :initial_email, 'Email Address'
       .hint (You will log in with this email address.)
-      = f.text_field :primary_email, autocomplete: 'off'
-    -unless @user.new_record?
+      = f.text_field :initial_email, autocomplete: 'off'
+    -else
+      %h1
+        SAM: put in email editing stuff here maybe? I dunno.
       .phone
         %h3 Phone Numbers
         = f.fields_for :phone_numbers do |fe|

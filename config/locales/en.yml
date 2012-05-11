@@ -32,6 +32,8 @@ en:
   section:
     section: Section
   user:
+    registration:
+      new: Sign up for a new account
     updated: Account settings have been saved.
     introduction:
       propose: Send contact request
