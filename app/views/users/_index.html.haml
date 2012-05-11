@@ -18,7 +18,7 @@
       .text
         .name= link_to u.name, user_path(u)
         .email
-          = u.email_addresses[0]
+          = u.primary_email_address
           //= " *" if u.email_addresses.length > 1
         .phone
           = u.phone_numbers.values[0]

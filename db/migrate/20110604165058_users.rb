@@ -7,7 +7,7 @@ class Users < ActiveRecord::Migration
       t.string   'name_suffix',        limit: 50
       t.string   'avatar_file_name',   limit: 100
       t.string   'reset_token',        limit: 64
-      t.string   'state',              limit: 8
+      t.string   'state',              limit: 8,  default: 'active'
       t.string   'password_hash',      limit: 100
       t.string   'cookie_token',       limit: 128
       t.string   'api_token',          limit: 64

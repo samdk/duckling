@@ -6,18 +6,16 @@ class User < ActiveRecord::Base
       api_token
       created_at deleted_at updated_at
       state
-      unverified_email_addresses
       cookie_token_expires_at cookie_token
       reset_token
       primary_address_id
+      primary_email_id
       avatar_updated_at avatar_file_name
       password_hash
     ]
-    
+
     super opts
   end
-  
-  acts_as_paranoid
   
   include AuthorizedModel
   def permit_create?(*)
@@ -34,16 +32,13 @@ class User < ActiveRecord::Base
   end
   
   def permit_destroy?(user, *)
-    self == user
+    false
   end
-  
-  
+
   attr_accessor :password_confirmation, :password_confirmation_changed
-  attr_accessor :new_email_addresses
   
   attr_accessible :first_name, :last_name, :name_prefix, :name_suffix,
-    :phone_numbers, :unverified_email_addresses, :primary_address_id,
-    :password, :password_confirmation, :primary_email
+    :phone_numbers, :primary_address_id, :password, :password_confirmation
   
   THUMBS = {styles: {large: ['100x100#', :png], small: ['60x60#', :png]},
             default_url: '/assets/avatars/default_:style_avatar.png',
@@ -54,32 +49,11 @@ class User < ActiveRecord::Base
   validates_length_of :avatar_file_name, maximum: 100
     
   serialize :phone_numbers, Hash
-  serialize :email_addresses, Array
-  serialize :unverified_email_addresses, Array
-  
-  def self.with_email(email, id_only = false)
-    caching("email_#{email}", ids_only: id_only) {
-      User.with_uncached_email(email).first
-    }
-  end
-  
-  # DANGER, slow
-  scope :with_uncached_email, ->(email){
-    where('email_addresses LIKE ?', "%- #{email}\n%")
-  }
-  
-  # DANGER, slow
-  scope :with_uncached_unverified_email, ->(email){
-    where('unverified_email_addresses LIKE ?', "%- #{email}\n")
-  }
-  
-  # DANGER, slow  
-  scope :with_uncached_phone, ->(phone){
-    where('phone_numbers LIKE ?', "%: #{PhoneFormatter.format(phone)}\n")
-  }
   
   has_many :addresses
   belongs_to :primary_address, class_name: 'Address'
+  
+  # default_scope includes(:primary_email)
   
   has_many :deployments, as: :deployed
   has_many :activations, through: :deployments
@@ -88,20 +62,7 @@ class User < ActiveRecord::Base
   
   has_many :memberships
   has_many :organizations, through: :memberships
-  
-  def administrate(org)
-    memberships.where(organization_id: org.id).delete_all
-    memberships.create(organization: org, access_level: 'admin') 
-  end
-  
-  def manage(org)
-    memberships.where(organization_id: org.id).delete_all
-    memberships.create(organization: org, access_level: 'manager')
-  end
-  
-  def manages?(org_id)
-    memberships.where("organization_id = ? AND access_level <> ''", org_id).exists?
-  end
+  belongs_to :primary_organization, class_name: 'Organization'
   
   has_and_belongs_to_many :sections
   has_and_belongs_to_many :groups, {
@@ -176,53 +137,33 @@ class User < ActiveRecord::Base
     end
   end
   
-  validate :email_validations
-  def email_validations
-    return unless new_record? or email_addresses_changed?
-    
-    if email_addresses.blank?
-      errors.add(:email_addresses, t('user.email.missing'))
-    end
-    
-    dups = email_addresses.any? do |e|
-      u = User.with_email(e, true)
-      not (u.nil? or u == self.id)
-    end
-    
-    errors.add(:email_addresses, t('user.email.duplicate')) if dups
-    
-    email_addresses.select {|x| x !~ /\A[^@]+@[^@]+\.[^@]+\z/}.each_with_index do |addr, i|
-      errors.add("email_address_#{i}".to_sym, t('user.email.bad_format'))
-    end
-  end
-  
   validate :primary_address_validation
   def primary_address_validation
     unless primary_address_id.blank? or addresses.find(primary_address_id)
       errors.add(:primary_address, t('user.address.primary.invalid_id'))
     end
+  end  
+  
+  def administrate(org)
+    memberships.where(organization_id: org.id).delete_all
+    memberships.create(organization: org, access_level: 'admin') 
   end
   
-  protected
+  def manage(org)
+    memberships.where(organization_id: org.id).delete_all
+    memberships.create(organization: org, access_level: 'manager')
+  end
   
-  before_update :recache_emails!
-  after_create  :cache_emails!
+  def manages?(org_id)
+    memberships.where("organization_id = ? AND access_level <> ''", org_id).exists?
+  end
+
+  protected
   
   before_save do |user|
     user.phone_numbers.each do |k, v|
       user.phone_numbers[k] = PhoneFormatter.format(v)
     end
-    
-    email_addresses.map!(&:downcase)
-    unverified_email_addresses.map!(&:downcase)
-  end
-    
-  before_destroy do |user|
-    for email in user.email_addresses
-      Rails.cache.delete("email_#{email}")
-    end
-    
-    true
   end
 
   after_save do |user|
@@ -230,41 +171,17 @@ class User < ActiveRecord::Base
   end
   
   after_initialize do |user|
-    user.phone_numbers   ||= {}
-    user.email_addresses ||= []
-    user.api_token       ||= SecureRandom.hex(32)
+    user.phone_numbers ||= {}
+    user.api_token     ||= SecureRandom.hex(32)
   end
-  
-  def recache_emails!
-    if email_addresses_changed?
-      outdated, updated = email_addresses_change
-        
-      for email in Array(outdated) - Array(updated)
-        Rails.cache.delete("email_#{email}")
-      end
-        
-      for email in Array(updated) - Array(outdated)
-        caching("email_#{email}", force: true) { self }
-      end
-    end
-    
-    true
-  end
-  
-  def cache_emails!
-    for email in email_addresses
-      caching("email_#{email}") { self }
-    end
-  end
-  
-  public
 
-  def primary_email
-    email_addresses.first
+  public
+  
+  def deactivate
+    update_attribute :state, 'inactive'
   end
-  def primary_email=(email)
-    self.email_addresses_will_change!
-    (self.email_addresses ||= [])[0] = email
+  def activate
+    update_attribute :state, 'active'
   end
 
   def full_name
@@ -299,15 +216,37 @@ class User < ActiveRecord::Base
     @notifications ||= NotificationService.new(self)
   end
   
+  
+  belongs_to :primary_email, class_name: 'Email'
+  has_many :emails, foreign_key: 'user_id', primary_key: 'id'
+
+  scope :with_email, ->(email) { joins(:emails).where(emails: {email: email}) }
+
   def self.with_credentials(email, pass)
-    u = User.with_email(email)
+    u = User.with_email(email).first
     u.try(:password?, pass) && u
+  end
+  
+  def add_email(email, active = false)
+    self.emails.create(email: email, state: active ? 'active' : 'inactive')
+  end
+  
+  def primary_email_address
+    self.primary_email.email
+  end
+  
+  def activate_email(email)
+    e = self.emails.where(email: email)
+
+    if e
+      e.update_attribute :state, 'active'
+    end
   end
   
   def name
     [name_prefix,first_name,last_name,name_suffix].join(' ').strip.gsub(/\s+/, ' ')
   end
-    
+
   def can?(hash, args = {})
     hash.all? do |action, object|
       object.send "permit_#{action}?", self, args

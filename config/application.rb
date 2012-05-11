@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'abstract_controller/rendering'
 
 if defined? Bundler
   Bundler.require :default, :assets, Rails.env

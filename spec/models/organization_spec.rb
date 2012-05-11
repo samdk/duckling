@@ -24,11 +24,12 @@ describe Organization do
   
   context 'checking permissions' do
     let :user do
-      User.new(first_name: 'John', last_name: 'Smith').tap {|u|
-        u.email_addresses << 'jsmith@example.com'
-        u.password = u.password_confirmation = 'password'
-        u.save
-      }
+      u = User.new(first_name: 'John', last_name: 'Smith')
+      u.password = u.password_confirmation = 'password'
+      u.save
+      
+      u.add_email('jsmith@example.com', true)
+      u
     end
 
     it 'should allow creation by default' do
@@ -39,10 +40,6 @@ describe Organization do
       for action in [:read, :update, :destroy]
         user.can?(action => subject).should be_false
       end
-    end
-    
-    context 'in own organization' do
-      
     end
   end
   
