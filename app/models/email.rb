@@ -7,8 +7,8 @@ class Email < ActiveRecord::Base
 
   belongs_to :user
 
-  def permit_create?(*) ; true ; end
-  def permit_read?(*)   ; true ; end
+  def permit_create?(*) true end
+  def permit_read?(*)   true end
 
   def permit_update?(*) ; true ; end
   def permit_destroy?(u, *) ; true ; end
