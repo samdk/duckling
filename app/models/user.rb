@@ -8,8 +8,7 @@ class User < ActiveRecord::Base
       state
       cookie_token_expires_at cookie_token
       reset_token
-      primary_address_id
-      primary_email_id
+      primary_address_id primary_email_id
       avatar_updated_at avatar_file_name
       password_hash
     ]
@@ -110,8 +109,8 @@ class User < ActiveRecord::Base
   validates :password_hash, presence: true
   
   validates_length_of :name_prefix, maximum: 50
-  validates :first_name,    presence: true, length: {maximum: 50}
-  validates :last_name,     presence: true, length: {maximum: 50}
+  validates :first_name, presence: true, length: {maximum: 50}
+  validates :last_name,  presence: true, length: {maximum: 50}
   validates_length_of :name_suffix, maximum: 50
   
   validate :password_validations
@@ -223,12 +222,12 @@ class User < ActiveRecord::Base
   scope :with_email, ->(email) { joins(:emails).where(emails: {email: email}) }
 
   def self.with_credentials(email, pass)
-    u = User.with_email(email).first
+    u = User.with_email(email.downcase).first
     u.try(:password?, pass) && u
   end
   
   def add_email(email, active = false)
-    self.emails.create(email: email, state: active ? 'active' : 'inactive')
+    self.emails.create(email: email.downcase, state: active ? 'active' : 'inactive')
   end
   
   def primary_email_address

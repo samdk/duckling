@@ -100,11 +100,11 @@ describe User do
   end
   
   context "for credentialing" do
-    before :all do      
+    before :each do
       subject.first_name = 'John'
       subject.last_name = 'Smith'
       subject.password = subject.password_confirmation = 'password'
-      subject.save(validate: false)   
+      subject.save
       
       subject.add_email('foo@example.com', true)
       subject.add_email('bar@example.com', true)
