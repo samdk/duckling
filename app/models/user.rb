@@ -227,7 +227,9 @@ class User < ActiveRecord::Base
   end
   
   def add_email(email, active = false)
-    self.emails.create(email: email.downcase, state: active ? 'active' : 'inactive')
+    self.emails.create(email: email.downcase, state: active ? 'active' : 'inactive').tap do |e|
+      self.primary_email = e if primary_email.nil?
+    end
   end
   
   def primary_email_address
