@@ -7,8 +7,6 @@ def save(obj)
   end
 end
 
-Rails.cache.clear
-
 #ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 # makes some users
