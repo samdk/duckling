@@ -9,7 +9,6 @@ class Update < ActiveRecord::Base
   accepts_nested_attributes_for :attachments
 
   has_and_belongs_to_many :sections
-  has_and_belongs_to_many :tags
   
   # Too long titles will break UI, too long body will slow down database.
   # These limits should be sufficient.
