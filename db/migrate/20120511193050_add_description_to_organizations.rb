@@ -1,5 +1,5 @@
 class AddDescriptionToOrganizations < ActiveRecord::Migration
   def change
-    add_column 'organizations', 'description', :text, limit: 2500
+    add_column 'organizations', 'description', :text
   end
 end
