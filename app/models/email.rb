@@ -20,6 +20,10 @@ class Email < ActiveRecord::Base
   def activate
     update_attribute :state, 'active'
   end
+  
+  def active?
+    self.state == 'active'
+  end
 
   def to_s
     self.email

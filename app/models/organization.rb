@@ -20,6 +20,8 @@ class Organization < ActiveRecord::Base
   
   acts_as_paranoid
   
+  attr_accessible :name, :description
+  
   has_many :deployments, as: :deployed
   
   has_many :activations, through: :deployments
@@ -54,6 +56,8 @@ class Organization < ActiveRecord::Base
                    length: {within: (3..128)},
                    uniqueness: true,
                    format: {with: /[A-Za-z0-9\-_]+/}
+
+  validates :description, length: {maximum: 2500}
   
   def to_s
     self.name

@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
     false
   end
 
-  attr_accessor :password_confirmation, :password_confirmation_changed
+  attr_accessor :password_confirmation, :password_confirmation_changed, :login_email
   
   attr_accessible :first_name, :last_name, :name_prefix, :name_suffix,
     :phone_numbers, :primary_address_id, :password, :password_confirmation
@@ -222,8 +222,14 @@ class User < ActiveRecord::Base
   scope :with_email, ->(email) { joins(:emails).where(emails: {email: email}) }
 
   def self.with_credentials(email, pass)
-    u = User.with_email(email.downcase).first
-    u.try(:password?, pass) && u
+    e = Email.includes(:user).where(email: email.downcase).first
+    
+    return false if !e || !e.user
+
+    u = e.user
+    u.login_email = e
+    
+    u.password?(pass) && u
   end
   
   def add_email(email, active = false)

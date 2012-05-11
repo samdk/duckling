@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120511133208) do
+ActiveRecord::Schema.define(:version => 20120511193050) do
 
   create_table "acquaintances", :id => false, :force => true do |t|
     t.integer "user_id"
@@ -92,10 +92,11 @@ ActiveRecord::Schema.define(:version => 20120511133208) do
   add_index "notifications", ["key"], :name => "index_notifications_on_key"
 
   create_table "organizations", :force => true do |t|
-    t.string   "name",       :limit => 128
+    t.string   "name",        :limit => 128
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "description", :limit => 2500
   end
 
   create_table "sections", :force => true do |t|
