@@ -16,8 +16,11 @@ class SessionController < AuthorizedController
 
   def create
     u = User.with_credentials(params[:email], params[:password])
+    
     if u.blank?
       unauthorized! 'session.login.failure'
+    elsif !u.login_email.active?
+      unauthorized! 'session.login.inactive_email'
     else
       log_in_as(u)
       

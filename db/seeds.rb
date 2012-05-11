@@ -7,8 +7,6 @@ def save(obj)
   end
 end
 
-Rails.cache.clear
-
 #ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 # makes some users
@@ -24,12 +22,13 @@ def make_user(first_name,last_name)
   u.last_name = last_name
   email = "#{first_name[0]}#{last_name}".downcase
   email = "#{email}#{@used_emails.include?(email) ? @user_index : ''}@example.com"
-  @used_emails << email
-  u.email_addresses << email
   u.password = u.password_confirmation = 'testtest'
   u.phone_numbers['Desk'] = "555-555-01%02d" % (@user_index % 100)
   u.phone_numbers['Cell'] = "555-555-02%02d" % (@user_index * 2 % 100)
   save(u)
+  
+  @used_emails << email
+  u.add_email(email, true)
   
   @user_index += 1
 end

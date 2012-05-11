@@ -16,7 +16,7 @@ class UserMailer < ActionMailer::Base
     @user = user
     @from = SUPPORT_EMAILS.sample
     
-    mail to: user.email_addresses.first,
+    mail to: user.primary_email_address,
          from: @from,
          subject: 'Welcome to FlareTeam'
   end
@@ -24,7 +24,7 @@ class UserMailer < ActionMailer::Base
   def verify_account(user)
     @user = user
     
-    mail to: user.email_addresses.first,
+    mail to: user.primary_email_address,
          from: 'support@example.com',
          subject: '[FlareTeam] Please verify your account'
   end
@@ -50,7 +50,7 @@ class UserMailer < ActionMailer::Base
     @user = user
     @organization = organization
     
-    mail to: user.email_addresses.first,
+    mail to: user.primary_email_address,
          from: 'support@example.com',
          subject: "[FlareTeam] You\'ve been added to #{organization.name}"
   end
