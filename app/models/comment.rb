@@ -13,9 +13,7 @@ class Comment < ActiveRecord::Base
   
   include AuthorizedModel
   def permit_create?(user, *)
-    [author, user].any? do |u|
-      u.activations.exists?(update.activation_id)
-    end
+    user.activations.exists?(update.activation_id)
   end
   
   def permit_read?(user, opts)

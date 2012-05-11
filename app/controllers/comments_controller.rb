@@ -29,9 +29,9 @@ class CommentsController < AuthorizedController
       @comment.author = @current_user
       attach = @comment.attachment
       @comment.attachment = nil
-      if @comment.save && attach
+      if @comment.authorize_with(current_user).save && attach
         attach.attachable = @comment
-        notice 'comment.created' if attach.save
+        notice 'comment.created' if attach.authorize_with(current_user).save
       end
     end
     
