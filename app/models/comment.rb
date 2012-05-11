@@ -8,6 +8,8 @@ class Comment < ActiveRecord::Base
   accepts_nested_attributes_for :attachment
 
   validates :body, presence: true, length: { within: 2..5000 }
+  validates_associated  :author, :update
+  validates_presence_of :author, :update
 
   attr_accessible :attachment, :body, :update
   

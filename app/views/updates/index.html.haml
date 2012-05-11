@@ -16,5 +16,6 @@
         - current_date = update.created_at
         %li.day{id: "#{current_date.to_s(:mdy).gsub('/','-')}"}
           = interstitial_date(current_date)
-      %li.update{:class => @current_user == update.author ? 'yours' : ''}
-        = render update
+      %li.update{class: @current_user == update.author ? 'yours' : ''}
+        - @update = update
+        = render @update

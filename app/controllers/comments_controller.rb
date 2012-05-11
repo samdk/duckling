@@ -12,7 +12,7 @@ class CommentsController < AuthorizedController
   end
 
   def show    
-    respond_with @comment do |format|
+    respond_with @comment.authorize_with(current_user) do |format|
       format.html { redirect_to "#{activation_update_path(@activation,@update)}#comment-#{params[:id]}" }
     end
   end
@@ -24,15 +24,11 @@ class CommentsController < AuthorizedController
   def edit ; end
 
   def create
-    ActiveRecord::Base.transaction do
-      @comment = @update.comments.build(params[:comment])
-      @comment.author = @current_user
-      attach = @comment.attachment
-      @comment.attachment = nil
-      if @comment.authorize_with(current_user).save && attach
-        attach.attachable = @comment
-        notice 'comment.created' if attach.authorize_with(current_user).save
-      end
+    @comment = @update.comments.build(params[:comment])
+    @comment.attachment.attachable = @comment
+    @comment.author = @current_user
+    if @comment.authorize_with(current_user).save
+      notice 'comment.created'
     end
     
     respond_with @activation, @update, @comment do |format|

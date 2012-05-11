@@ -15,7 +15,10 @@ class Attachment < ActiveRecord::Base
   def to_s() name end
 
   include AuthorizedModel
-  delegate :permit_create?, :permit_read?, :permit_destroy?, to: :attachable
+  delegate :permit_destroy?, to: :attachable
 
-  def permit_update?() false end
+  def permit_create?(*) true end
+  def permit_read?(*)   true end
+
+  def permit_update?(*) false end
 end

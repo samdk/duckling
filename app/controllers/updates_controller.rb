@@ -37,24 +37,16 @@ class UpdatesController < AuthorizedController
   def create
     @update = @activation.updates.build(params[:update])
     @update.author = @current_user
-    #if params[:groups]
-    #  params[:groups].each_pair do |k,v|
-    #    @update.groups << Group.find(k) if v
-    #  end
-    #end
-
-    if @update.authorize_with(current_user).save and handle_sections
-      notice 'update.created'
-    end
+    @update.attachments.each {|a| a.attachable = @update}
+    notice 'update.created' if @update.authorize_with(current_user).save && handle_sections
 
     respond_with @activation, @update
   end
 
   def update
-    if handle_sections and @update.update_attributes(params[:update])
-      notice 'update.updated'
-    end
-    
+    save = @update.authorize_with(current_user).update_attributes(params[:update])
+    notice 'update.updated' if save && handle_sections
+   
     respond_with @activation, @update
   end
 

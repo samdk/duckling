@@ -2,10 +2,10 @@ class Unauthorized < RuntimeError ; end
 
 module AuthorizedModel
   
-  def permit_create?(*args)  ; true ; end
-  def permit_read?(*args)    ; true ; end
-  def permit_update?(*args)  ; true ; end
-  def permit_destroy?(*args) ; true ; end
+  def permit_create?(*args)  ; false ; end
+  def permit_read?(*args)    ; false ; end
+  def permit_update?(*args)  ; false ; end
+  def permit_destroy?(*args) ; false ; end
   
   def self.included(base)    
     base.before_destroy {|instance|
