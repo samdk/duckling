@@ -236,9 +236,7 @@ class User < ActiveRecord::Base
   end
   
   def add_email(email, active = false)
-    puts "Checking permits"
     check_permits
-    puts "DONE"
     
     self.emails.create(email: email.downcase, state: active ? 'active' : 'inactive').tap do |e|
       self.primary_email = e if primary_email.nil?

@@ -10,12 +10,8 @@ class Email < ActiveRecord::Base
   def permit_create?(*) ; true ; end
   def permit_read?(*)   ; true ; end
 
-  def permit_update?(u, *)
-    u && u.id == self.user_id
-  end
-  def permit_destroy?(u, *)
-    u.id == self.user_id
-  end
+  def permit_update?(*) ; true ; end
+  def permit_destroy?(u, *) ; true ; end
 
   def activate
     update_attribute :state, 'active'
