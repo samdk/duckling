@@ -71,10 +71,10 @@ class UsersController < AuthorizedController
         @user.errors.add(pc, t('login.password_confirmation.wrong'))
       end
     end
-    
+
     notice 'user.created' if @user.save
     
-    login_as(@user)
+    log_in_as @user
     
     respond_with @user
   end

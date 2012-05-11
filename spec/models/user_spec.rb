@@ -1,13 +1,11 @@
 require 'spec_helper'
 
-# TODO: check rcov
-
 def make_user(first, last, cheating = false)
-  u = User.new(first_name: first, last_name: last)
-  u.password = u.password_confirmation = 'password'
+  u = User.new(first_name: first, last_name: last,
+    password: 'password', password_confirmation: 'password',
+    initial_email: "#{first[0]}#{last}@example.com")
   u.instance_variable_set :@cheating, true if cheating
   u.save
-  u.add_email "#{first[0]}#{last}@example.com", true
   u
 end
 
@@ -104,10 +102,10 @@ describe User do
       subject.first_name = 'John'
       subject.last_name = 'Smith'
       subject.password = subject.password_confirmation = 'password'
+      subject.initial_email 'foo@example.com'
       subject.save
       
-      subject.add_email('foo@example.com', true)
-      subject.add_email('bar@example.com', true)
+      subject.add_email 'bar@example.com'
     end
 
     it 'should credential either email address' do

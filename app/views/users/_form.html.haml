@@ -18,11 +18,11 @@
   .section
     %h2 Your Contact Information
     - if @user.new_record?
-    .email
-      = f.label :initial_email, 'Email Address'
-      .hint (You will log in with this email address.)
-      = f.text_field :initial_email, autocomplete: 'off'
-    -else
+      .email
+        = f.label :initial_email, 'Email Address'
+        .hint (You will log in with this email address.)
+        = f.text_field :initial_email, autocomplete: 'off'
+    - else
       %h1
         SAM: put in email editing stuff here maybe? I dunno.
       .phone
@@ -45,4 +45,5 @@
       .hint (confirm your password)
       = f.password_field :password_confirmation, value: '', autocomplete: 'off'
   .section
-    = submit_tag(@user.new_record? ? "Sign Up" : "Edit Account")
+    - submit_text = @user.new_record? ? "Sign Up" : "Edit Account"
+    = submit_tag submit_text
