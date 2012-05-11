@@ -25,9 +25,9 @@
   .files
     %h3= t('update.attached_files.current')
     %ul
-    - for upload in @update.file_uploads
+    - @update.attachments.each do |attachment|
       %li
-        #{link_to_attachment(upload)} (#{delete_upload_link(upload.id)})
+        #{attachment_url attachment}
     %h3= t('update.attached_files.more')
     %ul#new-uploads
       %li= file_field_tag 'update[new_file_uploads][][upload]'

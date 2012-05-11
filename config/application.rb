@@ -1,12 +1,11 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'abstract_controller/rendering'
 
 if defined? Bundler
   Bundler.require :default, :assets, Rails.env
 end
-
-
 
 APP_CONFIG = YAML.load_file(File.expand_path('../config.yml', __FILE__))[Rails.env]
 

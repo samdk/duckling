@@ -10,7 +10,7 @@ class UpdatesController < AuthorizedController
   def index
     @activation = current_user.activations.includes(:users).find(params[:activation_id])
     @updates = @activation.updates
-                .includes(:comments, :file_uploads, :author, :activation)
+                .includes(:comments, :attachments, :author, :activation)
                 .order('created_at DESC')
                 .in_date_range(params[:start_date], params[:end_date])
                 .matching_search([:title, :body],params[:search_query])
@@ -63,15 +63,6 @@ class UpdatesController < AuthorizedController
     destroyed_redirect_to activation_updates_url(@activation)
   end
 
-  def attachment
-    attachment = FileUpload.includes(:update).find(params[:id])
-    if current_user.can? read: attachment
-      send_file attachment.upload.path
-    else
-      raise Unauthorized, t('attachment.unauthorized')
-    end
-  end
-
   private
   
   def handle_sections
@@ -86,6 +77,6 @@ class UpdatesController < AuthorizedController
   end
   
   def set_update
-    @update = @activation.updates.includes(:file_uploads).find(params[:id])
+    @update = @activation.updates.includes(:attachments).find(params[:id])
   end
 end

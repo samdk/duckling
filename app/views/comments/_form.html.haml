@@ -1,0 +1,7 @@
+- c = Comment.new
+- c.build_attachment
+= form_for [@update.activation,@update,c], html: {id: "new-comment-#{@update.id}"} do |c|
+  = c.text_field :body, class: 'comment-input'
+  = c.fields_for :attachment do |a|
+    = a.file_field :file, class: 'comment-file'
+  = c.submit 'Add Comment', class: 'comment-submit'

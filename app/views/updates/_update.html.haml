@@ -11,14 +11,12 @@
   .update-text= current_page?(url) ? update.body : truncate(update.body, length: 350)
   .update-files
     %ul
-      - update.file_uploads.each do |attachment|
-        %li.file= link_to_attachment attachment
+      - update.attachments.each do |attachment|
+        %li.file= attachment_url attachment
   .update-comments
     %ul
       - for comment in update.comments
         %li
           = render comment
     .new-comment
-      = form_for [update.activation,update,Comment.new], remote: true, html: {:id => "new-comment-#{update.id}", :'data-type' => 'html'} do |cf|
-        = cf.text_field :body, class: 'comment-input'
-        = cf.submit 'Add Comment', class: 'comment-submit'
+      = render partial: 'comments/form', locals: { update: update }

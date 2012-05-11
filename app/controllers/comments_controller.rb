@@ -24,11 +24,15 @@ class CommentsController < AuthorizedController
   def edit ; end
 
   def create
-    @comment = @update.comments.build(params[:comment])
-    @comment.author = @current_user
-
-    if @comment.save
-      notice 'comment.created'
+    ActiveRecord::Base.transaction do
+      @comment = @update.comments.build(params[:comment])
+      @comment.author = @current_user
+      attach = @comment.attachment
+      @comment.attachment = nil
+      if @comment.save && attach
+        attach.attachable = @comment
+        notice 'comment.created' if attach.save
+      end
     end
     
     respond_with @activation, @update, @comment do |format|
@@ -47,14 +51,14 @@ class CommentsController < AuthorizedController
     end
   end
 
-  def update
-    notice 'comment.updated' if @comment.authorize_with(current_user).update_attributes(params[:comment])
+  #def update
+  #  notice 'comment.updated' if @comment.authorize_with(current_user).update_attributes(params[:comment])
 
-    respond_with @activation, @update, @comment do |format|
-      format.html { redirect_to :back }
-      format.any { head :ok }
-    end
-  end
+  #  respond_with @activation, @update, @comment do |format|
+  #    format.html { redirect_to :back }
+  #    format.any { head :ok }
+  #  end
+  #end
 
   def destroy
     @comment.authorize_with(current_user).destroy

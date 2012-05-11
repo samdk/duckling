@@ -10,11 +10,11 @@ Duckling::Application.routes.draw do
   
   resource :session, only: [:new, :destroy, :create]
 
-  match '/attachments/:id/:file_name', to: 'updates#attachment'
-    
   resources :people, controller: 'users', as: 'users' do
     get 'avatar_:style.png', to: 'users#avatar', on: :member, as: :user_avatar
   end
+
+  resources :attachments, only: [:show]
   
   resource :account, controller: 'users' do
     

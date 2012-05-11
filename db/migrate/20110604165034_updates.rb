@@ -8,7 +8,6 @@ class Updates < ActiveRecord::Migration
       t.integer  'comments_count'
       t.datetime 'created_at'
       t.datetime 'updated_at'
-      t.integer  'file_uploads_count'
     end
   end
 
