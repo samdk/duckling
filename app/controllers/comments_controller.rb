@@ -25,7 +25,7 @@ class CommentsController < AuthorizedController
 
   def create
     @comment = @update.comments.build(params[:comment])
-    @comment.attachment.attachable = @comment
+    @comment.attachment.attachable = @comment if @comment.attachment
     @comment.author = @current_user
     if @comment.authorize_with(current_user).save
       notice 'comment.created'
