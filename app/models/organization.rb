@@ -7,7 +7,7 @@ class Organization < ActiveRecord::Base
   end
   
   def permit_read?(user, *)
-    users.exists?(user.id)
+    self.users.exists?(user.id)
   end
   
   def permit_update?(user, *)

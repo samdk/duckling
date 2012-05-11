@@ -11,7 +11,7 @@ class Email < ActiveRecord::Base
   def permit_read?(*)   ; true ; end
 
   def permit_update?(u, *)
-    u.id == self.user_id
+    u && u.id == self.user_id
   end
   def permit_destroy?(u, *)
     u.id == self.user_id

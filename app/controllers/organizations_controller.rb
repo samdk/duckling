@@ -1,4 +1,4 @@
-class OrganizationsController < ApplicationController
+class OrganizationsController < AuthorizedController
 
   respond_to :html
   respond_to :json, :xml, except: [:new, :edit]
@@ -11,7 +11,7 @@ class OrganizationsController < ApplicationController
 
   def show    
     @organization = Organization.find(params[:id])
-    if !current_user.can_see_organization?(@organization)
+    if !current_user.can?(read: @organization)
       unauthorized! 'organization.private'
     end
     
@@ -50,6 +50,7 @@ class OrganizationsController < ApplicationController
   
   private
   def set_organization
-    @organization = current_user.administrated_organizations.find(params[:id])
+    @organization = current_user.organizations.find(params[:id])
+    @organization.authorize_with(current_user)
   end
 end
