@@ -2,7 +2,7 @@ class SectionsController < AuthorizedController
   layout 'activation_page'
 
   before_filter :set_activation
-  before_filter :set_section, except: [:new, :index]
+  before_filter :set_section, except: [:new, :create, :index]
 
   def new
     @section = Section.new
@@ -17,7 +17,7 @@ class SectionsController < AuthorizedController
 
   def join
     @section.users << current_user
-    if @section.save
+    if @section.authorize_with(@current_user).save
       notice 'section.joined'
     end
     redirect_to :back
@@ -33,6 +33,7 @@ class SectionsController < AuthorizedController
 
   def create
     @section = Section.new(params[:section])
+    @section.activation = @activation
     @section.users << current_user
     if @section.authorize_with(current_user).save
       notice 'section.created'
@@ -43,7 +44,7 @@ class SectionsController < AuthorizedController
   end
 
   def update
-    if @section.update_attributes(params[:section])
+    if @section.authorize_with(current_user).update_attributes(params[:section])
       notice 'section.updated'
       respond_with @section
     else
@@ -54,6 +55,7 @@ class SectionsController < AuthorizedController
   private
     def set_activation
       @activation = current_user.activations.find(params[:activation_id])
+      logger.shout @activation
     end
 
     def set_section

@@ -29,7 +29,7 @@ Duckling::Application.routes.draw do
   resources :activations do
     resources :sections do
       put :join, to: :join
-      put :join, to: :leave
+      put :leave, to: :leave
     end
 
     resources :updates do
