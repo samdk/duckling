@@ -1,5 +1,6 @@
 class SectionsController < AuthorizedController
   layout 'activation_page'
+  respond_to :html
 
   before_filter :set_activation
   before_filter :set_section, except: [:new, :create, :index]
@@ -37,25 +38,24 @@ class SectionsController < AuthorizedController
     @section.users << current_user
     if @section.authorize_with(current_user).save
       notice 'section.created'
-      respond_with @section
+      respond_with @activation,@section
     else
-      respond_with @section, location: new_activation_section_path(@activation)
+      respond_with @activation,@section, location: new_activation_section_path(@activation)
     end
   end
 
   def update
     if @section.authorize_with(current_user).update_attributes(params[:section])
       notice 'section.updated'
-      respond_with @section
+      respond_with @activation,@section
     else
-      respond_with @section, location: edit_activation_section_path(@activation)
+      respond_with @activation,@section, location: edit_activation_section_path(@activation)
     end
   end
 
   private
     def set_activation
       @activation = current_user.activations.find(params[:activation_id])
-      logger.shout @activation
     end
 
     def set_section

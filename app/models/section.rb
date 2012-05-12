@@ -14,7 +14,7 @@ class Section < ActiveRecord::Base
 
   include AuthorizedModel
   def permit_create?(user, *)
-    user.activations.where(id: activation_id).exists?
+    activation.users.exists?(user.id)
   end
   
   alias_method :permit_read?, :permit_create?
