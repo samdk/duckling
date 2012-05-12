@@ -1,170 +1,59 @@
 @import 'includes';
 
-#body-header {
-  padding-bottom: $pad1;
-  position: relative;
-  padding: $pad2 0;
-  margin-bottom: 1px;
-  h1 {
-    font: {
-      size: 18px;
-      weight: bold;
-    }
-  }
+#header {
+
 }
-  #add-update {
+  #alerts-count {
     display: block;
-    @include med_button;
-    margin: 0 0 $pad2 $pad2;
+    color: white;
+    background: $grey2;
+    &.active { background: #C60000; }
+    padding: $pad3;
+    width: 22px;
+    text-align: center;
     position: absolute;
-    top: $pad1; right: 0;
+    left: $pad1; top: 14px; bottom: 13px;
+    border: 1px solid $grey1;
+    font-size: 24px;
+    font-weight: bold;
+    &:hover {
+      text-decoration: none;
+      outline: 2px solid white;
+    }
   }
-#body-body {
-  position: relative;
-}
-  #nav-holder {
+  #filters {
     position: absolute;
-    width: 960px;
-    left: 50%; margin-left: -480px;
-    top: 0;
+    left: 70px; right: 200px; top: $pad1; bottom: $pad1;
   }
-    #body-nav {
-      width: $nav-width + 1;
+    #activation-select {
+      font-size: 21px;
+      margin-top: -5px;
+    }
+    #add-update {
+      display: block;
+      @include med_button;
       position: absolute;
-      top: 0; right: 0;
-      z-index: 20;
-
-      > ul {
-        border: 1px solid $border-color;
-        border-width: 1px 1px 0;
-
-        > li {
-          clear: both;
-          position: relative;
-          font-size: 13px;
-          border-bottom: 1px solid $border-color;
-
-          > a {
-            @include block_link;
-            padding: $pad2 $pad2 $pad2 ($pad2 + 22px);
-            font-size: 16px;
-            color: black;
-            text-shadow: 0 1px 1px white;
-            font-weight: bold;
-            &.updates { @include icon('is_bubbles_16b.png',9px,11px); }
-            &.people  { @include icon('is_person_16b.png',$pad2,9px); }
-            &.groups  { @include icon('is_people_16b.png',$pad2,9px); }
-            &.summary { @include icon('is_chart_16b.png',11px,10px);  }
-            opacity: 0.4;
-          }
-
-          &:hover, &.active {
-            background: white;
-            color: black;
-            > a { opacity: 1; }
-          }
-          .extra { display: none; }
-          &.active {
-            > a {
-              padding-bottom: $pad3;
-            }
-            .extra {
-              display: block;
-              padding: $pad2;
-              @include reversed_links;
-              h3 {
-                font-weight: bold;
-                margin:  $pad2 0 $pad3;
-              }
-              ul {
-                list-style-type: disc;
-                color: $grey4;
-                li {
-                  margin: 3px 0 3px 15px;
-                }
-              }
-              .calendar {
-                // actual width is 160, but it looks centered this way
-                width: 165px;
-                margin: 0 auto;
-                .cal-title a { text-decoration: none; }
-              }
-            }
-          }
-        }
-      }
+      top: 13px; right: $pad1; bottom: 13px;
     }
-  .main {
-    position: relative;
-    left: 0; top: 0; right: 0; bottom: 0;
-    .pane {
-      position: relative;
-      z-index: 3;
-      padding-right: $nav-width;
-    }
+
+#body {
+  
+}
+
+#sidebar {
+
+}
+  #updates-link {
+    font-size: 24px;
   }
-      #inner-header {
-        padding: $pad2;
-        position: relative;
-        background: $light-yellow;
-        color: black;
-        h1 {
-          font-size: 13px;
-        }
-        h2 {
-          font-size: 21px;
-          font-weight: bold;
-        }
-      }
-        #filters {
-          position: relative;
-          z-index: 50;
-          font-size: 13px;
-          @include reversed_links;
-          form {
-            display: none;
-            input[type=text],select {
-              width: 184px;
-              border: 1px solid $grey4;
-              float: left;
-              padding: 8px;
-              color: black;
-              background: $grey8;
-              border: 0;
-              @include border_radius(3px);
-              font-size: 16px;
-              line-height: 17px;
-              &.default-text { color: $grey4; }
-            }
-            .multiselect {
-              width: 184px;
-              float: left;
-              margin-left: 4px;
-              font-size: 16px;
-              line-height: 17px;
-              background: $grey8;
-              @include border_radius(3px);
-              a {
-                color: black;
-                padding: 9px;
-                display: block;
-                text-align: right;
-                &:hover {
-                  text-decoration: none;
-                }
-              }
-              ul {
-                display: none;
+  #account {
+    position: absolute;
+    bottom: 0; left: 0;
+    padding: $pad1;
+  }
 
-              }
-            }
-            input[type=submit] {
-              @include small_button;
-              padding: 9px ($pad2+2);
-              position: absolute;
-              right: $pad1;
-              border-width: 0;
-              line-height: 17px;
-            }
-          }
-        }
+//.updates { @include icon('is_bubbles_16b.png',9px,11px); }
+//.people  { @include icon('is_person_16b.png',$pad2,9px); }
+//.groups  { @include icon('is_people_16b.png',$pad2,9px); }
+//.summary { @include icon('is_chart_16b.png',11px,10px);  }
+

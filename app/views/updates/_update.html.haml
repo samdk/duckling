@@ -5,9 +5,6 @@
 .update-main
   - url = activation_update_url(@activation,@update)
   %h2.update-title= link_to_unless current_page?(url), @update.title, url
-  .update-author
-    Posted by
-    = link_to @update.author.full_name, user_url(@update.author)
   .update-text= current_page?(url) ? @update.body : truncate(@update.body, length: 350)
   .update-files
     %ul

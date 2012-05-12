@@ -234,7 +234,7 @@ class User < ActiveRecord::Base
     
     u.password?(pass) && u
   end
-  
+
   def add_email(email, active = false)
     check_permits
     
@@ -242,7 +242,7 @@ class User < ActiveRecord::Base
       self.primary_email = e if primary_email.nil?
     end
   end
-  
+
   def primary_email_address
     self.primary_email.email
   end
@@ -264,5 +264,9 @@ class User < ActiveRecord::Base
       object.send "permit_#{action}?", self, args
     end
   end  
+
+  def to_s
+    name
+  end
   
 end

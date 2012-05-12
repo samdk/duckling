@@ -1,13 +1,3 @@
-= content_for :inner_header do
-  #filters
-    %form
-      %fieldset#filters-simple
-        %input{type: 'text', value: 'Search'}/
-        =# render partial: 'multiselect', locals: {name: 'Groups',items:@activation.groups}
-        =# render partial: 'multiselect', locals: {name: 'Organizations',items:@activation.organizations}
-        %input{type: 'submit', value: 'Apply Filters'}/
-  #updates-header
-    %h2= "Showing all #{@updates.length} updates"
 #updates
   %ul
     - current_date = Time.now

@@ -1,33 +1,40 @@
+= content_for :header do
+  %a#alerts-count.active{href:'#'} 3
+  #filters
+    %select#activation-select
+      %option= @activation.title
+    &#9656;
+    %select.filter
+      %option My Sections
+  = link_to 'Add Update', new_activation_update_path(@activation), id: 'add-update'
+
+
+= content_for :sidebar do
+  %h2#updates-link= link_to 'Updates', activation_updates_url(@activation), :class => 'updates'
+  &mdash;
+
+  %ul
+    %li#invite-link
+      %a{href:'#'} Invite People
+    %li#sections-link
+      %a{href:'#'} Sections
+    %li#email-settings
+      %select
+        %option Email alerts on
+        %option Email alerts off
+  &mdash;
+
+  #organization-link
+    %a{href:'#'} Organizations
+
+  #account
+    %h3= "logged in as #{@current_user}"
+    %a{href:'#'} account settings
+    &middot;
+    %a{href:'#'} log out
+
+
 = content_for :content do
-  .wrapper
-    -#body-header
-      %h1= @activation.title
-      %p= @activation.description
-      = link_to 'Add Update', new_activation_update_path(@activation), id: 'add-update'
-    #body-body
-      .main
-        #inner-header
-          %h1= @activation.title
-          = yield :inner_header
-          = link_to 'Add Update', new_activation_update_path(@activation), id: 'add-update'
-        .pane
-          #nav-holder
-            #body-nav
-              %ul
-                %li{ :class => @updates ? 'active' : ''}
-                  = link_to 'Updates', activation_updates_url(@activation), :class => 'updates'
-                  .extra
-                    %ul
-                      %li
-                        %a{href:'#'} Change Email Alert Settings
-                      %li
-                        %a{href:'#'} Export Updates
-                    != month_jumper
-                %li{ :class => @users ? 'active' : ''}
-                  =  link_to 'People',  activation_people_url(@activation), :class => 'people'
-                %li{ :class => @groups ? 'active' : ''}
-                  =  link_to 'Groups',  activation_groups_url(@activation), :class => 'groups'
-                %li{ :class => @summary ? 'active' : ''}
-                  = link_to 'Summary', '#', :class => 'summary'
-          = yield
+  = yield
+
 = render file: 'layouts/application'

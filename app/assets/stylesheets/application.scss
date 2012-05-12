@@ -15,7 +15,17 @@ input, select {
   border: 1px solid $grey6;
   padding: 4px;
 }
+select {
+  border: 1px solid $grey5;
+}
+
 select { padding: 3px; }
+
+html {
+  // always display a scroll bar
+  overflow-y: scroll;
+}
+
 body {
   background: white;
   color: black;
@@ -25,52 +35,29 @@ body {
   }
   width: 100%;
 }
+
   #header {
-    position: absolute;
+    position: fixed;
     top: 0; left: 0; right: 0;
+    padding: $pad1;
     height: $nav-height;
-    a { color: black; }
-
-    .wrapper {
-      @include body_width;
-      background: red;
-
-      #nav {
-        @include nav_links(left);
-        font-weight: bold;
-      }
-      
-      #account {
-        @include nav_links(right);
-        @include reversed_links;
-      }
-    }
-  }
-  #flash {
-    position: relative;
-    top: $nav-height; left: 0; right: 0;
-    font-weight: bold;
-    background: black;
+    z-index: 100;
+    background: #444;
     color: white;
-    text-align: center;
-    div { padding: $pad2 0; }
-    #flash-notice { background: green; }
-    #flash-error  { background: red;   }
   }
+
+  #sidebar {
+    position: fixed;
+    top: $nav-height + (2 * $pad1); left: 0; bottom: 0;
+    padding: $pad1;
+    z-index: 50;
+    background: #ddd;
+    width: $nav-width;
+  }
+
   #body {
-    position: relative;
-    top: $nav-height; left: 0; right: 0;
-    .wrapper {
-      @include body_width;
-      padding: 0 0 $pad1;
-    }
-  }
-  #footer {
-    top: 30px;
-    position: relative;
-    text-align: center;
-    font-size: 11px;
-    color: $grey5;
-    padding-bottom: 20px;
+    position: absolute;
+    top: $nav-height + (2 * $pad1); left: $nav-width + (2 * $pad1); right: 0;
+    z-index: 0;
   }
 
