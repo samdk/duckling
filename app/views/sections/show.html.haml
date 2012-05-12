@@ -9,10 +9,10 @@
       = link_to u, users_path(u)
       - if u == @current_user
         - member = true
-        = link_to '(leave this section)', activation_section_leave_path(@activation,@section), method: :put
+        = link_to '(leave this section)', leave_activation_section_path(@activation,@section), method: :put
 &mdash;
 - unless member
-  = link_to 'join this section', activation_section_join_path(@activation,@section)
+  = link_to 'join this section', join_activation_section_path(@activation,@section), method: :put
   &mdash;
 
 = link_to 'edit', edit_activation_section_path(@activation,@section)
