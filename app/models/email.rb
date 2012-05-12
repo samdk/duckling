@@ -8,7 +8,7 @@ class Email < ActiveRecord::Base
   scope :active, where(state: 'active')
 
   belongs_to :user
-  
+
   has_many :invitations
   [:organizations, :groups, :sections, :activations].each do |table|
     has_many table, through: :invitations, source: :invitable, source_type: table.to_s.classify
@@ -17,6 +17,15 @@ class Email < ActiveRecord::Base
   has_many :notifications
   def notify(obj, event)
     notifications.create(target_class: obj.class.name, target_id: obj.id, event: event)
+  end
+
+  def self.invite(email, obj)
+    e = Email.find_or_create_by_email(email)
+    if e.user
+      e.user.join(obj)
+    else
+      obj.invitations << e
+    end
   end
 
   def permit_create?(*)  true end

@@ -27,6 +27,8 @@ def make_user(first_name,last_name)
   u.phone_numbers['Cell'] = "555-555-02%02d" % (@user_index * 2 % 100)
   save(u)
   
+  u.primary_email.activate
+  
   @used_emails << u.initial_email  
   @user_index += 1
 end

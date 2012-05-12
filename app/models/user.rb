@@ -63,7 +63,7 @@ class User < ActiveRecord::Base
   end
 
   has_many :memberships  
-  has_many :organizations, through: :memberships
+  has_many :organizations, through: :memberships, source: 'container', source_type: 'Organization'
   belongs_to :primary_organization, class_name: 'Organization'
 
   has_and_belongs_to_many :sections

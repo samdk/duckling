@@ -3,6 +3,7 @@ class AddInvitations < ActiveRecord::Migration
     create_table :invitations, id: false do |t|
       t.references 'email'
       t.references 'invitable', polymorphic: true
+      t.string     'secret_code'
       t.timestamps
     end
     

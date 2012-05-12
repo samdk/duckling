@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
     t.integer  "email_id"
     t.integer  "invitable_id"
     t.string   "invitable_type"
+    t.string   "secret_code"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
