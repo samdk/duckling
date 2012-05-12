@@ -3,7 +3,7 @@ class Email < ActiveRecord::Base
 
   validates_presence_of   :email, message: t('user.email.missing')
   validates_uniqueness_of :email, message: t('user.email.unique')
-  validates_format_of     :email, with: /\A[^@]+@[^@]+\.[^@]+\z/, message: t('user.email.bad_format')  
+  validates_format_of     :email, message: t('user.email.bad_format'), with: /\A[^@]+@[^@]+\.[^@]+\z/
 
   scope :active, where(state: 'active')
 
@@ -24,7 +24,7 @@ class Email < ActiveRecord::Base
     if e.user
       e.user.join(obj)
     else
-      obj.invitations << e
+      obj.invitations.create e
     end
   end
 
@@ -45,5 +45,8 @@ class Email < ActiveRecord::Base
     self.email
   end
 
-
+  before_save :generate_secret_code_if_missing
+  def generate_secret_code_if_missing
+    @secret_code ||= ActiveSupport::RandomSecure.base64(128)
+  end
 end

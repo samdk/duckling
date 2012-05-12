@@ -85,7 +85,8 @@ class AuthorizedController < ApplicationController
   
   def log_in_from_session
     return false unless session[:user_id]
-    restore_login User.find(session[:user_id].to_i)
+
+    restore_login User.where(id: session[:user_id].to_i).first
   end
   
   def log_in_from_signature

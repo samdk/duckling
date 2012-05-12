@@ -45,7 +45,7 @@ class Organization < ActiveRecord::Base
                             source: :user,
                             conditions: {'memberships.access_level' => 'admin'},
                             before_add: ->(*){ raise 'Do not add through this' }
-  
+
   has_many :sections, as: :groupable
   
   validate :has_at_least_one_administrator, on: :update

@@ -66,11 +66,8 @@ class User < ActiveRecord::Base
   has_many :organizations, through: :memberships, source: 'container', source_type: 'Organization'
   belongs_to :primary_organization, class_name: 'Organization'
 
-  has_and_belongs_to_many :sections
-  has_and_belongs_to_many :groups, {
-    join_table: 'sections_users',
-    association_foreign_key: 'section_id'
-  }
+  has_many :sections, through: :memberships, source: 'container', source_type: 'Section'
+  has_many :groups,   through: :memberships, source: 'container', source_type: 'Group'
 
   ACQ_FINDER_SQL = ->(*){ %[
       SELECT * FROM users
@@ -162,6 +159,10 @@ class User < ActiveRecord::Base
 
   def manages?(org)
     org.memberships.where(user_id: id).where("access_level <> ''", org_id).exists?
+  end
+  
+  def join(obj)
+    obj.users << self
   end
 
   protected

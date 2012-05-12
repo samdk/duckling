@@ -4,7 +4,7 @@ class Notification < ActiveRecord::Base
   scope :unseen, where(dismissed: false)
   
   def after_save
-    logger.info "Saved #{inspect}"
+    puts "NOTIFICATION TO #{user.primary_email_address}: #{to_message('log')}" # TODO: DELETE
   end
   
   def reference
