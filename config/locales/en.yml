@@ -7,14 +7,14 @@ en:
     logout:
       success: You've logged out
   activation:
-    editing: Editing Activation
-    activate: Active?
-    activate_description: 'If inactive, it will be unobtrusive. All data is preserved when you change between active and inactive. You can always reactivate. Deactivation affects everyone in it.'
+    editing: Activation Details
+    activate: This activation is still open
+    activate_description: Close to halt all notifications to all users for this activation
     sections:
-      none: There are no sections in this activation yet.
+      none: This activation doesn't have any sections yet.
   update:
     create:
-      success: Update created
+      success: You updated the activation
     edit:
       title: Edit Update
       success: Update edited
