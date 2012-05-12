@@ -1,17 +1,12 @@
 class Updates < ActiveRecord::Migration
-  def self.up
-    create_table 'updates', force: true do |t|
+  def change
+    create_table 'updates' do |t|
       t.string   'title',              limit: 128
-      t.integer  'author_id'
-      t.integer  'activation_id'
+      t.references 'author'
+      t.references 'activation'
       t.text     'body'
       t.integer  'comments_count'
-      t.datetime 'created_at'
-      t.datetime 'updated_at'
+      t.timestamps
     end
-  end
-
-  def self.down
-    drop_table 'updates'
   end
 end

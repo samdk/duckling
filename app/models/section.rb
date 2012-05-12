@@ -3,8 +3,11 @@ class Section < ActiveRecord::Base
   
   belongs_to :activation, polymorphic: true, foreign_key: 'groupable_id', foreign_type: 'groupable_type'
   
-  has_and_belongs_to_many :users
-  has_and_belongs_to_many :updates
+  has_many :memberships, as: 'container'
+  has_many :users, through: :memberships
+
+  has_many :participants
+  has_many :updates, through: :participants
   
   validates :name, presence: true, length: {within: 2..50}
   validates_length_of :description, maximum: 1000

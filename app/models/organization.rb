@@ -11,7 +11,7 @@ class Organization < ActiveRecord::Base
   end
   
   def permit_update?(user, *)
-    user && user.memberships.where(organization_id: id, access_level: 'admin').exists?
+    user && user.administrates?(self)
   end
   
   def permit_destroy?(user, *)
@@ -23,13 +23,16 @@ class Organization < ActiveRecord::Base
   attr_accessible :name, :description
   
   has_many :deployments, as: :deployed
-  
+
   has_many :activations, through: :deployments
   has_many :current_activations, through: :deployments, conditions: {active: true}
-  has_many :past_activations, through: :deployments, conditions: {active: true}
-  
-  has_many :memberships
+  has_many :past_activations, through: :deployments, conditions: {active: false}
+
+  has_many :memberships, as: 'container'
   has_many :users, through: :memberships
+
+  has_many :invitations, as: :invitable
+  has_many :invited_emails, through: :invitations, class_name: 'Email', foreign_key: 'email_id'
 
   has_many :managers, class_name: 'User',
                       through: :memberships,

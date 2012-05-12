@@ -3,13 +3,13 @@ class OrganizationsController < AuthorizedController
   respond_to :html
   respond_to :json, :xml, except: [:new, :edit]
 
-  before_filter :set_organization, only: [:edit, :update, :destroy]
+  before_filter :set_organization, only: [:edit, :update, :destroy, :invite, :revoke]
 
   def index
     respond_with(@organizations = current_user.organizations)
   end
 
-  def show    
+  def show
     @organization = Organization.find(params[:id])
     if !current_user.can?(read: @organization)
       unauthorized! 'organization.private'
@@ -27,9 +27,10 @@ class OrganizationsController < AuthorizedController
   def create
     @organization = Organization.new(params[:organization])
 
-    if @organization.save
+    if @organization.authorize_with(current_user).save
       notice 'organization.created'
-      # TODO: associate to stuff
+      @organization.users << current_user
+      # TODO: Do we need other associations?
     end
     
     respond_with @organization
@@ -48,6 +49,25 @@ class OrganizationsController < AuthorizedController
     destroyed_redirect_to organizations_url
   end
   
+  def invite
+    email = Email.find_or_create_by_email(params[:email])
+    
+    if user = email.user
+      @organization.users << user
+    else
+      @organization.invited_emails << email
+    end 
+  end
+  
+  def revoke
+    if params[:email]
+      email = Email.where(email: params[:email])
+      @organization.invitiations.where(email_id: email.id).clear
+    elsif params[:user_id]
+      @organization.users.where(user_id: params[:user_id]).clear
+    end
+  end
+
   private
   def set_organization
     @organization = current_user.organizations.find(params[:id])

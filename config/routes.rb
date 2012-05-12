@@ -16,11 +16,9 @@ Duckling::Application.routes.draw do
 
   resources :attachments, only: [:show]
   
-  resource :account, controller: 'users' do
-    
+  resource :account, controller: 'users' do    
     member do
        get :activate
-       
        get :forgot_password
       post :request_password_reset
        get 'new_password/:id_:token', to: :new_password, as: :new_password
@@ -32,6 +30,8 @@ Duckling::Application.routes.draw do
     resources :updates do
       resources :comments
     end
+    
+    get 'overview', on: :collection
 
     member do
         post :rejoin
@@ -39,16 +39,18 @@ Duckling::Application.routes.draw do
       delete :leave
       delete 'organization_leave/:organization_id', to: :organization_leave
     end
-    
+      
     resources :people, controller: 'users', only: [:index]
     resources :groups    
   end
 
   resources :organizations do
+    post :invite
+    post :revoke
     resources :people, controller: 'users', only: [:index]
     resources :sections
     resources :activations, only: [:index]
   end
-  
-  root to: 'activations#overview'  
+
+  root to: 'home#landing'
 end

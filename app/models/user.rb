@@ -56,8 +56,13 @@ class User < ActiveRecord::Base
   has_many :activations, through: :deployments
   has_many :current_activations, through: :deployments, conditions: {active: true}
   has_many :past_activations, through: :deployments, conditions: {active: true}
+  
+  has_many :notifications, through: :emails
+  def notify(obj, event)
+    Notification.create(email_id: primary_email_id, target_class: obj.class.name, target_id: obj.id, event: event.to_s)
+  end
 
-  has_many :memberships
+  has_many :memberships  
   has_many :organizations, through: :memberships
   belongs_to :primary_organization, class_name: 'Organization'
 
@@ -142,17 +147,21 @@ class User < ActiveRecord::Base
   end  
 
   def administrate(org)
-    memberships.where(organization_id: org.id).delete_all
-    memberships.create(organization: org, access_level: 'admin') 
+    org.memberships.where(user_id: id).clear
+    org.memberships.create(user_id: id, access_level: 'admin')
   end
 
   def manage(org)
-    memberships.where(organization_id: org.id).delete_all
-    memberships.create(organization: org, access_level: 'manager')
+    org.memberships.where(user_id: id).clear
+    org.memberships.create(user_id: id, access_level: 'admin')
+  end
+  
+  def administrates?(org)
+    org.memberships.where(user_id: id, access_level: 'admin').exists?
   end
 
-  def manages?(org_id)
-    memberships.where("organization_id = ? AND access_level <> ''", org_id).exists?
+  def manages?(org)
+    org.memberships.where(user_id: id).where("access_level <> ''", org_id).exists?
   end
 
   protected
@@ -214,11 +223,6 @@ class User < ActiveRecord::Base
     password == pass
   end
 
-  def notifications
-    @notifications ||= NotificationService.new(self)
-  end
-
-
   belongs_to :primary_email, class_name: 'Email'
   has_many :emails, foreign_key: 'user_id', primary_key: 'id'
 
@@ -235,18 +239,20 @@ class User < ActiveRecord::Base
     u.password?(pass) && u
   end
   
+  def update_primary_email(e)
+    self.primary_email = e
+    self.primary_email_address = e.email
+  end
+  
   def add_email(email, active = false)
     check_permits
     
     self.emails.create(email: email.downcase, state: active ? 'active' : 'inactive').tap do |e|
-      self.primary_email = e if primary_email.nil?
+      update_primary_email e if primary_email.nil?
+      save
     end
   end
-  
-  def primary_email_address
-    self.primary_email.email
-  end
-  
+
   def activate_email(email)
     e = self.emails.where(email: email)
 

@@ -2,7 +2,8 @@ class Group < Section
   include Filters
   belongs_to :organization, foreign_key: 'groupable_id', polymorphic: true, foreign_type: 'groupable_type'
 
-  has_and_belongs_to_many :users  
+  has_many :memberships, as: 'container'
+  has_many :users, through: :memberships
   
   include AuthorizedModel
   def permit_create?(user, *)

@@ -27,10 +27,11 @@ module Duckling
   class Application < Rails::Application
     config.secret_token = APP_CONFIG['secret_token']
     config.autoload_paths += [File.join(config.root, 'lib'),
-                              File.join(config.root, 'app', 'jobs')]
+                              File.join(config.root, 'app', 'jobs'),
+                              File.join(config.root, 'app', 'observers')]
+
+    config.active_record.observers = [:event_observer]
     
-    # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
-    # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
     # config.time_zone = 'Central Time (US & Canada)'
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de

@@ -24,12 +24,11 @@ describe Organization do
   
   context 'checking permissions' do
     let :user do
-      u = User.new(first_name: 'John', last_name: 'Smith')
-      u.password = u.password_confirmation = 'password'
-      u.save
-      
-      u.add_email('jsmith@example.com', true)
-      u
+      User.create first_name: 'John',
+                  last_name: 'Smith',
+                  password: 'password',
+                  password_confirmation: 'password',
+                  initial_email: 'jsmith@example.com'
     end
 
     it 'should allow creation by default' do
