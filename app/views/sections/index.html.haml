@@ -1,0 +1,9 @@
+%h1 Sections
+%ul
+  - @sections.each do |sec|
+    %li
+      = link_to sec, activation_section_path(@activation,sec)
+      = link_to 'edit', edit_activation_section_path(@activation,sec)
+
+= link_to 'Add a Section', new_activation_section_path(@activation)
+

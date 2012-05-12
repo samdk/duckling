@@ -19,7 +19,6 @@ class Section < ActiveRecord::Base
   
   alias_method :permit_read?, :permit_create?
   alias_method :permit_update?, :permit_create?
-  alias_method :permit_destroy?, :permit_create?
 
   def to_s
     self.name

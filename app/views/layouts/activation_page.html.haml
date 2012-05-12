@@ -16,8 +16,7 @@
   %ul
     %li#invite-link
       %a{href:'#'} Invite People
-    %li#sections-link
-      %a{href:'#'} Sections
+    %li#sections-link= link_to 'Sections', activation_sections_url(@activation)
     %li#email-settings
       %select
         %option Email alerts on

@@ -1,5 +1,4 @@
 class OrganizationsController < AuthorizedController
-
   respond_to :html
   respond_to :json, :xml, except: [:new, :edit]
 

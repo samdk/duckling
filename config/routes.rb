@@ -27,6 +27,11 @@ Duckling::Application.routes.draw do
   end
   
   resources :activations do
+    resources :sections do
+      put :join, to: :join
+      put :join, to: :leave
+    end
+
     resources :updates do
       resources :comments
     end
@@ -39,17 +44,15 @@ Duckling::Application.routes.draw do
       delete :leave
       delete 'organization_leave/:organization_id', to: :organization_leave
     end
-      
-    resources :people, controller: 'users', only: [:index]
-    resources :groups    
   end
 
   resources :organizations do
     post :invite
     post :revoke
     resources :people, controller: 'users', only: [:index]
-    resources :sections
     resources :activations, only: [:index]
+
+    resources :groups
   end
 
   root to: 'home#landing'
