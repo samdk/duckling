@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120511193050) do
+ActiveRecord::Schema.define(:version => 20120512124131) do
 
   create_table "acquaintances", :id => false, :force => true do |t|
     t.integer "user_id"
@@ -59,12 +59,12 @@ ActiveRecord::Schema.define(:version => 20120511193050) do
   create_table "deployments", :id => false, :force => true do |t|
     t.integer "activation_id"
     t.integer "deployed_id"
-    t.boolean "active",        :default => true
     t.string  "deployed_type"
+    t.boolean "active",        :default => true
   end
 
-  add_index "deployments", ["activation_id"], :name => "index_deployments_on_activation_id"
-  add_index "deployments", ["deployed_id"], :name => "index_deployments_on_deployed_id"
+  add_index "deployments", ["activation_id", "deployed_type"], :name => "index_deployments_on_activation_id_and_deployed_type"
+  add_index "deployments", ["deployed_id", "deployed_type"], :name => "index_deployments_on_deployed_id_and_deployed_type"
 
   create_table "emails", :force => true do |t|
     t.string   "email",      :limit => 256
@@ -77,22 +77,36 @@ ActiveRecord::Schema.define(:version => 20120511193050) do
   add_index "emails", ["email", "state"], :name => "index_emails_on_email_and_state"
   add_index "emails", ["email"], :name => "index_emails_on_email"
 
-  create_table "memberships", :id => false, :force => true do |t|
-    t.integer "organization_id"
-    t.integer "user_id"
-    t.string  "access_level",    :default => ""
+  create_table "invitations", :id => false, :force => true do |t|
+    t.integer  "email_id"
+    t.integer  "invitable_id"
+    t.string   "invitable_type"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
-  add_index "memberships", ["organization_id"], :name => "index_memberships_on_organization_id"
-  add_index "memberships", ["user_id"], :name => "index_memberships_on_user_id"
+  add_index "invitations", ["email_id"], :name => "index_invitations_on_email_id"
+  add_index "invitations", ["invitable_id", "invitable_type"], :name => "index_invitations_on_invitable_id_and_invitable_type"
+
+  create_table "memberships", :id => false, :force => true do |t|
+    t.integer "container_id"
+    t.string  "container_type"
+    t.integer "user_id"
+    t.string  "access_level",   :default => ""
+  end
+
+  add_index "memberships", ["container_id", "container_type"], :name => "index_memberships_on_container_id_and_container_type"
+  add_index "memberships", ["user_id", "container_type"], :name => "index_memberships_on_user_id_and_container_type"
 
   create_table "notifications", :id => false, :force => true do |t|
-    t.string  "key"
+    t.string  "event"
     t.string  "target_class"
     t.integer "target_id"
+    t.boolean "dismissed",    :default => false
+    t.integer "email_id"
   end
 
-  add_index "notifications", ["key"], :name => "index_notifications_on_key"
+  add_index "notifications", ["email_id"], :name => "index_notifications_on_email_id"
 
   create_table "organizations", :force => true do |t|
     t.string   "name",        :limit => 128
@@ -102,32 +116,25 @@ ActiveRecord::Schema.define(:version => 20120511193050) do
     t.text     "description"
   end
 
+  create_table "participants", :id => false, :force => true do |t|
+    t.integer "update_id"
+    t.integer "section_id"
+  end
+
+  add_index "participants", ["section_id"], :name => "index_participants_on_section_id"
+  add_index "participants", ["update_id"], :name => "index_participants_on_update_id"
+
   create_table "sections", :force => true do |t|
     t.string   "name",           :limit => 50
     t.string   "description",    :limit => 1000
     t.integer  "groupable_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "groupable_type"
-  end
-
-  create_table "sections_updates", :id => false, :force => true do |t|
-    t.integer "section_id"
-    t.integer "update_id"
-  end
-
-  create_table "sections_users", :id => false, :force => true do |t|
-    t.integer "section_id"
-    t.integer "user_id"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   create_table "tags", :force => true do |t|
     t.string "name", :limit => 32
-  end
-
-  create_table "tags_updates", :id => false, :force => true do |t|
-    t.integer "tag_id"
-    t.integer "update_id"
   end
 
   create_table "updates", :force => true do |t|
@@ -136,8 +143,8 @@ ActiveRecord::Schema.define(:version => 20120511193050) do
     t.integer  "activation_id"
     t.text     "body"
     t.integer  "comments_count"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   create_table "users", :force => true do |t|
@@ -158,8 +165,8 @@ ActiveRecord::Schema.define(:version => 20120511193050) do
     t.datetime "deleted_at"
     t.datetime "avatar_updated_at"
     t.integer  "primary_address_id"
-    t.integer  "primary_organization_id"
     t.integer  "primary_email_id"
+    t.string   "primary_email_address"
   end
 
   add_index "users", ["cookie_token"], :name => "index_users_on_cookie_token"

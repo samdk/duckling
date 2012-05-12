@@ -48,9 +48,8 @@ def make_organization(name)
   o = Organization.new
   o.name = name
   o.users = @users[1..-1].sample(1 + (rand * (@users.length - 10)))
-  
-  User.first.administrate(o)
   save(o)
+  User.first.administrate(o)
 end
 organization_names[0..5].each {|n| make_organization(n)}
 @orgs = Organization.all

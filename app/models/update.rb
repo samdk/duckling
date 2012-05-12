@@ -8,12 +8,13 @@ class Update < ActiveRecord::Base
   has_many :attachments, as: :attachable
   accepts_nested_attributes_for :attachments
 
-  has_and_belongs_to_many :sections
+  has_many :participants
+  has_many :sections, through: :participants
   
   # Too long titles will break UI, too long body will slow down database.
   # These limits should be sufficient.
   validates :title, presence: true, length: { within: 2..128 }
-  validates :body, presence: true, length: { within: 2..100_000 }
+  validates :body,  presence: true, length: { within: 2..100_000 }
 
   validates_presence_of :author
   
@@ -36,5 +37,9 @@ class Update < ActiveRecord::Base
   
   def permit_administrate?(user, *)
     true # TODO: what should this be?
+  end
+  
+  def interested_emails
+    activation.users
   end
 end

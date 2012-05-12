@@ -30,4 +30,7 @@ class Comment < ActiveRecord::Base
     Activation.permit_administrate? update.activation_id, user
   end
   
+  def interested_emails
+    update.interested_emails
+  end
 end

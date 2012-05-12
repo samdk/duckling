@@ -80,5 +80,6 @@ class ActivationsController < AuthorizedController
   private
   def set_activation
     @activation = current_user.activations.find(params[:id])
+    @activation.authorize_with current_user
   end
 end

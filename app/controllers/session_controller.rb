@@ -22,7 +22,7 @@ class SessionController < AuthorizedController
     elsif !u.login_email.active?
       unauthorized! 'session.login.inactive_email'
     else
-      log_in_as(u)
+      log_in_as u
       
       remember_with_cookie! unless params[:cookie].blank?
       

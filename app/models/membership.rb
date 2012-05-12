@@ -1,5 +1,5 @@
 class Membership < ActiveRecord::Base
-  belongs_to :organization
+  belongs_to :container, polymorphic: true
   belongs_to :user
   
   def admin?
@@ -8,5 +8,5 @@ class Membership < ActiveRecord::Base
   
   def manager?
     access_control == 'manager'
-  end 
+  end
 end

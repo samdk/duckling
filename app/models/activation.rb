@@ -21,9 +21,13 @@ class Activation < ActiveRecord::Base
   validates :title, presence: true, length: { within: 3..128 }
   validates_length_of :description, maximum: 1024
   
+  def interested_emails
+    users
+  end
+  
   include AuthorizedModel
   def permit_create?(user, *)
-    !user.blank? and user.organizations.exists?
+    true
   end
   
   def permit_read?(user, *)
@@ -65,6 +69,5 @@ class Activation < ActiveRecord::Base
     active_or_inactive_since or created_at
   end
   alias_method :inactive_since, :active_since
-  
 
 end

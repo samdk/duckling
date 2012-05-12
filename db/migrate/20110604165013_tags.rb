@@ -1,11 +1,7 @@
 class Tags < ActiveRecord::Migration
-  def self.up
+  def change
     create_table 'tags', force: true do |t|
       t.string 'name', limit: 32
     end
-  end
-
-  def self.down
-    drop_table 'tags'
   end
 end

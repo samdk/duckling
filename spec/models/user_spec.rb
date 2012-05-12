@@ -87,25 +87,15 @@ describe User do
     u.name.should == 'John Smith Jr'
   end
   
-  it "should reformat phone numbers" do
-    subject.phone_numbers['home'] = '5855551234'
-    subject.phone_numbers['cell'] = '(585) 555-4321'
-    subject.should have(2).phone_numbers
-
-    subject.save(validate: false)    
-    subject.phone_numbers['home'].should == '585-555-1234'
-    subject.phone_numbers['cell'].should == '585-555-4321'
-  end
-  
   context "for credentialing" do
     before :each do
       subject.first_name = 'John'
       subject.last_name = 'Smith'
       subject.password = subject.password_confirmation = 'password'
-      subject.initial_email 'foo@example.com'
+      subject.initial_email = 'foo@example.com'
       subject.save
       
-      subject.add_email 'bar@example.com'
+      subject.authorize_with(subject).add_email 'bar@example.com'
     end
 
     it 'should credential either email address' do
