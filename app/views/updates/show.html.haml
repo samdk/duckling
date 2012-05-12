@@ -1,4 +1,4 @@
-= render @update
+= render partial: 'update', locals: {show_sections: true}
 = link_to 'edit', edit_activation_update_url(@activation,@update)
 = link_to 'delete', [@activation, @update], method: :delete, confirm: 'Really delete this update?'
 = link_to 'back to all updates', activation_updates_url(@activation)

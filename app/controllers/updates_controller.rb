@@ -38,14 +38,14 @@ class UpdatesController < AuthorizedController
     @update = @activation.updates.build(params[:update])
     @update.author = @current_user
     @update.attachments.each {|a| a.attachable = @update}
-    notice 'update.created' if @update.authorize_with(current_user).save && handle_sections
+    notice 'update.created' if @update.authorize_with(current_user).save
 
     respond_with @activation, @update
   end
 
   def update
     save = @update.authorize_with(current_user).update_attributes(params[:update])
-    notice 'update.updated' if save && handle_sections
+    notice 'update.updated' if save
    
     respond_with @activation, @update
   end
@@ -56,18 +56,11 @@ class UpdatesController < AuthorizedController
   end
 
   private
-  
-  def handle_sections
-    if params[:sections]
-      @update.section_ids = params[:sections].to_a.filter(&:last).map(&:first)
-    end
-    true
-  end
-  
+
   def set_activation
     @activation = current_user.activations.find(params[:activation_id])
   end
-  
+
   def set_update
     @update = @activation.updates.includes(:attachments).find(params[:id])
   end

@@ -154,3 +154,34 @@
     border-radius: $args;
   }
 
+  // forms that are the primary element on a page
+  @mixin page_form {
+    > div {
+      padding-bottom: $pad2;
+      // this is a correction that lets us do width: 100% for input elements.
+      // inputs have 4px padding + 1px borders on either side.
+      padding-right: 10px;
+    }
+    input[type="text"],input[type="password"],textarea {
+      display: block;
+      width: 100%;
+      font-size: 16px;
+    }
+    input[type="file"] { display: block; }
+    ul.checkboxes {
+      overflow: auto;
+      padding: $pad2;
+      li {
+        width: 200px;
+        float: left;
+        position: relative;
+        label {
+          display: block;
+          position: absolute;
+          left: 16px; right: 0; top: 0; bottom: 0;
+        }
+        input:checked + label { font-weight: bold; }
+      }
+    }
+  }
+

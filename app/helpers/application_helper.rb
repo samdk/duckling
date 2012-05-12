@@ -18,5 +18,19 @@ module ApplicationHelper
     arg = current_scope?(arg) unless true === arg || false === arg
     arg ? 'active' : 'inactive'
   end
+
+  def errors_for(obj)
+    if obj.errors.any?
+      haml_tag :div, :class => 'errors' do
+        haml_tag :h2, "#{pluralize(@organization.errors.count, 'error')} prevented this organization from being saved:"
+
+        haml_tag :ul do
+          obj.errors.full_messages.collect do |msg|
+            haml_tag :li, msg
+          end
+        end
+      end
+    end
+  end
   
 end

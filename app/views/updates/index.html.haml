@@ -1,11 +1,1 @@
-#updates
-  %ul
-    - current_date = Time.now
-    - @updates.each do |update|
-      - if update.created_at.day != current_date.day
-        - current_date = update.created_at
-        %li.day{id: "#{current_date.to_s(:mdy).gsub('/','-')}"}
-          = interstitial_date(current_date)
-      %li.update{class: @current_user == update.author ? 'yours' : ''}
-        - @update = update
-        = render @update
+= render partial: 'list'

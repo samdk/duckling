@@ -1,0 +1,9 @@
+%h1 Your Organizations
+%ul
+  - @organizations.each do |org|
+    %li
+      = link_to org
+      = link_to 'edit', edit_organization_path(org)
+
+= link_to 'Add an Organization', new_organization_path
+

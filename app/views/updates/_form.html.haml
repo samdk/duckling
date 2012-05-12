@@ -1,28 +1,24 @@
 = form_for [@activation, @update], html: {multipart: true, id: 'update-form'} do |f|
-  - unless @update.errors.empty?
-    .errors
-      %h2= pluralize(@update.errors.count, 'error')
-      %ul
-        - @update.errors.full_messages.each do |msg|
-          %li= msg
-
+  - errors_for @update
+  %div
+    %h1= "#{@update.persisted? ? 'Editing' : 'Adding'} an update for #{@activation}"
   .title
     = f.label :title
     = f.text_field :title
   .body
     = f.label :body
-    = f.text_field :body
+    = f.text_area :body
   .sections
-    %h3= pluralize(@activation.sections.size, t('section.section'))
-    %ul
+    %h3 Sections
+    %ul.checkboxes
       - if @activation.sections.empty?
         %p= t('activation.sections.none')
       -else
-        - @activation.sections.each do |g|
+        - @activation.sections.each do |s|
           %li
-            = check_box_tag("sections[#{g.id}]",'',@update.sections.include?(g))
-            = label_tag("sections[#{g.id}]",g.name)
-  .groups
+            = check_box_tag "update[section_ids][#{s.id}]", '', @update.sections.include?(s)
+            -#= check_box_tag("section_ids[#{g.id}]",'',@update.sections.include?(g))
+            = label_tag("update[section_ids][#{s.id}]",s.name)
   .files
     %h3 Attachments
     - 3.times { @update.attachments << Attachment.new }

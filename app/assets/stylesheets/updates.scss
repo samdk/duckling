@@ -7,19 +7,12 @@
 
 $update-left: 140px; 
 
-#sidebar { }
-  #updates-link {
-    
-  }
-
 #updates {
   font-size: 14px;
   margin-top: -($pad2) + 1;
 }
-
   li {
   }
-
   li.day {
     padding: $pad2 0;
     font-size: 16px;
@@ -27,15 +20,13 @@ $update-left: 140px;
     font-weight: bold;
     text-align: center;
   }
-
   li.update {
     position: relative;
     color: $grey1;
-
     .update-when {
       background: white;
       position: absolute;
-      left: $pad2; top: 0; bottom: 0;
+      left: 0; top: 0; bottom: 0;
       padding: $pad2 0;
       width: $update-left - $pad2;
       text-align: right;
@@ -45,72 +36,59 @@ $update-left: 140px;
         line-height: 18px;
         text-transform: lowercase;
       }
-
       .update-author {
         padding: $pad3 0;
       }
-
       .update-date {
         color: $grey4;
       }
     }
-
     .update-main {
       background: white;
-      padding: $pad2 $pad2 $pad2 $pad1;
+      padding: $pad2 0 $pad2;
       margin-left: $update-left;
       position: relative;
       clear: both;
       min-height: 96px - (2 * $pad2);
-
       .update-title {
         font-weight: bold;
         font-size: 16px;
         line-height: 18px;
       }
-
       .update-author {
         position: absolute;
         right: 0;
         top: 0;
       }
-
       .update-text {
         padding: $pad3 0;
         @include reversed_links;
       }
-
       .update-files {
         @include reversed_links;
         padding-left: 0;
       }
-
       .update-comments {
         padding: $pad3 0 0 0;
         @include reversed_links;
         font-size: 12px;
         margin-right: 103px;
-
         h3 {
           font-weight: bold;
           color: $grey3;
         }
-
         .comment {
           position: relative;
           background: $grey9;
           border-bottom: 1px solid $grey8;
           padding: $pad3;
           margin: $pad3 0;
-
           .comment-heading {
             color: $grey2;
             margin-bottom: 3px;
           }
-
           .comment-body {}
           &.yours { background: $highlight; }
-
           .comment-delete {
             display: block;
             position: absolute;
@@ -125,21 +103,17 @@ $update-left: 140px;
               color: white;
             }
           }
-
           .fresh-comment {
             background: $highlight;
           }
-
         }
         .new-comment {
           position: relative;
           width: 600px;
         }
-
           .comment-input {
             width: 487px;
           }
-
           .comment-submit {
             @include small_button;
             padding: $pad3 0;
@@ -153,4 +127,8 @@ $update-left: 140px;
       }
     }
   }
+
+#update-form {
+  @include page_form;
+}
 

@@ -17,3 +17,9 @@
           = render comment
     .new-comment
       = render partial: 'comments/form', locals: { update: @update }
+  - if show_sections
+    .sections
+      %h3 Sections
+      %ul
+        - @update.sections.each do |s|
+          %li= link_to s

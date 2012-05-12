@@ -1,0 +1,12 @@
+= form_for @organization do |f|
+  - errors_for @organization
+
+  .field
+    = f.label :name, 'Organization Name'
+    = f.text_field :name
+
+  .field
+    = f.label :description
+    = f.text_area :description
+
+  = f.submit 'Create Organization'

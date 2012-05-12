@@ -27,21 +27,24 @@ class OrganizationsController < AuthorizedController
   def create
     @organization = Organization.new(params[:organization])
 
+    @organization.users << current_user
     if @organization.authorize_with(current_user).save
       notice 'organization.created'
-      @organization.users << current_user
       # TODO: Do we need other associations?
+      respond_with @organization
+    else
+      respond_with @organization, location: new_organization_path
     end
-    
-    respond_with @organization
   end
 
   def update
     if @organization.update_attributes(params[:organization])
       notice 'organization.updated'
+      respond_with @organization
+    else
+      respond_with @organization, location: edit_organization_path
     end
     
-    respond_with @organization
   end
 
   def destroy

@@ -70,4 +70,5 @@ class Activation < ActiveRecord::Base
   end
   alias_method :inactive_since, :active_since
 
+  def to_s() title end
 end
