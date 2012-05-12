@@ -3,8 +3,8 @@
   - @activations.each do |activation|
     %li
       = link_to activation.title, activation  
-      = link_to 'edit', edit_activation_path(activation)
-      = link_to 'destroy', activation, :confirm => 'Are you sure?', :method => :delete
+      = link_to 'Edit', edit_activation_path(activation)
+      = link_to 'Delete', activation, :confirm => 'Are you sure?', :method => :delete
 
-= link_to 'create new activation', new_activation_path
+= link_to 'Create New Activation', new_activation_path
 
