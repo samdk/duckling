@@ -1,5 +1,8 @@
 class Group < ActiveRecord::Base
   belongs_to :organization, foreign_key: 'groupable_id', polymorphic: true, foreign_type: 'groupable_type'
+  
+  validates :name, presence: true, length: {within: 2..50}
+  validates_length_of :description, maximum: 1000
 
   def organization_id()   groupable_id   end
   def organization_id=(x) groupable_id=x end 

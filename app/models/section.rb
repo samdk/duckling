@@ -35,5 +35,11 @@ class Section < ActiveRecord::Base
 
     belongs_to :section
     belongs_to :subentity, polymorphic: true
+    
+    def interested_emails
+      cond = '(memberships.container_id = ? AND memberships.container_type = "Section") OR ' + 
+             '(memberships.container_id = ? AND memberships.container_type = "Group")'
+      User.joins(:memberships).where(cond, section.id, group.id)
+    end
   end
 end

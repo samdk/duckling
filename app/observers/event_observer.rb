@@ -1,5 +1,5 @@
 class EventObserver < ActiveRecord::Observer
-  observe :user, :update, :comment, :invitation, :deployment
+  observe :user, :update, :comment, :invitation, :deployment, 'Section::Mapping'
   
   def after_create(record)
     notify_all record, 'create'

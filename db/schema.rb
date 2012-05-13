@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
     t.datetime "updated_at"
   end
 
-  create_table "deployments", :id => false, :force => true do |t|
+  create_table "deployments", :force => true do |t|
     t.integer "activation_id"
     t.integer "deployed_id"
     t.string  "deployed_type"
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
   add_index "invitations", ["email_id"], :name => "index_invitations_on_email_id"
   add_index "invitations", ["invitable_id", "invitable_type"], :name => "index_invitations_on_invitable_id_and_invitable_type"
 
-  create_table "memberships", :id => false, :force => true do |t|
+  create_table "memberships", :force => true do |t|
     t.integer "container_id"
     t.string  "container_type"
     t.integer "user_id"
@@ -126,7 +126,7 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
     t.text     "description"
   end
 
-  create_table "participants", :id => false, :force => true do |t|
+  create_table "participants", :force => true do |t|
     t.integer "update_id"
     t.integer "section_id"
   end
@@ -134,7 +134,7 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
   add_index "participants", ["section_id"], :name => "index_participants_on_section_id"
   add_index "participants", ["update_id"], :name => "index_participants_on_update_id"
 
-  create_table "section_entities", :id => false, :force => true do |t|
+  create_table "section_entities", :force => true do |t|
     t.integer "subentity_id"
     t.string  "subentity_type"
     t.integer "section_id"

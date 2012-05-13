@@ -5,7 +5,7 @@ class JoinTables < ActiveRecord::Migration
       t.integer 'other_user_id'
     end
 
-    create_table 'memberships', id: false do |t|
+    create_table 'memberships' do |t|
       t.references 'container', polymorphic: true
       t.references 'user'
       t.string  'access_level', default: ''
@@ -14,7 +14,7 @@ class JoinTables < ActiveRecord::Migration
     add_index 'memberships', %w[container_id container_type]
     add_index 'memberships', %w[user_id container_type]
     
-    create_table 'participants', id: false do |t|
+    create_table 'participants' do |t|
       t.references :update
       t.references :section
     end
@@ -22,7 +22,7 @@ class JoinTables < ActiveRecord::Migration
     add_index 'participants', 'update_id'
     add_index 'participants', 'section_id'
 
-    create_table 'section_entities', id: false do |t|
+    create_table 'section_entities' do |t|
       t.references :subentity, polymorphic: true
       t.references :section
     end
@@ -38,7 +38,7 @@ class JoinTables < ActiveRecord::Migration
     # add_index 'section_organization_map', 'organization_id'
     # add_index 'section_organization_map', 'section_id'
     
-    create_table 'deployments', id: false do |t|
+    create_table 'deployments' do |t|
       t.references 'activation'
       t.references 'deployed', polymorphic: true
       t.boolean    'active',   default: true
