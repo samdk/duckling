@@ -17,6 +17,7 @@ class UpdatesController < AuthorizedController
                 #.matching_joins(:groups, params[:groups_ids])
 
     current_user.ensure_acquaintances @activation.users
+    @invitees = current_user.acquaintances
 
     respond_with @activation, @updates
   end
