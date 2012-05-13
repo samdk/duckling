@@ -291,7 +291,12 @@ class User < ActiveRecord::Base
     return unless can? read: source
     return unless target.users.exists?(id)
 
-    target.send(source.class.table_name) << source # yay conventions
+    association_name = source.class.table_name
+    association_proxy = target.send(association_name)
+    
+    unless association_proxy.exists?(source.id)
+      association_proxy << source
+    end
   end
 
   def to_s
