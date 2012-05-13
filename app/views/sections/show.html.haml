@@ -6,7 +6,7 @@
 %ul.users
   - @section.users.each do |u|
     %li
-      = link_to u, users_path(u)
+      = link_to u, user_path(u)
       - if u == @current_user
         - member = true
         = link_to '(leave this section)', leave_activation_section_path(@activation,@section), method: :put
