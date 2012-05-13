@@ -180,8 +180,8 @@ class User < ActiveRecord::Base
   end
   
   after_initialize do |user|
-    user.phone_numbers ||= {}
-    user.api_token     ||= SecureRandom.hex(32)
+    user.phone_numbers ||= {} if user.attributes.key?(:phone_numbers)
+    user.api_token ||= SecureRandom.hex(32) if user.attributes.key?(:api_token)
   end
 
   validates_presence_of :initial_email, on: :create
@@ -297,7 +297,7 @@ class User < ActiveRecord::Base
   def to_s
     name
   end
-  
+
   def interested_emails
     [@initial_email || primary_email]
   end

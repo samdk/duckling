@@ -41,5 +41,12 @@ class Section < ActiveRecord::Base
              '(memberships.container_id = ? AND memberships.container_type = "Group")'
       User.joins(:memberships).where(cond, section.id, group.id)
     end
+    
+    after_create :add_users_to_section
+    def add_users_to_section
+      subentity.memberships.select(:user_id).find_each(batch_size: 1000) do |membership|
+        section.memberships.create(user_id: membership.user_id)
+      end
+    end
   end
 end
