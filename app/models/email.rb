@@ -28,8 +28,8 @@ class Email < ActiveRecord::Base
     end
   end
 
-  def permit_create?(*)  true end
   def permit_read?(*)    true end
+  def permit_create?(*)  true end
   def permit_update?(*)  true end
   def permit_destroy?(*) true end
 
@@ -47,6 +47,6 @@ class Email < ActiveRecord::Base
 
   before_save :generate_secret_code_if_missing
   def generate_secret_code_if_missing
-    @secret_code ||= ActiveSupport::RandomSecure.base64(128)
+    @secret_code ||= SecureRandom.base64(128)
   end
 end

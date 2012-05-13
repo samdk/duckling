@@ -162,7 +162,7 @@ class User < ActiveRecord::Base
   end
   
   def join(obj)
-    obj.users << self
+    obj.users << self unless obj.users.exists?(id)
   end
 
   protected
@@ -278,6 +278,10 @@ class User < ActiveRecord::Base
 
   def to_s
     name
+  end
+  
+  def interested_emails
+    [@initial_email || primary_email]
   end
   
 end

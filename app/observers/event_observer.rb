@@ -1,5 +1,5 @@
 class EventObserver < ActiveRecord::Observer
-  observe :update, :comment, :invitation, :deployment
+  observe :user, :update, :comment, :invitation, :deployment
   
   def after_create(record)
     notify_all record, 'create'
@@ -13,7 +13,12 @@ class EventObserver < ActiveRecord::Observer
   
   private
   def notify_all(record, event)
-    record.interested_emails.each do |email|
+    Array(record.interested_emails).each do |recipient|
+      email = case recipient
+        when Email then recipient
+        when User  then recipient.primary_email
+        else            Email.find_or_create_by_email(recipient.to_s)
+      end
       email.notify record, event
     end
   end

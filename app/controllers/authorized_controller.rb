@@ -63,7 +63,7 @@ class AuthorizedController < ApplicationController
   
   def remember_with_cookie!
     current_user.update_attributes({
-      cookie_token: ActiveSupport::RandomSecure.base64(128),
+      cookie_token: SecureRandom.base64(128),
       cookie_token_expires_at: Time.now + 2.weeks
     })
     

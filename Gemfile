@@ -13,6 +13,7 @@ gem 'haml'
 gem 'redis'
 gem 'redis-store'
 gem 'resque'
+gem 'activesupport'
 
 group :assets do
   gem 'sass-rails'

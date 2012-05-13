@@ -74,9 +74,7 @@ class UsersController < AuthorizedController
 
     notice 'user.created' if @user.save
     
-    log_in_as @user
-    
-    respond_with @user
+    redirect_to login_url, notice: t('login.email.confirm')
   end
 
   def update    
