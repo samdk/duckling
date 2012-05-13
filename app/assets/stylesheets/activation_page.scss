@@ -39,6 +39,32 @@
 #body {
   padding: $pad1;
 }
+  #panel {
+    background: rgba(0,0,0,0.8);
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    z-index: 1000;
+    display: none;
+
+    .panel {
+      $pad: 50px;
+      position: absolute;
+      left: $pad; right: $pad; top: $pad;
+      padding: $pad1;
+      background: white;
+      display: none;
+
+      #invite-search {
+        padding: $pad2 0;
+      }
+      #invite-form {
+        
+        input:checked + label { font-weight: bold; }
+      }
+
+      .search-text { display: none; }
+    }
+  }
 
 #sidebar {
 

@@ -1,3 +1,6 @@
+= content_for :javascripts do
+  = javascript_include_tag :activation_page
+
 = content_for :header do
   %a#alerts-count.active{href:'#'} 3
   #filters
@@ -34,6 +37,7 @@
 
 
 = content_for :content do
+  = render partial: 'layouts/panel', locals: {invitees: @invitees}
   = yield
 
 = render file: 'layouts/application'

@@ -1,0 +1,17 @@
+#panel
+  %a.close-button{href:'#'} close
+  #invite.panel
+    %h1 Invite People
+    %form#invite-search
+      %input{type: 'text', placeholder: 'search'}
+    %form#invite-form
+      = submit_tag 'Invite'
+      %ul.users
+        - @invitees.each do |u|
+          %li.invitee
+            .search-text
+              = u.name
+              = u.primary_email_address
+            = check_box_tag "invitees[users][#{u.id}]"
+            = label_tag "invitees[users][#{u.id}]", u
+
