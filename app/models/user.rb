@@ -242,7 +242,6 @@ class User < ActiveRecord::Base
   
   def update_primary_email(e)
     self.primary_email = e
-    self.primary_email_address = e.email
   end
   
   def add_email(email, active = false)
