@@ -12,6 +12,8 @@ class Activation < ActiveRecord::Base
   has_many :organizations, through: :deployments,
                            source: :deployed,
                            source_type: 'Organization'
+                           
+  has_many :potential_groups, through: :organizations, source: :groups
   
   has_many :user_deployments, as: :deployed
   has_many :users, through: :deployments,
@@ -21,8 +23,12 @@ class Activation < ActiveRecord::Base
   validates :title, presence: true, length: { within: 3..128 }
   validates_length_of :description, maximum: 1024
   
+  def all_users
+    (users + organizations.users).uniq
+  end
+  
   def interested_emails
-    users
+    all_users
   end
   
   include AuthorizedModel

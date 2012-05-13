@@ -57,6 +57,8 @@ class User < ActiveRecord::Base
   has_many :current_activations, through: :deployments, conditions: {active: true}
   has_many :past_activations, through: :deployments, conditions: {active: true}
   
+  has_many :potential_groups, through: :organizations, source: :groups
+  
   has_many :notifications, through: :emails
   def notify(obj, event)
     Notification.create(email_id: primary_email_id, target_class: obj.class.name, target_id: obj.id, event: event.to_s)
@@ -239,7 +241,7 @@ class User < ActiveRecord::Base
     
     u.password?(pass) && u
   end
-  
+
   def update_primary_email(e)
     self.primary_email = e
   end
@@ -247,9 +249,18 @@ class User < ActiveRecord::Base
   def add_email(email, active = false)
     check_permits
     
-    self.emails.create(email: email.downcase, state: active ? 'active' : 'inactive').tap do |e|
+    emails.create(email: email.downcase, state: active ? 'active' : 'inactive').tap do |e|
       update_primary_email e if primary_email.nil?
       save
+    end
+  end
+
+  def associate_email(e)
+    emails << e
+    e.invitations.includes(:invitable).find_each(batch_size: 10) do |invite|
+      invite.invitable.tap do |cohort|
+        cohort.users << self unless cohort.users.exists?(id)
+      end
     end
   end
 
@@ -273,7 +284,15 @@ class User < ActiveRecord::Base
     hash.all? do |action, object|
       object.send "permit_#{action}?", self, args
     end
-  end  
+  end
+  
+  def try_to_associate(target, source)
+    return unless can? read: target # TODO: is this right?
+    return unless can? read: source
+    return unless target.users.exists?(id)
+
+    target.send(source.class.table_name) << source # yay conventions
+  end
 
   def to_s
     name

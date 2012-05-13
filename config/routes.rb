@@ -7,7 +7,11 @@ Duckling::Application.routes.draw do
   match '/login'  => 'session#new', :via => :get, :as => :login
   match '/logout' => 'session#destroy', :via => :delete, :as => :logout
   match '/overview' => 'activations#overview', :via => :get, :as => :overview
-  
+
+  resources :invitations, only: [:create] do
+    post 'search', on: :collection
+  end
+
   resource :session, only: [:new, :destroy, :create]
 
   resources :people, controller: 'users', as: 'users' do
@@ -15,7 +19,7 @@ Duckling::Application.routes.draw do
   end
 
   resources :attachments, only: [:show]
-  
+
   resource :account, controller: 'users' do    
     member do
        get :activate
