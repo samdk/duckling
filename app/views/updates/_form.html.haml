@@ -1,7 +1,7 @@
 = form_for [@activation, @update], html: {multipart: true, id: 'update-form'} do |f|
   - errors_for @update
   %div
-    %h1= "#{@update.persisted? ? 'Editing' : 'Adding'} an update for #{@activation}"
+    %h1= "#{@update.persisted? ? 'Editing' : 'Add'} an update to the #{@activation} activation"
   .title
     = f.label :title
     = f.text_field :title
