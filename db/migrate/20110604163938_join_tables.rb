@@ -21,7 +21,23 @@ class JoinTables < ActiveRecord::Migration
     
     add_index 'participants', 'update_id'
     add_index 'participants', 'section_id'
+
+    create_table 'section_entities', id: false do |t|
+      t.references :subentity, polymorphic: true
+      t.references :section
+    end
+    
+    add_index 'section_entities', %w[section_id subentity_type]
+    add_index 'section_entities', %w[subentity_id subentity_type]
         
+    # create_table 'section_organization_map', id: false do |t|
+    #   t.references :organization
+    #   t.references :section
+    # end
+    # 
+    # add_index 'section_organization_map', 'organization_id'
+    # add_index 'section_organization_map', 'section_id'
+    
     create_table 'deployments', id: false do |t|
       t.references 'activation'
       t.references 'deployed', polymorphic: true

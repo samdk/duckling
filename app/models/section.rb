@@ -1,7 +1,9 @@
 class Section < ActiveRecord::Base
-  include Filters
   
   belongs_to :activation, polymorphic: true, foreign_key: 'groupable_id', foreign_type: 'groupable_type'
+  
+  def activation_id()   groupable_id   end
+  def activation_id=(x) groupable_id=x end 
   
   has_many :memberships, as: 'container'
   has_many :users, through: :memberships
@@ -22,5 +24,16 @@ class Section < ActiveRecord::Base
 
   def to_s
     self.name
+  end
+  
+  has_many :mappings, class_name: 'Section::Mapping'
+  has_many :groups,        through: :mappings, source: :subentity, source_type: 'Group'
+  has_many :organizations, through: :mappings, source: :subentity, source_type: 'Organization'
+  
+  class Mapping < ActiveRecord::Base
+    set_table_name 'section_entities'
+
+    belongs_to :section
+    belongs_to :subentity, polymorphic: true
   end
 end

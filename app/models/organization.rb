@@ -46,8 +46,11 @@ class Organization < ActiveRecord::Base
                             conditions: {'memberships.access_level' => 'admin'},
                             before_add: ->(*){ raise 'Do not add through this' }
 
-  has_many :sections, as: :groupable
+  has_many :groups, as: :groupable
   
+  has_many :mappings, class_name: 'Section::Mapping', as: :subentity
+  has_many :sections, through: :mappings
+
   validate :has_at_least_one_administrator, on: :update
   def has_at_least_one_administrator
     if administrators.empty?

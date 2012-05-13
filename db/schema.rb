@@ -77,6 +77,15 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
   add_index "emails", ["email", "state"], :name => "index_emails_on_email_and_state"
   add_index "emails", ["email"], :name => "index_emails_on_email"
 
+  create_table "groups", :force => true do |t|
+    t.string   "name",           :limit => 50
+    t.string   "description",    :limit => 1000
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+    t.integer  "groupable_id"
+    t.string   "groupable_type"
+  end
+
   create_table "invitations", :id => false, :force => true do |t|
     t.integer  "email_id"
     t.integer  "invitable_id"
@@ -125,13 +134,22 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
   add_index "participants", ["section_id"], :name => "index_participants_on_section_id"
   add_index "participants", ["update_id"], :name => "index_participants_on_update_id"
 
+  create_table "section_entities", :id => false, :force => true do |t|
+    t.integer "subentity_id"
+    t.string  "subentity_type"
+    t.integer "section_id"
+  end
+
+  add_index "section_entities", ["section_id", "subentity_type"], :name => "index_section_entities_on_section_id_and_subentity_type"
+  add_index "section_entities", ["subentity_id", "subentity_type"], :name => "index_section_entities_on_subentity_id_and_subentity_type"
+
   create_table "sections", :force => true do |t|
     t.string   "name",           :limit => 50
     t.string   "description",    :limit => 1000
-    t.integer  "groupable_id"
-    t.string   "groupable_type"
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
+    t.integer  "groupable_id"
+    t.string   "groupable_type"
   end
 
   create_table "tags", :force => true do |t|

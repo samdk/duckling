@@ -74,7 +74,7 @@ def make_group(name,activation)
   section.description = [@update_text.split('. ').sample,''].sample
   section.users = @users.sample(1 + (rand * (@users.length - 10)))
   section.activation = activation
-  puts save(section)
+  save(section)
 end
 section_names.each {|n| make_group(n,a)}
 @sections = Section.all
