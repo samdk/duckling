@@ -30,7 +30,7 @@ module Duckling
                               File.join(config.root, 'app', 'jobs'),
                               File.join(config.root, 'app', 'observers')]
 
-    config.active_record.observers = [:event_observer]
+    config.active_record.observers = [:event_observer, :joining_observer]
     
     # config.time_zone = 'Central Time (US & Canada)'
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
@@ -38,7 +38,7 @@ module Duckling
 
     config.action_view.javascript_expansions[:defaults] = %w[jquery rails]
     config.encoding = 'utf-8'
-    config.filter_parameters += [:password, :password_hash]
+    config.filter_parameters += [:password, :password_hash, :api_token, :secret_code]
     config.assets.enabled = true
     config.assets.version = '0.1'
     

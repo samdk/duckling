@@ -17,21 +17,23 @@ class Organization < ActiveRecord::Base
   def permit_destroy?(user, *)
     false
   end
-  
+
   acts_as_paranoid
   
   attr_accessible :name, :description
   
-  has_many :deployments, as: :deployed
+  has_many :deployments, as: :deployed, dependent: :destroy
 
   has_many :activations, through: :deployments
   has_many :current_activations, through: :deployments, conditions: {active: true}
   has_many :past_activations, through: :deployments, conditions: {active: false}
 
-  has_many :memberships, as: 'container'
+  has_many :memberships, as: 'container', dependent: :destroy
   has_many :users, through: :memberships
+  
+  def interested_emails() users end
 
-  has_many :invitations, as: :invitable
+  has_many :invitations, as: :invitable, dependent: :destroy
   has_many :invited_emails, through: :invitations, class_name: 'Email', foreign_key: 'email_id'
 
   has_many :managers, class_name: 'User',
@@ -48,7 +50,7 @@ class Organization < ActiveRecord::Base
 
   has_many :groups, as: :groupable
   
-  has_many :mappings, class_name: 'Section::Mapping', as: :subentity
+  has_many :mappings, class_name: 'Section::Mapping', as: :subentity, dependent: :destroy
   has_many :sections, through: :mappings
 
   validate :has_at_least_one_administrator, on: :update

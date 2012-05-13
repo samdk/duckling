@@ -49,10 +49,15 @@ class User < ActiveRecord::Base
 
   serialize :phone_numbers, Hash
 
-  has_many :addresses
+  has_many :addresses, dependent: :delete_all
   belongs_to :primary_address, class_name: 'Address'
+  
+  belongs_to :primary_email, class_name: 'Email'
+  has_many :emails, foreign_key: 'user_id', primary_key: 'id', dependent: :destroy
 
-  has_many :deployments, as: :deployed
+  scope :with_email, ->(email) { joins(:emails).where(emails: {email: email}) }
+
+  has_many :deployments, as: :deployed, dependent: :destroy
   has_many :activations, through: :deployments
   has_many :current_activations, through: :deployments, conditions: {active: true}
   has_many :past_activations, through: :deployments, conditions: {active: true}
@@ -225,11 +230,6 @@ class User < ActiveRecord::Base
   def password?(pass)
     password == pass
   end
-
-  belongs_to :primary_email, class_name: 'Email'
-  has_many :emails, foreign_key: 'user_id', primary_key: 'id'
-
-  scope :with_email, ->(email) { joins(:emails).where(emails: {email: email}) }
 
   def self.with_credentials(email, pass)
     e = Email.includes(:user).where(email: email.downcase).first

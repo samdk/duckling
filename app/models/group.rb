@@ -7,7 +7,7 @@ class Group < ActiveRecord::Base
   def organization_id()   groupable_id   end
   def organization_id=(x) groupable_id=x end 
 
-  has_many :memberships, as: 'container'
+  has_many :memberships, as: 'container', dependent: :destroy
   has_many :users, through: :memberships
   
   has_many :mappings, class_name: 'Section::Mapping', as: :subentity
