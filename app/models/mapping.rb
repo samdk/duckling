@@ -1,6 +1,6 @@
 module Mapping
   class OrganizationSection < ActiveRecord::Base
-    set_table_name 'organizations_sections'
+    self.table_name = 'organizations_sections'
     belongs_to :organization
     belongs_to :section
     
@@ -10,7 +10,7 @@ module Mapping
   end
   
   class ActivationOrganization < ActiveRecord::Base
-    set_table_name 'activations_organizations'
+    self.table_name = 'activations_organizations'
     belongs_to :activation
     belongs_to :organization   
     
@@ -25,7 +25,7 @@ module Mapping
   end
   
   class SectionUpdate < ActiveRecord::Base
-    set_table_name 'sections_updates'
+    self.table_name = 'sections_updates'
     belongs_to :section
     belongs_to :update
     
