@@ -9,4 +9,8 @@ class Membership < ActiveRecord::Base
   def manager?
     access_control == 'manager'
   end
+  
+  def interested_emails
+    ([user] + container.interested_emails).uniq
+  end
 end

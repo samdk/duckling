@@ -23,8 +23,6 @@ en:
       more: Attach More Files
       delete: 'delete'
       undelete: "wait&mdash;don't delete"
-  group:
-    group: Group
   organization:
     organization: Organization
     security:

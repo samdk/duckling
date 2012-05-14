@@ -9,12 +9,12 @@ class Email < ActiveRecord::Base
 
   belongs_to :user
 
-  has_many :invitations
-  [:organizations, :groups, :sections, :activations].each do |table|
+  has_many :invitations, dependent: :destroy
+  [:organizations, :sections, :activations].each do |table|
     has_many table, through: :invitations, source: :invitable, source_type: table.to_s.classify
   end
-  
-  has_many :notifications
+
+  has_many :notifications, dependent: :destroy
   def notify(obj, event)
     notifications.create(target_class: obj.class.name, target_id: obj.id, event: event)
   end

@@ -18,14 +18,13 @@ class UsersController < AuthorizedController
   end
 
   def index_activation
-    @activation = Activation.includes(:users => [:organizations, :groups]).find(params[:activation_id])
+    @activation = Activation.includes(users: [:organizations]).find(params[:activation_id])
     
     current_user.ensure_acquaintances(@activation.users)
 
     @users = @activation.users
                 .order('last_name ASC')
                 .matching_search([:first_name, :last_name],params[:search_query])
-                .matching_joins(:groups, params[:groups_ids])
 
     respond_with(@users, @activation) do |format|
       format.html do

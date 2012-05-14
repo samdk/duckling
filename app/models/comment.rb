@@ -3,7 +3,7 @@ class Comment < ActiveRecord::Base
   belongs_to :author, class_name: 'User'
   belongs_to :update, counter_cache: true
 
-  has_one :attachment, as: :attachable
+  has_one :attachment, as: :attachable, dependent: :destroy
   attr_accessible :attachment_attributes
   accepts_nested_attributes_for :attachment
 

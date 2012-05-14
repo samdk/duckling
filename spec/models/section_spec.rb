@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Group, Section do
+describe Section do
   
   it 'should have a reasonably short name' do
     subject.name = 'A' * 51

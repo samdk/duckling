@@ -14,7 +14,6 @@ class UpdatesController < AuthorizedController
                 .order('created_at DESC')
                 .in_date_range(params[:start_date], params[:end_date])
                 .matching_search([:title, :body],params[:search_query])
-                #.matching_joins(:groups, params[:groups_ids])
 
     current_user.ensure_acquaintances @activation.users
     @invitees = current_user.acquaintances

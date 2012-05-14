@@ -57,24 +57,17 @@ class User < ActiveRecord::Base
 
   scope :with_email, ->(email) { joins(:emails).where(emails: {email: email}) }
 
-  has_many :deployments, as: :deployed, dependent: :destroy
-  has_many :activations, through: :deployments
-  has_many :current_activations, through: :deployments, conditions: {active: true}
-  has_many :past_activations, through: :deployments, conditions: {active: true}
-  
-  has_many :potential_groups, through: :organizations, source: :groups
-  
-  has_many :notifications, through: :emails
-  def notify(obj, event)
-    Notification.create(email_id: primary_email_id, target_class: obj.class.name, target_id: obj.id, event: event.to_s)
-  end
-
-  has_many :memberships  
+  has_many :memberships, dependent: :destroy
+  has_many :activations,   through: :memberships, source: 'container', source_type: 'Activation'
+  has_many :sections,      through: :memberships, source: 'container', source_type: 'Section'
   has_many :organizations, through: :memberships, source: 'container', source_type: 'Organization'
+
   belongs_to :primary_organization, class_name: 'Organization'
 
-  has_many :sections, through: :memberships, source: 'container', source_type: 'Section'
-  has_many :groups,   through: :memberships, source: 'container', source_type: 'Group'
+  has_many :notifications, through: :emails
+  def notify(obj, event)
+    primary_email.notify(obj, event)
+  end
 
   ACQ_FINDER_SQL = ->(*){ %[
       SELECT * FROM users
@@ -119,6 +112,8 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true, length: {maximum: 50}
   validates :last_name,  presence: true, length: {maximum: 50}
   validates_length_of :name_suffix, maximum: 50
+  
+  validates_presence_of :initial_email, on: :create
 
   validate :password_validations
   def password_validations  
@@ -151,13 +146,13 @@ class User < ActiveRecord::Base
   end  
 
   def administrate(org)
-    org.memberships.where(user_id: id).clear
-    org.memberships.create(user_id: id, access_level: 'admin')
+    m = org.memberships.where(user_id: id).first_or_initialize
+    m.update_attribute :access_level, 'admin'
   end
 
   def manage(org)
-    org.memberships.where(user_id: id).clear
-    org.memberships.create(user_id: id, access_level: 'admin')
+    m = org.memberships.where(user_id: id).first_or_initialize
+    m.update_attribute :access_level, 'manager'
   end
   
   def administrates?(org)
@@ -174,24 +169,23 @@ class User < ActiveRecord::Base
 
   protected
   
-  before_save do |user|
-    user.phone_numbers.each do |k, v|
-      user.phone_numbers[k] = PhoneFormatter.format(v)
+  before_save :format_phone_numbers
+  after_initialize :set_default_api_token_and_phone_hash
+  after_create :add_initial_email
+  
+  def format_phone_numbers
+    phone_numbers.each do |k, v|
+      self.phone_numbers[k] = PhoneFormatter.format(v)
     end
   end
-
-  after_save do |user|
-    user.password_confirmation_changed = false
-  end
   
-  after_initialize do |user|
-    user.phone_numbers ||= {} if user.attributes.key?(:phone_numbers)
-    user.api_token ||= SecureRandom.hex(32) if user.attributes.key?(:api_token)
+  def add_initial_email
+    skipping_auth! { add_email @initial_email }
   end
 
-  validates_presence_of :initial_email, on: :create
-  after_create do |user|
-    user.skipping_auth! { user.add_email @initial_email }
+  def set_default_api_token_and_phone_hash
+    self.phone_numbers ||= {}
+    self.api_token     ||= SecureRandom.hex(32)
   end
 
   public
@@ -257,10 +251,8 @@ class User < ActiveRecord::Base
 
   def associate_email(e)
     emails << e
-    e.invitations.includes(:invitable).find_each(batch_size: 10) do |invite|
-      invite.invitable.tap do |cohort|
-        cohort.users << self unless cohort.users.exists?(id)
-      end
+    e.invitations.includes(:invitable).find_each(batch_size: 1000) do |invite|
+      invite.invitable.users << self unless invite.invitable.users.exists?(id)
     end
   end
 

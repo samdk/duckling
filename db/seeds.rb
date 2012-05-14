@@ -7,7 +7,7 @@ def save(obj)
   end
 end
 
-#ActiveRecord::Base.logger = Logger.new(STDOUT)
+# ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 # makes some users
 first_names = %w[Jacob Isabella Ethan Sophia Michael Emma Jayden Olivia William Ava Alexander Emily Noah Abigail Daniel Madison Aiden Chloe Anthony Mia Joshua Addison Mason Elizabeth Christopher Ella Andrew Natalie David Samantha Matthew Alexis Logan Lily Elijah Grace James Hailey Joseph Alyssa Gabriel Lillian Benjamin Hannah Ryan Avery Samuel Leah Jackson Nevaeh John Sofia Nathan Ashley Jonathan Anna Christian Brianna Liam Sarah Dylan Zoe Landon Victoria Caleb Gabriella Tyler Brooklyn Lucas Kaylee Evan Taylor Gavin Layla Nicholas Allison Isaac Evelyn Brayden Riley Luke Amelia Angel Khloe Brandon Makayla Jack Aubrey Isaiah Charlotte Jordan Savannah Owen Zoey Carter Bella Connor Kayla Justin Alexa Jose Peyton Jeremiah Audrey Julian Claire Robert Arianna Aaron Julia Adrian Aaliyah Wyatt Kylie Kevin Lauren Hunter Sophie Cameron Sydney Zachary Camila Thomas Jasmine Charles Morgan Austin Alexandra Eli Jocelyn Chase Gianna Henry Maya Sebastian Kimberly Jason Mackenzie Levi Katherine Xavier Destiny Ian Brooke Colton Trinity Dominic Faith Juan Lucy Cooper Madelyn Josiah Madeline Luis Bailey Ayden Payton Carson Andrea Adam Autumn Nathaniel Melanie Brody Ariana Tristan Serenity Diego Stella Parker Maria Blake Molly Oliver Caroline Cole Genesis Carlos Kaitlyn Jaden Eva Jesus Jessica Alex Angelina Aidan Valeria Eric Gabrielle Hayden Naomi Bryan Mariah Max Natalia Jaxon Paige Brian Rachel]
@@ -20,7 +20,7 @@ def make_user(first_name,last_name)
   u = User.new
   u.first_name = first_name
   u.last_name = last_name
-  u.initial_email = email = "#{first_name[0]}#{last_name}".downcase
+  email = "#{first_name[0]}#{last_name}".downcase
   u.initial_email = "#{email}#{@used_emails.include?(email) ? @user_index : ''}@example.com"
   u.password = u.password_confirmation = 'testtest'
   u.phone_numbers['Desk'] = "555-555-01%02d" % (@user_index % 100)
@@ -68,7 +68,7 @@ save(a)
 
 @update_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est. \nVivamus fermentum semper porta. Nunc diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi. Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis. Quisque mi metus, ornare sit amet fermentum et, tincidunt et orci. Fusce eget orci a orci congue vestibulum. Ut dolor diam, elementum et vestibulum eu, porttitor vel elit. Curabitur venenatis pulvinar tellus gravida ornare. Sed et erat faucibus nunc euismod ultricies ut id justo. Nullam cursus suscipit nisi, et ultrices justo sodales nec. Fusce venenatis facilisis lectus ac semper. Aliquam at massa ipsum. Quisque bibendum purus convallis nulla ultrices ultricies. Nullam aliquam, mi eu aliquam tincidunt, purus velit laoreet tortor, viverra pretium nisi quam vitae mi. Fusce vel volutpat elit. Nam sagittis nisi dui.\nSuspendisse lectus leo, consectetur in tempor sit amet, placerat quis neque. Etiam luctus porttitor lorem, sed suscipit est rutrum non. Curabitur lobortis nisl a enim congue semper. Aenean commodo ultrices imperdiet. Vestibulum ut justo vel sapien venenatis tincidunt. Phasellus eget dolor sit amet ipsum dapibus condimentum vitae quis lectus. Aliquam ut massa in turpis dapibus convallis. Praesent elit lacus, vestibulum at malesuada et, ornare et est. Ut augue nunc, sodales ut euismod non, adipiscing vitae orci. Mauris ut placerat justo. Mauris in ultricies enim. Quisque nec est eleifend nulla ultrices egestas quis ut quam. Donec sollicitudin lectus a mauris pulvinar id aliquam urna cursus. Cras quis ligula sem, vel elementum mi. Phasellus non ullamcorper urna."
 section_names = %w[Medical Health Sanitation Grounds Food Shelter Government Public\ Relations Cleanup Construction Police Fire\ Department Volunteer\ Coordination Pets]
-def make_group(name,activation)
+def make_section(name,activation)
   section = Section.new
   section.name = name
   section.description = [@update_text.split('. ').sample,''].sample
@@ -76,12 +76,12 @@ def make_group(name,activation)
   section.activation = activation
   save(section)
 end
-section_names.each {|n| make_group(n,a)}
+section_names.each {|n| make_section(n,a)}
 @sections = Section.all
-puts "#{@sections.length} groups created"
+puts "#{@sections.length} sections created"
 
 # set our own timestamps for updates
-ActiveRecord::Base.record_timestamps = false
+Update.record_timestamps = false
 @current_time = Time.now - 7.days
 total_update_count = 50
 @base_interval = (Time.now - @current_time) / total_update_count
@@ -99,11 +99,10 @@ def make_random_update(activation,author)
   save(u)
   @current_count += 1
 end
-total_update_count.times { make_random_update(a,@users.sample) }
-
-50.times { make_random_update(a,@users.sample) }
+total_update_count.times { make_random_update(a, @users.sample) }
 @updates = Update.all
 puts "#{@updates.length} updates created"
+
 # re-enable timestamping
 ActiveRecord::Base.record_timestamps = true
 

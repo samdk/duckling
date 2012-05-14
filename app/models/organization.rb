@@ -22,44 +22,21 @@ class Organization < ActiveRecord::Base
   
   attr_accessible :name, :description
   
-  has_many :deployments, as: :deployed, dependent: :destroy
-
-  has_many :activations, through: :deployments
-  has_many :current_activations, through: :deployments, conditions: {active: true}
-  has_many :past_activations, through: :deployments, conditions: {active: false}
+  has_many :activation_mappings, class_name: 'Mapping::ActivationOrganization', dependent: :destroy
+  has_many :activations, through: :activation_mappings
 
   has_many :memberships, as: 'container', dependent: :destroy
   has_many :users, through: :memberships
-  
+
   def interested_emails() users end
 
   has_many :invitations, as: :invitable, dependent: :destroy
   has_many :invited_emails, through: :invitations, class_name: 'Email', foreign_key: 'email_id'
-
-  has_many :managers, class_name: 'User',
-                      through: :memberships,
-                      source: :user,
-                      conditions: {'memberships.access_level' => 'manager'},
-                      before_add: ->(*){ raise 'Do not add through this' }
   
-  has_many :administrators, class_name: 'User',
-                            through: :memberships,
-                            source: :user,
-                            conditions: {'memberships.access_level' => 'admin'},
-                            before_add: ->(*){ raise 'Do not add through this' }
+  has_many :section_mappings, class_name: 'Mapping::OrganizationSection', dependent: :destroy
+  has_many :sections, through: :section_mappings
 
-  has_many :groups, as: :groupable
-  
-  has_many :mappings, class_name: 'Section::Mapping', as: :subentity, dependent: :destroy
-  has_many :sections, through: :mappings
 
-  validate :has_at_least_one_administrator, on: :update
-  def has_at_least_one_administrator
-    if administrators.empty?
-      errors.add(:administrators, 'must be present')
-    end
-  end
-  
   validates :name, presence: true,
                    length: {within: (3..128)},
                    uniqueness: true,

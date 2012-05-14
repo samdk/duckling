@@ -18,6 +18,9 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
     t.integer "other_user_id"
   end
 
+  add_index "acquaintances", ["other_user_id"], :name => "index_acquaintances_on_other_user_id"
+  add_index "acquaintances", ["user_id"], :name => "index_acquaintances_on_user_id"
+
   create_table "activations", :force => true do |t|
     t.string   "title",                    :limit => 128
     t.text     "description"
@@ -28,6 +31,14 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
     t.integer  "updates_count"
     t.datetime "active_or_inactive_since"
   end
+
+  create_table "activations_organizations", :force => true do |t|
+    t.integer "organization_id"
+    t.integer "activation_id"
+  end
+
+  add_index "activations_organizations", ["activation_id"], :name => "index_activations_organizations_on_activation_id"
+  add_index "activations_organizations", ["organization_id"], :name => "index_activations_organizations_on_organization_id"
 
   create_table "addresses", :force => true do |t|
     t.string   "name"
@@ -56,16 +67,6 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
     t.datetime "updated_at"
   end
 
-  create_table "deployments", :force => true do |t|
-    t.integer "activation_id"
-    t.integer "deployed_id"
-    t.string  "deployed_type"
-    t.boolean "active",        :default => true
-  end
-
-  add_index "deployments", ["activation_id", "deployed_type"], :name => "index_deployments_on_activation_id_and_deployed_type"
-  add_index "deployments", ["deployed_id", "deployed_type"], :name => "index_deployments_on_deployed_id_and_deployed_type"
-
   create_table "emails", :force => true do |t|
     t.string   "email",      :limit => 256
     t.string   "state",      :limit => 16,  :default => "unverified"
@@ -76,15 +77,6 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
 
   add_index "emails", ["email", "state"], :name => "index_emails_on_email_and_state"
   add_index "emails", ["email"], :name => "index_emails_on_email"
-
-  create_table "groups", :force => true do |t|
-    t.string   "name",           :limit => 50
-    t.string   "description",    :limit => 1000
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
-    t.integer  "groupable_id"
-    t.string   "groupable_type"
-  end
 
   create_table "invitations", :id => false, :force => true do |t|
     t.integer  "email_id"
@@ -108,15 +100,18 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
   add_index "memberships", ["container_id", "container_type"], :name => "index_memberships_on_container_id_and_container_type"
   add_index "memberships", ["user_id", "container_type"], :name => "index_memberships_on_user_id_and_container_type"
 
-  create_table "notifications", :id => false, :force => true do |t|
-    t.string  "event"
-    t.string  "target_class"
-    t.integer "target_id"
-    t.boolean "dismissed",    :default => false
-    t.integer "email_id"
+  create_table "notifications", :force => true do |t|
+    t.string   "event"
+    t.string   "target_class"
+    t.integer  "target_id"
+    t.boolean  "dismissed",    :default => false
+    t.integer  "email_id"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
   add_index "notifications", ["email_id"], :name => "index_notifications_on_email_id"
+  add_index "notifications", ["target_class", "target_id"], :name => "index_notifications_on_target_class_and_target_id"
 
   create_table "organizations", :force => true do |t|
     t.string   "name",        :limit => 128
@@ -126,31 +121,29 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
     t.text     "description"
   end
 
-  create_table "participants", :force => true do |t|
+  create_table "organizations_sections", :force => true do |t|
+    t.integer "organization_id"
+    t.integer "section_id"
+  end
+
+  add_index "organizations_sections", ["organization_id"], :name => "index_organizations_sections_on_organization_id"
+  add_index "organizations_sections", ["section_id"], :name => "index_organizations_sections_on_section_id"
+
+  create_table "sections", :force => true do |t|
+    t.string   "name",          :limit => 50
+    t.string   "description",   :limit => 1000
+    t.integer  "activation_id"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  create_table "sections_updates", :force => true do |t|
     t.integer "update_id"
     t.integer "section_id"
   end
 
-  add_index "participants", ["section_id"], :name => "index_participants_on_section_id"
-  add_index "participants", ["update_id"], :name => "index_participants_on_update_id"
-
-  create_table "section_entities", :force => true do |t|
-    t.integer "subentity_id"
-    t.string  "subentity_type"
-    t.integer "section_id"
-  end
-
-  add_index "section_entities", ["section_id", "subentity_type"], :name => "index_section_entities_on_section_id_and_subentity_type"
-  add_index "section_entities", ["subentity_id", "subentity_type"], :name => "index_section_entities_on_subentity_id_and_subentity_type"
-
-  create_table "sections", :force => true do |t|
-    t.string   "name",           :limit => 50
-    t.string   "description",    :limit => 1000
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
-    t.integer  "groupable_id"
-    t.string   "groupable_type"
-  end
+  add_index "sections_updates", ["section_id"], :name => "index_sections_updates_on_section_id"
+  add_index "sections_updates", ["update_id"], :name => "index_sections_updates_on_update_id"
 
   create_table "tags", :force => true do |t|
     t.string "name", :limit => 32

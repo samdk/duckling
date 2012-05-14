@@ -10,13 +10,9 @@ class InvitationsController < AuthorizedController
   def search
     hash = Hash.new {|hsh, key| hsh[key] = []}
     hash['Users'] = current_user.acquaintance_ids.map {|aid| [aid, @target.users.exists?(aid)] }    
-    case @target
-      when Activation
-        hash['Organizations'] = current_user.organization_ids.map {|oid| [oid, @target.organizations.exists?(oid)] }
-        hash['Groups']        = current_user.potential_group_ids.map {|gid| [gid, true] }
-      when Section
-        hash['Organizations'] = current_user.organization_ids.map {|oid| [oid, @target.organizations.exists?(oid)] }
-        hash['Groups']        = current_user.potential_group_ids.map {|gid| [gid, @target.groups.exists?(gid)] }
+    
+    if [Activation, Section].includes? @target.class
+      hash['Organizations'] = current_user.organization_ids.map {|oid| [oid, @target.organizations.exists?(oid)] }
     end
     
     respond_to do |format|

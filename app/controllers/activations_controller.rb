@@ -56,17 +56,10 @@ class ActivationsController < AuthorizedController
     destroyed_redirect_to activations_url
   end
   
-  def rejoin
-    deployment = current_user.deployments.where(activation_id: params[:activation_id]).first!
-    deployment.update_attribute(:active, true)
-    
-    respond_with @activation
-  end
-  
   def leave
-    deployment = current_user.deployments.where(activation_id: params[:activation_id]).first!
-    deployment.update_attribute(:active, false)
-    
+    a = Activation.find(params[:activation_id])
+    current_user.activations.delete(a)
+
     respond_to do |wants|
       wants.html { redirect_to activations_path }
       wants.any  { head :ok }

@@ -12,15 +12,7 @@ describe Organization do
   it "has a name long enough" do
     subject.name = "A"
     should have_at_least(1).error_on(:name)
-  end
-  
-  it "fails validation sans administator" do
-    subject.name = 'asdf'
-    subject.save
-    
-    should have_at_least(1).error_on(:administrators)
-  end
-  
+  end  
   
   context 'checking permissions' do
     let :user do

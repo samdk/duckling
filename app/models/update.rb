@@ -1,15 +1,16 @@
 class Update < ActiveRecord::Base
   include Filters
+
   belongs_to :author, class_name: 'User'
   belongs_to :activation, counter_cache: true
   
   has_many :comments
 
-  has_many :attachments, as: :attachable
+  has_many :attachments, as: :attachable, dependent: :destroy
   accepts_nested_attributes_for :attachments
 
-  has_many :participants
-  has_many :sections, through: :participants
+  has_many :section_mappings, class_name: 'Mapping::SectionUpdate', dependent: :destroy
+  has_many :sections, through: :section_mappings
   
   # Too long titles will break UI, too long body will slow down database.
   # These limits should be sufficient.
@@ -24,7 +25,7 @@ class Update < ActiveRecord::Base
   end
   
   def permit_read?(user, *)
-    user.deployments.where(activation_id: activation_id).exists?
+    user.activations.exists?(activation_id)
   end
   
   def permit_update?(user, *)  
@@ -40,6 +41,6 @@ class Update < ActiveRecord::Base
   end
   
   def interested_emails
-    activation.users
+    activation.interested_emails
   end
 end

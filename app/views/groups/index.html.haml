@@ -1,7 +1,0 @@
-%ul.groups
-  - @groups.each do |g|
-    %li.group
-      %h2= link_to g.name, [@activation,g]
-      %ul.group-users
-        - g.users.sort_by {|u| u.full_name}.each do |gu|
-          %li= link_to gu.name, gu

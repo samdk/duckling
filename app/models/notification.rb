@@ -3,6 +3,10 @@ class Notification < ActiveRecord::Base
   
   scope :unseen, where(dismissed: false)
   
+  def dismiss
+    update_attribute :dismissed, true
+  end
+  
   def after_save
     puts "NOTIFICATION TO #{user.primary_email_address}: #{to_message('log')}" # TODO: DELETE
   end
