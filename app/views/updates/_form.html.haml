@@ -28,5 +28,5 @@
       - else
         = a.file_field :file
   .submit
-    = f.submit
+    = f.submit(@update.persisted? ? 'Save Changes' : 'Create the Update')
 
