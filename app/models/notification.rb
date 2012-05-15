@@ -8,7 +8,7 @@ class Notification < ActiveRecord::Base
   end
   
   def after_save
-    puts "NOTIFICATION TO #{user.primary_email_address}: #{to_message('log')}" # TODO: DELETE
+    puts "NOTIFICATION TO #{user.primary_email_address}: #{to_log)}" # TODO: DELETE
   end
   
   def reference
@@ -27,9 +27,13 @@ class Notification < ActiveRecord::Base
     to_message 'flash'
   end
   
+  def to_log
+    to_message 'log'
+  end
+  
   private
   def to_message(type)
-    t("notification.#{target_class.downcase}.#{event}.#{type}", user: user, object: reference)
+    t("notification.#{target_class.table_name}.#{event}.#{type}", user: user, object: reference)
   end
   
 end

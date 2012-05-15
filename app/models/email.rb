@@ -44,6 +44,15 @@ class Email < ActiveRecord::Base
   def to_s
     self.email
   end
+  
+  def too_recently_emailed?
+    if annoyance_level < 5
+      emailed_at < 4.minutes.ago
+    else
+      level = [8, annoyance_level].min
+      emailed_at < (5+1.5**level).to_i.minutes.ago
+    end
+  end
 
   before_save :generate_secret_code_if_missing
   def generate_secret_code_if_missing

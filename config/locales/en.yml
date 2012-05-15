@@ -1,4 +1,14 @@
 en:
+  notification:
+    generic: &generic_messages
+      create:
+        log: "Notifying <%{user.primary_email_address}> of created %{object.class.name}(%{object.id})"
+    updates: *generic_messages
+    memberships: *generic_messages
+    comments: *generic_messages
+    invitations: *generic_messages
+    activations_organizations: *generic_messages
+    organizations_sections: *generic_messages
   session:
     login:
       success: "Welcome, %{full_name}"

@@ -5,6 +5,7 @@ class Notifications < ActiveRecord::Migration
       t.string  'target_class'
       t.integer 'target_id'
       t.boolean 'dismissed', default: false
+      t.boolean 'emailed',   default: false
       t.references 'email'
       t.timestamps
     end

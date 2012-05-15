@@ -43,6 +43,7 @@ class AuthorizedController < ApplicationController
       false
     else
       self.current_user = user
+      user.emails.update_all(annoyance_level: 0)
       session[:user_id] = user.id
       true
     end
