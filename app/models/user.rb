@@ -69,6 +69,19 @@ class User < ActiveRecord::Base
     primary_email.notify(obj, event)
   end
 
+  def send_invite_to(email, obj)
+    e = Email.find_or_create_by_email(email)
+    if e.user
+      e.user.join(obj)
+    else
+      Invitation.create email: e, invitable: obj, inviter: self
+    end
+  end
+  
+  def join(obj)
+    obj.users << self unless obj.users.exists?(id)
+  end  
+
   ACQ_FINDER_SQL = ->(*){ %[
       SELECT * FROM users
       INNER JOIN acquaintances
@@ -163,8 +176,17 @@ class User < ActiveRecord::Base
     org.memberships.where(user_id: id).where("access_level <> ''", org_id).exists?
   end
   
-  def join(obj)
-    obj.users << self unless obj.users.exists?(id)
+  def try_to_associate(target, source)
+    return unless can? read: target # TODO: is this right?
+    return unless can? read: source
+    return unless target.users.exists?(id)
+
+    association_name = source.class.table_name
+    association_proxy = target.send(association_name)
+    
+    unless association_proxy.exists?(source.id)
+      association_proxy << source
+    end
   end
 
   protected
@@ -254,6 +276,7 @@ class User < ActiveRecord::Base
     e.invitations.includes(:invitable).find_each(batch_size: 1000) do |invite|
       invite.invitable.users << self unless invite.invitable.users.exists?(id)
     end
+    e.invitations.delete_all
   end
 
   def primary_email_address
@@ -275,19 +298,6 @@ class User < ActiveRecord::Base
   def can?(hash, args = {})
     hash.all? do |action, object|
       object.send "permit_#{action}?", self, args
-    end
-  end
-  
-  def try_to_associate(target, source)
-    return unless can? read: target # TODO: is this right?
-    return unless can? read: source
-    return unless target.users.exists?(id)
-
-    association_name = source.class.table_name
-    association_proxy = target.send(association_name)
-    
-    unless association_proxy.exists?(source.id)
-      association_proxy << source
     end
   end
 

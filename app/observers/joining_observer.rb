@@ -9,21 +9,6 @@ class JoiningObserver < ActiveRecord::Observer
     end
   end
 
-  # def after_destroy(record)
-  #   baby, parent = get_baby_and_parent(record)
-  # 
-  #   return unless Organization === baby
-  # 
-  #   case parent
-  #     when Activation
-  #       remove_memberships(baby, parent) do |user|
-  #       end
-  #     when Section
-  #       remove_memberships(baby, parent) do |user| 
-  #       end
-  #   end
-  # end
-
   private
   def get_baby_and_parent(record)
     case record

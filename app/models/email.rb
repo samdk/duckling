@@ -9,23 +9,14 @@ class Email < ActiveRecord::Base
 
   belongs_to :user
 
-  has_many :invitations, dependent: :destroy
+  has_many :invitations, dependent: :delete_all
   [:organizations, :sections, :activations].each do |table|
     has_many table, through: :invitations, source: :invitable, source_type: table.to_s.classify
   end
 
   has_many :notifications, dependent: :destroy
   def notify(obj, event)
-    notifications.create(target_class: obj.class.name, target_id: obj.id, event: event)
-  end
-
-  def self.invite(email, obj)
-    e = Email.find_or_create_by_email(email)
-    if e.user
-      e.user.join(obj)
-    else
-      obj.invitations.create e
-    end
+    notifications.create target: obj, event: event
   end
 
   def permit_read?(*)    true end
@@ -45,7 +36,7 @@ class Email < ActiveRecord::Base
     self.email
   end
   
-  def too_recently_emailed?
+  def too_recently_emailed?  
     if annoyance_level < 5
       emailed_at < 4.minutes.ago
     else
@@ -54,8 +45,14 @@ class Email < ActiveRecord::Base
     end
   end
 
-  before_save :generate_secret_code_if_missing
-  def generate_secret_code_if_missing
-    @secret_code ||= SecureRandom.base64(128)
+  before_save :fill_in_missing_data
+  def fill_in_missing_data
+    if attributes.key? 'secret_code'
+      self.secret_code ||= SecureRandom.hex(64)
+    end
+    
+    if attributes.key? 'emailed_at'
+      self.emailed_at ||= Time.now
+    end
   end
 end

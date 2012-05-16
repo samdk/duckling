@@ -68,18 +68,22 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
   end
 
   create_table "emails", :force => true do |t|
-    t.string   "email",      :limit => 256
-    t.string   "state",      :limit => 16,  :default => "unverified"
+    t.string   "email",           :limit => 256
+    t.string   "state",           :limit => 16,  :default => "unverified"
     t.integer  "user_id"
-    t.datetime "created_at",                                          :null => false
-    t.datetime "updated_at",                                          :null => false
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
+    t.datetime "emailed_at"
+    t.integer  "annoyance_level",                :default => 0
   end
 
   add_index "emails", ["email", "state"], :name => "index_emails_on_email_and_state"
   add_index "emails", ["email"], :name => "index_emails_on_email"
+  add_index "emails", ["user_id"], :name => "index_emails_on_user_id"
 
-  create_table "invitations", :id => false, :force => true do |t|
+  create_table "invitations", :force => true do |t|
     t.integer  "email_id"
+    t.integer  "inviter_id"
     t.integer  "invitable_id"
     t.string   "invitable_type"
     t.string   "secret_code"
@@ -94,7 +98,8 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
     t.integer "container_id"
     t.string  "container_type"
     t.integer "user_id"
-    t.string  "access_level",   :default => ""
+    t.integer "creating_user_id"
+    t.string  "access_level",     :default => ""
   end
 
   add_index "memberships", ["container_id", "container_type"], :name => "index_memberships_on_container_id_and_container_type"
@@ -102,16 +107,17 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
 
   create_table "notifications", :force => true do |t|
     t.string   "event"
-    t.string   "target_class"
     t.integer  "target_id"
-    t.boolean  "dismissed",    :default => false
+    t.string   "target_type"
+    t.boolean  "dismissed",   :default => false
+    t.boolean  "emailed",     :default => false
     t.integer  "email_id"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   add_index "notifications", ["email_id"], :name => "index_notifications_on_email_id"
-  add_index "notifications", ["target_class", "target_id"], :name => "index_notifications_on_target_class_and_target_id"
+  add_index "notifications", ["target_type", "target_id"], :name => "index_notifications_on_target_type_and_target_id"
 
   create_table "organizations", :force => true do |t|
     t.string   "name",        :limit => 128

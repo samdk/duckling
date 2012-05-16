@@ -1,9 +1,9 @@
 class AddInvitations < ActiveRecord::Migration
   def change
-    create_table :invitations, id: false do |t|
+    create_table 'invitations' do |t|
       t.references 'email'
+      t.references 'inviter'
       t.references 'invitable', polymorphic: true
-      t.string     'secret_code'
       t.timestamps
     end
     

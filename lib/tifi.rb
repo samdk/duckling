@@ -1,18 +1,41 @@
 class Tifi
-  attr_accessible :should_shutdown, :sleep_time, :task
+  attr_accessor :should_shutdown, :sleep_time
   def shutdown?() @should_shutdown        end
   def shutdown()  @should_shutdown = true end
 
-  def initialize
+  def initialize(opts)
     @should_shutdown = false
-    @sleep_time      = 5.0
-  end
+    @sleep_time      = opts[:sleep_time] || 5.0
+    @debug           = opts[:debug] || false
     
-  def run
+    if @debug
+      ActiveRecord::Base.logger = Logger.new(STDOUT)
+    end
+  end
+
+  def run(opts = {})
+    log "starting tifi"
+
+    if opts[:daemonize]
+      Process.daemon(true)
+      log "daemonizing"
+    end
+    
     register_signal_handlers
-      
+    
+    begin
+      start_loop
+    rescue Exception => e
+      log "Exception:\n#{e.to_s}\n#{e.backtrace.join("\n")}"
+      pause
+      retry
+    end
+  end
+  
+  def start_loop   
     loop do
       while !shutdown? and @task.nil?
+        debug "looking for task"
         pause
         find_task
       end
@@ -20,10 +43,10 @@ class Tifi
       break if shutdown?
       
       if child = Kernel.fork
-        procline "Forked #{@child.} at #{Time.now.to_i}"
+        procline "Forked #{@child} at #{Time.now.to_i}"
         Process.wait(child)
       else
-        procline "Processing #{task.to_s} since #{Time.now.to_i}"
+        procline "Processing #{@task.to_s} since #{Time.now.to_i}"
         safely_perform_task
       end
       
@@ -53,17 +76,20 @@ class Tifi
     email = @task.email
 
     unless (user = email.user).nil?
+      debug "Task for user #{user.id}"
       email = user.primary_email_address
     end
       
-    log "Processing #{first_notification.to_log}"
+    log "Processing #{@task.to_log}"
 
-    first_notification.touch
-    return if email.too_recently_emailed? || shutdown?
-      
+    if email.too_recently_emailed? || shutdown?
+      @task.touch
+      return
+    end
+
     notifications = email.notifications
-                           .where(emailed: false, dismissed: false)
-                           .order('updated_at ASC')
+                         .where(emailed: false, dismissed: false)
+                         .order('updated_at ASC')
 
     Notification.transaction do
       notifications.update_all(emailed: true)
@@ -75,15 +101,20 @@ class Tifi
     end
   end
   
-  def send_email
-    raise 'todo'
+  def send_email(email, notifications)
+    puts "Sending email to #{email}:"
+    puts notifications.map {|x| "\t#{x.to_email_string}"}.join("\n")
   end
     
-  def pause() sleep @sleep_time end
+  def pause() sleep sleep_time end
     
   def log(message)
     time = Time.now.strftime('%H:%M:%S %Y-%m-%d')
     puts "** [#{time}] #{$$}: #{message}"
+  end
+  
+  def debug(message)
+    log message if @debug
   end
     
   def procline(message)

@@ -1,11 +1,11 @@
 class AddEmail < ActiveRecord::Migration
   def change
-    create_table 'emails', force: true do |t|
+    create_table 'emails' do |t|
       t.string 'email', limit: 256
       t.string 'state', limit: 16, default: 'unverified'
       t.references 'user'
       t.timestamps
-      t.datetime :emailed_at
+      t.datetime :emailed_at, default: Time.new(0)
       t.integer :annoyance_level, default: 0
     end
     

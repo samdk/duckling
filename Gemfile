@@ -10,9 +10,6 @@ gem 'paperclip'
 gem 'aws-s3'
 gem 'redis'
 gem 'haml'
-gem 'redis'
-gem 'redis-store'
-gem 'resque'
 gem 'activesupport'
 
 group :assets do

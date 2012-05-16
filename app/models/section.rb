@@ -24,4 +24,8 @@ class Section < ActiveRecord::Base
   
   has_many :organization_mappings, class_name: 'Mapping::OrganizationSection', dependent: :destroy
   has_many :organizations, through: :organization_mappings
+  
+  def interested_emails
+    users
+  end
 end

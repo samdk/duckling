@@ -8,7 +8,5 @@ module ::RakeFileUtils
   extend Rake::FileUtilsExt
 end
 
-require 'resque/tasks'
-
 Duckling::Application.send :include, Rake::DSL
 Duckling::Application.load_tasks

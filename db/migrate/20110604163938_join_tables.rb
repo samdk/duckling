@@ -10,6 +10,7 @@ class JoinTables < ActiveRecord::Migration
     create_table 'memberships' do |t|
       t.references 'container', polymorphic: true
       t.references 'user'
+      t.references 'creating_user'
       t.string  'access_level', default: ''
     end
     add_index 'memberships', %w[container_id container_type]

@@ -34,7 +34,7 @@ def make_user(first_name,last_name)
 end
 
 make_user("Test","User")
-30.times do |i|
+20.times do |i|
   fn = first_names.sample
   ln = last_names.sample
   make_user(fn,ln)
@@ -83,7 +83,7 @@ puts "#{@sections.length} sections created"
 # set our own timestamps for updates
 Update.record_timestamps = false
 @current_time = Time.now - 7.days
-total_update_count = 50
+total_update_count = 20
 @base_interval = (Time.now - @current_time) / total_update_count
 @current_count = 1
 
@@ -102,7 +102,4 @@ end
 total_update_count.times { make_random_update(a, @users.sample) }
 @updates = Update.all
 puts "#{@updates.length} updates created"
-
-# re-enable timestamping
-ActiveRecord::Base.record_timestamps = true
 

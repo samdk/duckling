@@ -2,8 +2,7 @@ class Notifications < ActiveRecord::Migration
   def change
     create_table 'notifications' do |t|
       t.string  'event'
-      t.string  'target_class'
-      t.integer 'target_id'
+      t.references 'target', polymorphic: true
       t.boolean 'dismissed', default: false
       t.boolean 'emailed',   default: false
       t.references 'email'
@@ -11,6 +10,6 @@ class Notifications < ActiveRecord::Migration
     end
 
     add_index 'notifications', 'email_id'
-    add_index 'notifications', %w[target_class target_id]
+    add_index 'notifications', %w[target_type target_id]
   end
 end

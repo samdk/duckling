@@ -2,7 +2,7 @@ en:
   notification:
     generic: &generic_messages
       create:
-        log: "Notifying <%{user.primary_email_address}> of created %{object.class.name}(%{object.id})"
+        log: "<%{email}> -> %{target_type}(%{target_id})"
     updates: *generic_messages
     memberships: *generic_messages
     comments: *generic_messages

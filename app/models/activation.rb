@@ -1,6 +1,4 @@
-class Activation < ActiveRecord::Base
-  include Filters
-  
+class Activation < ActiveRecord::Base  
   acts_as_paranoid
   
   has_many :updates
@@ -9,11 +7,13 @@ class Activation < ActiveRecord::Base
   has_many :organization_mappings, class_name: 'Mapping::ActivationOrganization', dependent: :destroy
   has_many :organizations, through: :organization_mappings
 
-  has_many :memberships, as: 'container'
+  has_many :invitations, as: 'invitable', dependent: :delete_all
+
+  has_many :memberships, as: 'container', dependent: :destroy
   has_many :users, through: :memberships
   
   validates :title, presence: true, length: { within: 3..128 }
-  validates_length_of :description, maximum: 1024
+  validates_length_of :description, maximum: 8000
 
   def interested_emails
     users
