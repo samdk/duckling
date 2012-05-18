@@ -1,15 +1,15 @@
 class UserMailer < ActionMailer::Base
+  include ActionView::Helpers::TextHelper
   
-  default from: 'support@example.com'
+  default from: 'support@clbt.net'
   
-  SUPPORT_EMAILS = %w[eli@example.com sam@example.com will@example.com]
+  SUPPORT_EMAILS = %w[eli@clbt.net sam@clbt.net will@clbt.net]
   
-  def invite(email_address, name, inviter_name, org_name)
-    @name, @inviter, @org_name = name, inviter_name, org_name
+  def invite(invitation)
+    @invitation = invitation
     
-    mail to: email_address,
-         from: 'support@example.com',
-         subject: "FlareTeam invite from #{@inviter} (#{@org_name})"
+    mail to: invitation.email.email,
+         subject: "FlareTeam invite from #{invitation.inviter.full_name}"
   end
   
   def welcome(user)
@@ -17,42 +17,29 @@ class UserMailer < ActionMailer::Base
     @from = SUPPORT_EMAILS.sample
     
     mail to: user.primary_email_address,
-         from: @from,
          subject: 'Welcome to FlareTeam'
   end
-  
-  def verify_account(user)
+
+  def verify_email(email, user = nil)
     @user = user
     
-    mail to: user.primary_email_address,
-         from: 'support@example.com',
-         subject: '[FlareTeam] Please verify your account'
-  end
-  
-  def verify_email(email_address, user)
-    @user = user
-    
-    mail to: email_address,
-         from: 'support@example.com',
+    mail to: email.email,
          subject: '[FlareTeam] Please verify your email address'
   end
   
-  def reset_password(email_address, user, reset_url)
+  def reset_password(email, user, reset_url)
     @user = user
     @reset_url = reset_url
     
-    mail to: email_address,
-         from: 'support@example.com',
+    mail to: email.email,
          subject: '[FlareTeam] Password Reset Confirmation'
   end
   
-  def organization_added(organization, user)
-    @user = user
-    @organization = organization
+  def notify(user, notifications)
+    @notifications = notifications
     
-    mail to: user.primary_email_address,
-         from: 'support@example.com',
-         subject: "[FlareTeam] You\'ve been added to #{organization.name}"
+    mail to: email.email, 
+         subject: "[FlareTeam] You Have #{pluralize(notifications.size, "Notification")}"
   end
 
 end

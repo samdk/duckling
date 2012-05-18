@@ -64,9 +64,10 @@ class User < ActiveRecord::Base
 
   belongs_to :primary_organization, class_name: 'Organization'
 
-  has_many :notifications, through: :emails
+
+  has_many :notifications, dependent: :delete_all
   def notify(obj, event)
-    primary_email.notify(obj, event)
+    notifications.create target: obj, event: event
   end
 
   def send_invite_to(email, obj)

@@ -1,6 +1,5 @@
 class EventObserver < ActiveRecord::Observer
-  observe :update, :comment, :invitation, :membership,
-    'Mapping::OrganizationSection', 'Mapping::ActivationOrganization'
+  observe :update, :comment, :membership, 'Mapping::OrganizationSection', 'Mapping::ActivationOrganization'
 
   def after_create(record)
     notify_all record, 'create'
@@ -15,13 +14,13 @@ class EventObserver < ActiveRecord::Observer
   private
   def notify_all(record, event)
     record.interested_emails.each do |recipient|
-      email = case recipient
-        when Email then recipient
-        when User  then recipient.primary_email
-        else            Email.where(email: recipient.to_s).first_or_create()
+      user = case recipient
+        when Email then recipient.user
+        when User  then recipient
+        else raise "Notifying nothing bizarre"
       end
 
-      email.notify record, event unless email.nil?
+      user.notify record, event unless user.nil?
     end
   end
 end

@@ -14,11 +14,6 @@ class Email < ActiveRecord::Base
     has_many table, through: :invitations, source: :invitable, source_type: table.to_s.classify
   end
 
-  has_many :notifications, dependent: :destroy
-  def notify(obj, event)
-    notifications.create target: obj, event: event
-  end
-
   def permit_read?(*)    true end
   def permit_create?(*)  true end
   def permit_update?(*)  true end

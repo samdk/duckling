@@ -71,9 +71,9 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
     t.string   "email",           :limit => 256
     t.string   "state",           :limit => 16,  :default => "unverified"
     t.integer  "user_id"
-    t.datetime "created_at",                                               :null => false
-    t.datetime "updated_at",                                               :null => false
-    t.datetime "emailed_at"
+    t.datetime "created_at",                                                        :null => false
+    t.datetime "updated_at",                                                        :null => false
+    t.datetime "emailed_at",                     :default => '0000-01-01 05:00:00'
     t.integer  "annoyance_level",                :default => 0
   end
 
@@ -86,12 +86,13 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
     t.integer  "inviter_id"
     t.integer  "invitable_id"
     t.string   "invitable_type"
-    t.string   "secret_code"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.boolean  "emailed",        :default => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
   add_index "invitations", ["email_id"], :name => "index_invitations_on_email_id"
+  add_index "invitations", ["emailed"], :name => "index_invitations_on_emailed"
   add_index "invitations", ["invitable_id", "invitable_type"], :name => "index_invitations_on_invitable_id_and_invitable_type"
 
   create_table "memberships", :force => true do |t|
@@ -111,13 +112,13 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
     t.string   "target_type"
     t.boolean  "dismissed",   :default => false
     t.boolean  "emailed",     :default => false
-    t.integer  "email_id"
+    t.integer  "user_id"
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
   end
 
-  add_index "notifications", ["email_id"], :name => "index_notifications_on_email_id"
   add_index "notifications", ["target_type", "target_id"], :name => "index_notifications_on_target_type_and_target_id"
+  add_index "notifications", ["user_id"], :name => "index_notifications_on_user_id"
 
   create_table "organizations", :force => true do |t|
     t.string   "name",        :limit => 128
