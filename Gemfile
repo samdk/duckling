@@ -21,6 +21,8 @@ end
 group :development do
   gem 'sqlite3', require: 'sqlite3'
   gem 'bullet'
+  gem 'pry-rails'
+  gem 'awesome_print'
 end
 
 group :production do
