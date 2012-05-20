@@ -9,9 +9,6 @@ Duckling::Application.configure do
   
   config.action_controller.perform_caching = false
 
-  config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { host: 'localhost:3000' }
-
   config.active_support.deprecation = :log
 
   config.action_dispatch.best_standards_support = :builtin
@@ -25,8 +22,18 @@ Duckling::Application.configure do
     Bullet.rails_logger = true
     Bullet.disable_browser_cache = true
   end
+  
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { address:              'email-smtp.us-east-1.amazonaws.com',
+                                         port:                 25,
+                                         user_name:            'AKIAI7EFTJY4RVB5PT4A',
+                                         password:             'AntZ1wov69YqFRyLIh3uyjjCWnNmJiuqmAc7tFqihIoz',
+                                         domain:               'clbt.net',
+                                         authentication:       'plain',
+                                         enable_starttls_auto: true }
 end
-
 
 
 module ActiveSupport

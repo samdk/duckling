@@ -207,8 +207,8 @@ class User < ActiveRecord::Base
   end
 
   def set_default_api_token_and_phone_hash
-    self.phone_numbers ||= {}
-    self.api_token     ||= SecureRandom.hex(32)
+    self.phone_numbers ||= {} if attributes.key? :phone_numbers
+    self.api_token ||= SecureRandom.hex(32) if attributes.key? :api_token
   end
 
   public
