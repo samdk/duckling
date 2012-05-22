@@ -47,7 +47,7 @@ class UpdatesController < AuthorizedController
     save = @update.authorize_with(current_user).update_attributes(params[:update])
     notice 'update.updated' if save
    
-    respond_with @activation, @update
+    respond_with activation_updates_url(@activation)
   end
 
   def destroy
