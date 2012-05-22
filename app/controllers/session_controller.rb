@@ -24,9 +24,14 @@ class SessionController < AuthorizedController
     else
       log_in_as u
       
-      remember_with_cookie! unless params[:cookie].blank?
+      if params[:secret_code].nil?
+        u.associate_email(Email.where(secret_code: params[:secret_code]))
+        notice 'email.associated'
+      else
+        notice 'session.login.success', full_name: u.name
+      end
       
-      notice 'session.login.success', full_name: u.name
+      remember_with_cookie! unless params[:cookie].blank?
       
       redirect_to(params[:return_to] || overview_url)
     end

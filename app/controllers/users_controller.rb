@@ -61,24 +61,20 @@ class UsersController < AuthorizedController
     log_out!
     
     @user = User.new(params[:user])
-
-    unless params[:password].blank?
-      pc = :password_confirmation
-      if params[pc].blank?
-        @user.errors.add(pc, t('login.password_confirmation.missing'))
-      elsif params[:password] != params[pc]
-        @user.errors.add(pc, t('login.password_confirmation.wrong'))
+    
+    User.transaction do
+      if @user.save
+        notice 'user.created'
+        @user.associate_email(Email.where(secret_code: params[:secret_code]).first)
       end
     end
-
-    notice 'user.created' if @user.save
     
-    redirect_to login_url, notice: t('login.email.confirm')
+    redirect_to login_url
   end
 
   def update    
     unless params[:id].blank? or current_user.id == params[:id].to_i
-      unauthorized! 'user.update_others'
+      unauthorized! 'user.update_others' # TODO: is this necessary?
     end
         
     if current_user.authorize_with(current_user).update_attributes(params[:user])
