@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  include Filters
 
   def serializable_hash(opts)
     opts[:except] = Array.wrap(opts[:except]) + %w[

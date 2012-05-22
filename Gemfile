@@ -22,6 +22,7 @@ group :development do
   gem 'sqlite3', require: 'sqlite3'
   gem 'bullet'
   gem 'pry-rails'
+  gem 'pry-doc'
   gem 'awesome_print'
 end
 
