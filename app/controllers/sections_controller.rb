@@ -56,6 +56,7 @@ class SectionsController < AuthorizedController
   private
     def set_activation
       @activation = current_user.activations.find(params[:activation_id])
+      @invitees = current_user.acquaintances
     end
 
     def set_section

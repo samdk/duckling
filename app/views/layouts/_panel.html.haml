@@ -7,7 +7,7 @@
     %form#invite-form
       = submit_tag 'Invite'
       %ul.users
-        - @invitees.each do |u|
+        - Array(@invitees).each do |u|
           %li.invitee
             .search-text
               = u.name
