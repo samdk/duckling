@@ -1,5 +1,9 @@
-Hi, welcome to FlareTeam.
+Hey <%= @invitation.inviter.full_name %>,
 
-To get started, we need to connect up your email address with an account.
+To connect your account to this email address, click the link and sign in again.
 
-If you already have a FlareTeam account under any email address, please visit this URL: <%= verify_email_account_url(@invitation.email.secret_code) %>
+    <%= verify_email_account_url(@invitation.email.secret_code) %>
+    
+Thanks,
+Will, Eli, and Sam
+The FlareTeam User Happiness Team

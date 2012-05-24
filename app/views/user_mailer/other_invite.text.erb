@@ -1,0 +1,11 @@
+Welcome to FlareTeam.
+
+You were invited by <%= @invitation.inviter.full_name %> to get involved in the <%= @invitation.invitable_type.downcase %> <%= @invitation.invitable.to_s %>.
+
+To get started, please verify your email address and get signed up through the following link:
+
+    <%= verify_email_account_url(@invitation.email.secret_code) %>?new=1
+
+Thanks,
+Sam, Eli, and Will
+The FlareTeam Team
