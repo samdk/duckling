@@ -14,12 +14,12 @@ class AuthorizedController < ApplicationController
   end
   
   def require_login
-    unless logged_in?
-      if request.xhr?
-        head 401
-      else
-        redirect_to login_path(return_to: request.url), notice: t('session.login.required')
-      end                    
+    if logged_in?
+      Time.zone = current_user.time_zone
+    elsif request.xhr?
+      head 401
+    else
+      redirect_to login_path(return_to: request.url), notice: t('session.login.required')
     end
   end
   

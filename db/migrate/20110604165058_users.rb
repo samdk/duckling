@@ -20,6 +20,7 @@ class Users < ActiveRecord::Migration
       t.references 'primary_address'
       t.references 'primary_email'
       t.string     'primary_email_address'
+      t.string     'time_zone', default: 'UTC'
     end
     
     add_index 'users', 'last_name'
