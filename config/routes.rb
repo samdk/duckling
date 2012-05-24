@@ -12,7 +12,9 @@ Duckling::Application.routes.draw do
     post 'search', on: :collection
   end
 
-  resource :session, only: [:new, :destroy, :create]
+  resource :session, only: [:new, :destroy, :create] do
+    get 'without_password/:reset_token', to: :without_password, as: :without_password
+  end
 
   resources :people, controller: 'users', as: 'users' do
     get 'avatar_:style.png', to: 'users#avatar', on: :member, as: :user_avatar
@@ -22,11 +24,10 @@ Duckling::Application.routes.draw do
 
   resource :account, controller: 'users' do    
     member do
-       get :activate
-       get :forgot_password
-      post :request_password_reset
-       get 'new_password/:id_:token', to: :new_password, as: :new_password
-      post :reset_password
+       get 'activate'
+       get 'forgot_password'
+      post 'request_password_reset'
+       get 'verify_email/:secret_code', to: :verify_email, as: :verify_email
     end
   end
   

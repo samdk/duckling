@@ -309,4 +309,8 @@ class User < ActiveRecord::Base
     [@initial_email || primary_email]
   end
   
+  def reset_reset_token!
+    update_attribute :reset_token, ActiveSupport::SecureRandom.hex(64)
+  end
+  
 end

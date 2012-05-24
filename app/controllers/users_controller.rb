@@ -1,8 +1,6 @@
 class UsersController < AuthorizedController
   
-  WITHOUT_LOGIN = [:new, :create, :forgot_password,
-                   :request_password_reset, :new_password,
-                   :reset_password]
+  WITHOUT_LOGIN = [:new, :create, :request_password_reset, :forgot_password, :verify_email]
   
   respond_to :html
   respond_to :json, :xml, except: [:edit, *WITHOUT_LOGIN]
@@ -97,47 +95,29 @@ class UsersController < AuthorizedController
   
   def avatar    
     u = current_user.acquaintances.find(params[:id])
-
     if u.avatar.file?
       send_file u.avatar.path(params[:style]), disposition: 'inline', url_based_filename: true
     else
       redirect_to u.avatar.url
     end
-
   end
   
   def forgot_password ; end
   
   def request_password_reset
-    email = params[:email_address]
-    
-    u = User.with_email(email).first
-    p = PhoneFormatter.format(params[:phone])
-    
-    if u.phone_numbers.blank? or u.phone_numbers.values.include?(p)
-      u.update_attribute(:reset_token, ActiveSupport::SecureRandom.hex(64))
-      UserMailer.async.reset_password(email, u, new_passsword_account_url(u.id, u.reset_token))
+    e = Email.includes(:user).where(email: params[:email]).first!
+
+    if e.user
+      e.user.reset_reset_token!
+      UserMailer.async.reset_password(e)
     end
-    
+
     redirect_to login_url, notice: t('user.password.reset.check_email')
   end
   
-  def new_password
-    @token = params[:token]
-    unless (@user = User.find(params[:id])).reset_token == @token
-      redirect_to forgot_password_account_url, error: t('user.password.reset.token_invalid')
-    end
+  def verify_email
+    log_out!
+    @email = Email.where(secret_code: params[:secret_code]).first!
+    @new   = !!params[:new]
   end
-  
-  def reset_password
-    token = params[:token]
-    if (user = User.find(params[:id])).reset_token == @token
-      user.update_attributes(params[:user])
-      log_in_as user
-      redirect_to '/', notice: t('user.password.reset.done') # TODO: is this the right path?
-    else
-      redirect_to :back, error: t('user.password.reset.token_invalid')
-    end
-  end
-  
 end

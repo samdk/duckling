@@ -36,12 +36,12 @@ class Tifi
   end
   
   def start_loop   
-    until shutdown?      
+    until shutdown?
       if child = Kernel.fork
         procline "Forked #{@child} at #{Time.now.to_i}"
         Process.wait(child)
       else
-        procline "Processing since #{Time.now.to_i}"
+        procline "Processing #{@task_counter} since #{Time.now.to_i}"
         safely_perform_task
       end
       pause
@@ -76,11 +76,11 @@ class Tifi
   
   def self.log(message)
     time = Time.now.strftime('%H:%M:%S %Y-%m-%d')
-    puts "** [#{time}] #{$$}: #{message}"
+    puts "#{time} #{$$}: #{message}"
   end
   
   def self.debug(message)
-    log message if @debug
+    log "* #{message}" if @debug
   end
   
 end

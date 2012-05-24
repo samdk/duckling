@@ -4,7 +4,9 @@ namespace :tifi do
   
     t = Tifi.new(debug: Rails.env.development?)
     
-    t.tasks << TifiTasks::Invitations.new << TifiTasks::Notifications.new
+    t.tasks << TifiTasks::Invitations.new
+    t.tasks << TifiTasks::Notifications.new
+    t.tasks << TifiTasks::Async.new
     
     t.run(daemonize: ENV.key?('background'))
   end

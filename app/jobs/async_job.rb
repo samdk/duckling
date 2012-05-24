@@ -1,42 +1,39 @@
-module AsyncJob
-  def self.included(base)
-    base.extend ClassMethods
-  end
-  
+class ActiveRecord::Base
   def async
-    AsyncJob::Proxy.new(self.class, id)
+    AsyncJob::Proxy.new(self)
   end
-  
-  module ClassMethods
+
+  class << self
     def async
       AsyncJob::Proxy.new(self)
     end
-    
-    def perform(id_or_method, *args)
-      if id_or_method.to_i > 0
-        find(id_or_method).send(*args)
+  end
+end
+
+module AsyncJob
+  class Proxy
+    def initialize(target)
+      @target = target
+    end
+    def method_missing(method, *args)
+      if Class === target
+        Task.create(target_type: @target.name, method: method, args: args.to_json)
       else
-        send(id_or_method, *args)
+        Task.create(target: @target, method: method, args: args.to_json)
       end
     end
-    
-    def queue
-      :async
-    end
-  end 
+  end
   
-  class Proxy    
-    def initialize(base, id=nil)
-      @base, @id = base, id
-    end
-  
-    def method_missing(name, *args)
-      if @id
-        Resque.enqueue(@base, @id, name, *args)
+  class Task < ActiveRecord::Base
+    belongs_to :target, polymorphic: true
+    serialize :args
+    def perform
+      arguments = JSON.parse(args)
+      if target_id.to_i > 0
+        target.send(method, arguments)
       else
-        Resque.enqueue(@base, name, *args)
+        target_type.constantize.send(method, arguments)
       end
-      true
     end
   end
 end

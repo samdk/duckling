@@ -1,6 +1,6 @@
 class SessionController < AuthorizedController 
   
-  skip_login only: [:new, :create]
+  skip_login only: [:new, :create, :without_password]
 
   def new
     @return_to = params[:return_to]
@@ -12,6 +12,15 @@ class SessionController < AuthorizedController
     notice 'session.logout.success'
     
     redirect_to login_path
+  end
+  
+  def without_password
+    u = User.where(reset_token: params[:reset_token]).first!
+    log_in_as u
+    u.reset_reset_token!
+    
+    notice 'user.password_reset.do_it'
+    redirect_to edit_account_url
   end
 
   def create
