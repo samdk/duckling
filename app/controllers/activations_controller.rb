@@ -66,6 +66,21 @@ class ActivationsController < AuthorizedController
     end
   end
   
+  def revoke
+    unless @activation.memberships.where(access_control: 'admin', user_id: current_user.id).exists?
+      unauthorized! 'activation.revoke.unauthorized'
+    end
+
+    if params[:email]
+      email = Email.where(email: params[:email])
+      @activation.invitiations.where(email_id: email.id).clear
+    elsif params[:user_id]
+      @activation.users.where(user_id: params[:user_id]).clear
+    end
+    
+    redirect_to @activation, notice: t('activation.revoke.success')
+  end
+  
   def organization_leave
     
   end

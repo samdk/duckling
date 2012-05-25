@@ -42,18 +42,19 @@ Duckling::Application.routes.draw do
     end
     
     get 'overview', on: :collection
+    post 'revoke'
 
     member do
-        post :rejoin
+        post 'rejoin'
         post 'organization_rejoin/:organization_id', to: :organization_rejoin
-      delete :leave
+      delete 'leave'
       delete 'organization_leave/:organization_id', to: :organization_leave
     end
   end
 
   resources :organizations do
-    post :invite
-    post :revoke
+    post 'invite'
+    post 'revoke'
     resources :people, controller: 'users', only: [:index]
     resources :activations, only: [:index]
 

@@ -62,12 +62,18 @@ class OrganizationsController < AuthorizedController
   end
   
   def revoke
+    unless @organization.memberships.where(access_control: 'admin', user_id: current_user.id).exists?
+      unauthorized! 'organization.revoke.unauthorized'
+    end
+
     if params[:email]
       email = Email.where(email: params[:email])
       @organization.invitiations.where(email_id: email.id).clear
     elsif params[:user_id]
       @organization.users.where(user_id: params[:user_id]).clear
     end
+    
+    redirect_to @organization, notice: t('organization.revoke.success')
   end
 
   private
