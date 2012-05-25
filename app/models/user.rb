@@ -33,10 +33,10 @@ class User < ActiveRecord::Base
     false
   end
 
-  attr_accessor :password_confirmation, :password_confirmation_changed, :login_email, :initial_email
+  attr_accessor :password_confirmation, :password_confirmation_changed, :login_email
 
   attr_accessible :first_name, :last_name, :name_prefix, :name_suffix,
-    :phone_numbers, :primary_address_id, :password, :password_confirmation, :initial_email
+    :phone_numbers, :primary_address_id, :password, :password_confirmation
 
   THUMBS = {styles: {large: ['100x100#', :png], small: ['60x60#', :png]},
             default_url: '/assets/avatars/default_:style_avatar.png',
@@ -125,8 +125,6 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true, length: {maximum: 50}
   validates :last_name,  presence: true, length: {maximum: 50}
   validates_length_of :name_suffix, maximum: 50
-  
-  validates_presence_of :initial_email, on: :create
 
   validate :password_validations
   def password_validations  
@@ -193,17 +191,13 @@ class User < ActiveRecord::Base
   
   before_save :format_phone_numbers
   after_initialize :set_default_api_token_and_phone_hash
-  after_create :add_initial_email
   
   def format_phone_numbers
     phone_numbers.each do |k, v|
       self.phone_numbers[k] = PhoneFormatter.format(v)
     end
   end
-  
-  def add_initial_email
-    skipping_auth! { add_email @initial_email }
-  end
+
 
   def set_default_api_token_and_phone_hash
     self.phone_numbers ||= {} if attributes.key? :phone_numbers
@@ -257,38 +251,36 @@ class User < ActiveRecord::Base
     
     u.password?(pass) && u
   end
-
-  def update_primary_email(e)
-    self.primary_email = e
-  end
   
   def add_email(email, active = false)
     check_permits
     
-    emails.create(email: email.downcase, state: active ? 'active' : 'inactive').tap do |e|
-      update_primary_email e if primary_email.nil?
+    e = emails.where(email: email.downcase).first_or_create(state: active ? 'active' : 'inactive')
+    if primary_email.nil?
+      self.primary_email = e
       save
     end
   end
 
   def associate_email(e)
     emails << e
-    e.invitations.includes(:invitable).find_each(batch_size: 1000) do |invite|
-      invite.invitable.users << self unless invite.invitable.users.exists?(id)
+    
+    self.primary_email_id = e.id if primary_email_id.nil?
+    
+    e.invitations.includes(:invitable).find_each do |invite|
+      unless invite.invitable.nil? or invite.invitable.users.exists?(id)
+        invite.invitable.users << self
+      end
     end
     e.invitations.delete_all
   end
 
   def primary_email_address
-    self.primary_email.email
+    primary_email.nil? ? '' : primary_email.email
   end
   
   def activate_email(email)
-    e = self.emails.where(email: email)
-
-    if e
-      e.update_attribute :state, 'active'
-    end
+    self.emails.where(email: email).update_all(state: 'active')
   end
   
   def name
@@ -306,11 +298,11 @@ class User < ActiveRecord::Base
   end
 
   def interested_emails
-    [@initial_email || primary_email]
+    primary_email
   end
   
   def reset_reset_token!
-    update_attribute :reset_token, ActiveSupport::SecureRandom.hex(64)
+    update_attribute :reset_token, SecureRandom.hex(64)
   end
   
 end

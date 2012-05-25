@@ -27,7 +27,10 @@ Duckling::Application.routes.draw do
        get 'activate'
        get 'forgot_password'
       post 'request_password_reset'
-       get 'verify_email/:secret_code', to: :verify_email, as: :verify_email
+    end
+    
+    resources :emails, only: [:new, :create, :destroy] do
+       get 'verify/:secret_code', to: :verify, as: :verify
     end
   end
   

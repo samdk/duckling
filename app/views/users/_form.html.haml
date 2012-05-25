@@ -1,4 +1,4 @@
-= form_for(@user, url: account_path) do |f|
+= form_for @user, url: account_path do |f|
   .section
     %h2 Your Name
     .name-prefix
@@ -18,10 +18,7 @@
   .section
     %h2 Your Contact Information
     - if @user.new_record?
-      .email
-        = f.label :initial_email, 'Email Address'
-        .hint (You will log in with this email address.)
-        = f.text_field :initial_email, autocomplete: 'off'
+      = hidden_field_tag :email_secret_code, @secret_code
     - else
       %h1
         SAM: put in email editing stuff here maybe? I dunno.

@@ -16,20 +16,21 @@ last_names = %w[Smith Johnson Williams Jones Brown Davis Miller Wilson Moore Tay
 @user_index = 0
 @used_emails = Set.new
 
-def make_user(first_name,last_name)
-  u = User.new
-  u.first_name = first_name
-  u.last_name = last_name
-  email = "#{first_name[0]}#{last_name}".downcase
-  u.initial_email = "#{email}#{@used_emails.include?(email) ? @user_index : ''}@example.com"
+def make_user(first_name, last_name)
+  u = User.new first_name: first_name, last_name: last_name
   u.password = u.password_confirmation = 'testtest'
   u.phone_numbers['Desk'] = "555-555-01%02d" % (@user_index % 100)
   u.phone_numbers['Cell'] = "555-555-02%02d" % (@user_index * 2 % 100)
-  save(u)
+
+  save u
   
+  email = "#{first_name[0]}#{last_name}".downcase
+  email << @user_index.to_s if @used_emails.include? email
+
+  u.authorize_with(u).add_email "#{email}@example.com"
   u.primary_email.activate
   
-  @used_emails << u.initial_email  
+  @used_emails << email
   @user_index += 1
 end
 

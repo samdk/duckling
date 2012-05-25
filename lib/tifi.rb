@@ -1,7 +1,7 @@
 class Tifi
   def initialize(opts)
     @should_shutdown = false
-    @sleep_time      = opts[:sleep_time] || 15.0
+    @sleep_time      = opts[:sleep_time] || 5.0
     @debug           = opts[:debug] || false
     @task_counter    = 0
 
@@ -11,8 +11,11 @@ class Tifi
   delegate :log, :debug, to: Tifi
   attr_accessor :should_shutdown, :sleep_time
   
-  def shutdown?() @should_shutdown        end
-  def shutdown()  @should_shutdown = true end
+  def shutdown?() @should_shutdown end
+  def shutdown
+    log "Shutting down"
+    @should_shutdown = true
+  end
 
   def tasks() @tasks ||= [] end
 
@@ -37,35 +40,40 @@ class Tifi
   
   def start_loop   
     until shutdown?
-      if child = Kernel.fork
-        procline "Forked #{@child} at #{Time.now.to_i}"
-        Process.wait(child)
-      else
-        procline "Processing #{@task_counter} since #{Time.now.to_i}"
-        safely_perform_task
-      end
+      perform_iteration
       pause
     end
   end
-
-
-  private
   
+  private
+
+  def perform_iteration
+    child = Kernel.fork do
+      procline "Processing #{@task_counter} since #{Time.now.to_i}"
+      safely_perform_task
+    end
+
+    procline "Forked #{child} at #{Time.now.to_i}"
+    @task_counter += 1
+    Process.wait(child)
+  end
+
   def safely_perform_task
     begin
       tasks[@task_counter % tasks.size].perform
     rescue Exception => e
       log "Exception:\n#{e.to_s}\n#{e.backtrace.join("\n")}"
-    ensure
-      @task_counter += 1
     end
   end
 
-  def pause() sleep sleep_time end
+  def pause()
+    5.times do
+      sleep sleep_time/5.0 unless shutdown?
+    end
+  end
     
   def procline(message)
     $0 = "tifi #{$$}: #{message}"
-    log "procline -> #{message}"
   end
 
   def register_signal_handlers

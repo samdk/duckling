@@ -2,7 +2,7 @@ Welcome to FlareTeam.
 
 To get started, please verify your email address and get signed up through the following link:
 
-    <%= verify_email_account_url(@invitation.email.secret_code) %>?new=1
+    <%= new_account_url %>?token=<%=@invitation.email.secret_code %>
 
 Thanks,
 Eli, Sam, and Will

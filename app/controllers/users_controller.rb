@@ -1,6 +1,6 @@
 class UsersController < AuthorizedController
   
-  WITHOUT_LOGIN = [:new, :create, :request_password_reset, :forgot_password, :verify_email]
+  WITHOUT_LOGIN = [:new, :create, :request_password_reset, :forgot_password, :verify_email, :request_invitation]
   
   respond_to :html
   respond_to :json, :xml, except: [:edit, *WITHOUT_LOGIN]
@@ -43,15 +43,20 @@ class UsersController < AuthorizedController
 
   def new
     log_out!
-    
-    @user = User.new
+
+    if (@secret_code = params[:token]).nil?
+      redirect_to new_account_email_url
+    else
+      @email = Email.where(secret_code: params[:token]).first!
+      @user = User.new
+    end
   end
 
   def edit
     unless params[:id].blank? or current_user.id == params[:id]
       unauthorized! 'user.edit_others'
     end
-    
+
     @user = current_user
   end
 
@@ -63,11 +68,13 @@ class UsersController < AuthorizedController
     User.transaction do
       if @user.save
         notice 'user.created'
-        @user.associate_email(Email.where(secret_code: params[:secret_code]).first)
+        email = Email.where(secret_code: params[:email_secret_code]).first!
+        email.activate
+        @user.associate_email(email)
       end
     end
     
-    redirect_to login_url
+    redirect_to login_url, notice: t('user.created')
   end
 
   def update    
@@ -113,11 +120,5 @@ class UsersController < AuthorizedController
     end
 
     redirect_to login_url, notice: t('user.password.reset.check_email')
-  end
-  
-  def verify_email
-    log_out!
-    @email = Email.where(secret_code: params[:secret_code]).first!
-    @new   = !!params[:new]
   end
 end

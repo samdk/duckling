@@ -7,24 +7,17 @@ class UserMailer < ActionMailer::Base
   
   def invite(invitation)
     @invitation = invitation
-    
-    subjects = {
-      welcome: 'Welcome to FlareTeam',
-      self_invite: '[FlareTeam] Verify your email address',
-      other_invite: "#{invitation.inviter.full_name} invites you to FlareTeam"
-    }
-    
-    template = if invitation.inviter.nil?
-      :welcome
+  
+    subject, template = if invitation.inviter.nil?
+      ['Welcome to FlareTeam', :welcome]
     elsif invitation.invitable == invitation.inviter
-      :self_invite
+      ['[FlareTeam] Verify your email address', :self_invite]
     else
-      :other_invite
+      ["#{invitation.inviter.full_name} invites you to FlareTeam", :other_invite]
     end
     
+    mail to: invitation.email.email, subject: subject, template_name: template
     invitation.update_attribute :emailed, true
-
-    mail to: invitation.email.email, subject: subjects[template], template: template
   end
 
   def reset_password(email)
