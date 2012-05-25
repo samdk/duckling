@@ -24,7 +24,7 @@ class UserMailer < ActionMailer::Base
     
     invitation.update_attribute :emailed, true
 
-    mail to: invitation.email.email, subject: subjects[template], template: template do
+    mail to: invitation.email.email, subject: subjects[template], template: template
   end
 
   def reset_password(email)

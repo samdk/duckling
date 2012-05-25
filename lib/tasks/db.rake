@@ -1,5 +1,5 @@
 namespace :db do
-  task :redo => ['db:drop', 'db:create', 'db:migrate', 'db:seed']
+  task :redo    => %w[db:drop db:create db:migrate db:seed]
   task :redo_ns => %w[db:drop db:create db:migrate]
 end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120512124131) do
+ActiveRecord::Schema.define(:version => 20120524200155) do
 
   create_table "acquaintances", :id => false, :force => true do |t|
     t.integer "user_id"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
   create_table "emails", :force => true do |t|
     t.string   "email",           :limit => 256
     t.string   "state",           :limit => 16,  :default => "unverified"
+    t.string   "secret_code",     :limit => 64
     t.integer  "user_id"
     t.datetime "created_at",                                                        :null => false
     t.datetime "updated_at",                                                        :null => false
@@ -77,8 +78,8 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
     t.integer  "annoyance_level",                :default => 0
   end
 
-  add_index "emails", ["email", "state"], :name => "index_emails_on_email_and_state"
   add_index "emails", ["email"], :name => "index_emails_on_email"
+  add_index "emails", ["secret_code"], :name => "index_emails_on_secret_code"
   add_index "emails", ["user_id"], :name => "index_emails_on_user_id"
 
   create_table "invitations", :force => true do |t|
@@ -156,6 +157,13 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
     t.string "name", :limit => 32
   end
 
+  create_table "tasks", :force => true do |t|
+    t.integer "target_id"
+    t.string  "target_type"
+    t.string  "method"
+    t.text    "args"
+  end
+
   create_table "updates", :force => true do |t|
     t.string   "title",          :limit => 128
     t.integer  "author_id"
@@ -186,6 +194,7 @@ ActiveRecord::Schema.define(:version => 20120512124131) do
     t.integer  "primary_address_id"
     t.integer  "primary_email_id"
     t.string   "primary_email_address"
+    t.string   "time_zone",                              :default => "UTC"
   end
 
   add_index "users", ["cookie_token"], :name => "index_users_on_cookie_token"
