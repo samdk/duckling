@@ -193,7 +193,6 @@ ActiveRecord::Schema.define(:version => 20120524200155) do
     t.datetime "avatar_updated_at"
     t.integer  "primary_address_id"
     t.integer  "primary_email_id"
-    t.string   "primary_email_address"
     t.string   "time_zone",                              :default => "UTC"
   end
 
