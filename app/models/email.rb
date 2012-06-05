@@ -31,13 +31,14 @@ class Email < ActiveRecord::Base
     self.email
   end
   
-  def too_recently_emailed?  
-    if annoyance_level < 5
-      emailed_at < 4.minutes.ago
-    else
-      level = [8, annoyance_level].min
-      emailed_at < (5+1.5**level).to_i.minutes.ago
-    end
+  def too_recently_emailed?
+    emailed_at < 5.minutes.ago
+    # if annoyance_level < 5
+    #   emailed_at < 4.minutes.ago
+    # else
+    #   level = [8, annoyance_level].min
+    #   emailed_at < (5+1.5**level).to_i.minutes.ago
+    # end
   end
 
   before_save :fill_in_missing_data

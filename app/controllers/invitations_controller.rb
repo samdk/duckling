@@ -4,13 +4,10 @@ class InvitationsController < AuthorizedController
   
   respond_to :json
   respond_to :html, except: [:search]
-  
-  skip_login only: [:search]
 
   def search
     hash = Hash.new {|hsh, key| hsh[key] = []}
-    # TODO: REMOVE THIS
-    current_user = User.first
+
     hash['Users'] = current_user.acquaintances.map {|a| [a.id, @target.users.exists?(a.id)] }
     
     if [Activation, Section].include? @target.class
