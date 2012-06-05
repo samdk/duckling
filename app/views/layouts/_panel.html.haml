@@ -8,10 +8,8 @@
       = submit_tag 'Invite'
       %ul.users
         - Array(@invitees).each do |u|
-          %li.invitee
-            .search-text
-              = u.name
-              = u.primary_email_address
+          - search_text = "#{u.name} #{u.primary_email_address}"
+          %li.invitee{'data-search-text' => search_text}
             = check_box_tag "invitees[users][#{u.id}]"
             = label_tag "invitees[users][#{u.id}]", u
 

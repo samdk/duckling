@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
-  rescue_from ActiveRecord::RecordNotFound, with: :render_404
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404 if Rails.env.production?
   
   after_filter do
     if !request.get? and request.headers['X-CSRF-Token']

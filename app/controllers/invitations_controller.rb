@@ -6,7 +6,7 @@ class InvitationsController < AuthorizedController
   respond_to :html, except: [:search]
   
   skip_login only: [:search]
-  
+
   def search
     hash = Hash.new {|hsh, key| hsh[key] = []}
     hash['Users'] = current_user.acquaintance_ids.map {|aid| [aid, @target.users.exists?(aid)] }    
@@ -19,7 +19,7 @@ class InvitationsController < AuthorizedController
       format.json { render json: hash }
     end
   end
-  
+
   def create
     params[:sources].each do |source|
       if source[:class_name] == 'Email'
@@ -32,12 +32,12 @@ class InvitationsController < AuthorizedController
       end
     end
   end
-  
+
   private
   def set_target
     @target = objectize(params[:target_class], params[:target_id])
   end
-  
+
   def objectize(klass_name, id)
     klass_name.constantize.find(id.to_i)
   rescue NameError
