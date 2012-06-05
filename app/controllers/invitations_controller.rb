@@ -9,9 +9,11 @@ class InvitationsController < AuthorizedController
 
   def search
     hash = Hash.new {|hsh, key| hsh[key] = []}
-    hash['Users'] = current_user.acquaintance_ids.map {|aid| [aid, @target.users.exists?(aid)] }    
+    # TODO: REMOVE THIS
+    current_user = User.first
+    hash['Users'] = current_user.acquaintances.map {|a| [a.id, @target.users.exists?(a.id)] }
     
-    if [Activation, Section].includes? @target.class
+    if [Activation, Section].include? @target.class
       hash['Organizations'] = current_user.organization_ids.map {|oid| [oid, @target.organizations.exists?(oid)] }
     end
     

@@ -16,9 +16,8 @@ $ ->
     inv = new Invitable(e.currentTarget)
     e.preventDefault()
     showPane('invite',inv))
-  showPane('invite')
+  #showPane('invite') # uncomment to always show for testing
   $('#panel .close-button').click((e) ->
-    console.log('closed')
     e.preventDefault()
     hidePane())
 
@@ -47,7 +46,6 @@ loadThingsToInvite = (f) ->
   params =
     target_class: inviteLink().data('target-class')
     target_id:    inviteLink().data('target-id')
-  console.log params
   $.post(window.url.invitations.search,params,f)
 
 showInvitePanel = ->
@@ -55,12 +53,7 @@ showInvitePanel = ->
   loadThingsToInvite((response) ->
     input = invitePanel('input')
     boundPaneObjs.push(input)
-    input
-  
-    input.keyup(-> filterUsers(input.val()))
-    )
-
-
+    input.keyup(-> filterUsers(input.val())))
 
 filterUsers = (filterStr) ->
   if filterStr == ""

@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(:version => 20120524200155) do
     t.integer  "user_id"
     t.datetime "created_at",                                                        :null => false
     t.datetime "updated_at",                                                        :null => false
-    t.datetime "emailed_at",                     :default => '0000-01-01 05:00:00'
+    t.datetime "emailed_at",                     :default => '0000-01-01 04:56:02'
     t.integer  "annoyance_level",                :default => 0
   end
 

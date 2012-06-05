@@ -17,8 +17,8 @@
   &mdash;
 
   %ul
-    %li#invite-link
-      %a{href:'#','data-target-class' => } Invite People
+    %li
+      - invite_link 'Invite People', @activation
     %li#sections-link= link_to 'Sections', activation_sections_url(@activation)
     %li#email-settings
       %select
