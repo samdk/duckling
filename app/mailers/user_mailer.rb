@@ -16,8 +16,8 @@ class UserMailer < ActionMailer::Base
       ["#{invitation.inviter.full_name} invites you to FlareTeam", :other_invite]
     end
     
-    mail to: invitation.email.email, subject: subject, template_name: template
     invitation.update_attribute :emailed, true
+    mail to: invitation.email.email, subject: subject, template_name: template
   end
 
   def reset_password(email)

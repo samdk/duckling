@@ -27,7 +27,7 @@ Duckling::Application.configure do
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = { address:              'email-smtp.us-east-1.amazonaws.com',
-                                         port:                 25,
+                                         port:                 465,
                                          user_name:            'AKIAI7EFTJY4RVB5PT4A',
                                          password:             'AntZ1wov69YqFRyLIh3uyjjCWnNmJiuqmAc7tFqihIoz',
                                          domain:               'clbt.net',
