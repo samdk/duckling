@@ -92,9 +92,9 @@ describe User do
       subject.first_name = 'John'
       subject.last_name = 'Smith'
       subject.password = subject.password_confirmation = 'password'
-      subject.initial_email = 'foo@example.com'
       subject.save
       
+      subject.authorize_with(subject).add_email 'foo@example.com'
       subject.authorize_with(subject).add_email 'bar@example.com'
     end
 
