@@ -16,8 +16,8 @@ Duckling::Application.configure do
   Paperclip.options[:command_path] = File.dirname(`which convert`)
   
   config.after_initialize do
-    Bullet.enable = false
-    # Bullet.alert = true
+    Bullet.enable = true
+    Bullet.alert = false
     Bullet.console = true
     Bullet.rails_logger = true
     Bullet.disable_browser_cache = true
