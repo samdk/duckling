@@ -1,5 +1,6 @@
 class Activation < ActiveRecord::Base  
   acts_as_paranoid
+  include Filters
   
   has_many :updates
   has_many :sections

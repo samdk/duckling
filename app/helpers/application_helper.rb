@@ -22,7 +22,7 @@ module ApplicationHelper
   def errors_for(obj)
     if obj.errors.any?
       haml_tag :div, :class => 'errors' do
-        haml_tag :h2, "#{pluralize(@organization.errors.count, 'error')} prevented this organization from being saved:"
+        haml_tag :h2, "#{pluralize(@organization.errors.count, 'error')} prevented this #{obj.class.name.downcase} from being saved:"
 
         haml_tag :ul do
           obj.errors.full_messages.collect do |msg|
@@ -30,6 +30,14 @@ module ApplicationHelper
           end
         end
       end
+    end
+  end
+  
+  def yield_if_content_for(name)
+    if content_for? name
+      content_for name
+    else
+      false
     end
   end
   

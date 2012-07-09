@@ -1,15 +1,13 @@
 module Filters
   def self.included(base)
     base.class_eval {
-      scope :in_date_range, ->(since = nil, terminus = nil, target = :created_at) {
+      scope :in_date_range, ->(since = nil, terminus = nil, target = 'created_at') {
         since, terminus = since[:from], since[:to] if Hash  === since
         
         since    ||= ''
         terminus ||= '9999-99-99 99:99:99'
         
-        unless since.blank? and terminus.blank?
-          # where("#{target} BETWEEN ? AND ?", since, terminus)
-        end     
+        where("#{target} BETWEEN ? AND ?", since, terminus)
       }
       
       scope :matching_search, ->(fields, query) {

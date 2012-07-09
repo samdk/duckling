@@ -47,7 +47,7 @@ class UpdatesController < AuthorizedController
     save = @update.authorize_with(current_user).update_attributes(params[:update])
     notice 'update.updated' if save
    
-    respond_with activation_updates_url(@activation)
+    respond_with @activation
   end
 
   def destroy
@@ -62,6 +62,7 @@ class UpdatesController < AuthorizedController
   end
 
   def set_update
+    set_activation if @activation.blank?
     @update = @activation.updates.includes(:attachments).find(params[:id])
   end
 end

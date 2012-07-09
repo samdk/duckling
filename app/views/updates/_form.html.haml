@@ -1,5 +1,5 @@
 = form_for [@activation, @update], html: {multipart: true, id: 'update-form'} do |f|
-  - errors_for @update
+  = errors_for @update
   %div
     %h1= "#{@update.persisted? ? 'Editing' : 'Add'} an update to the #{@activation} activation"
   .title
@@ -17,8 +17,7 @@
         - @activation.sections.each do |s|
           %li
             = check_box_tag "update[section_ids][#{s.id}]", '', @update.sections.include?(s)
-            -#= check_box_tag("section_ids[#{g.id}]",'',@update.sections.include?(g))
-            = label_tag("update[section_ids][#{s.id}]",s.name)
+            = label_tag("update[section_ids][#{s.id}]", s.name)
   .files
     %h3 Attachments
     - 3.times { @update.attachments << Attachment.new }
