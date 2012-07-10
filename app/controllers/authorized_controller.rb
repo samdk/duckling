@@ -12,15 +12,19 @@ class AuthorizedController < ApplicationController
   def self.skip_login(opts = {})
     skip_before_filter :require_login, opts
   end
-  
+
   def require_login
     if logged_in?
-      Time.zone = current_user.time_zone
+      set_time_zone
     elsif request.xhr?
       head 401
     else
       redirect_to login_path(return_to: request.url), notice: t('session.login.required')
     end
+  end
+  
+  def set_time_zone
+    Time.zone = current_user.time_zone
   end
   
   attr_accessor :current_user

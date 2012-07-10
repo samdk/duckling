@@ -10,7 +10,7 @@ class InvitationsController < AuthorizedController
 
     hash['Users'] = current_user.acquaintances.map {|a| [a.id, @target.users.exists?(a.id)] }
     
-    if [Activation, Section].include? @target.class
+    if Activation === @target or Section === @target
       hash['Organizations'] = current_user.organization_ids.map {|oid| [oid, @target.organizations.exists?(oid)] }
     end
     

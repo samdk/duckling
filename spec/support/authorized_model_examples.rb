@@ -17,7 +17,7 @@ shared_examples 'an authorized model' do |model_proc|
     @model.destroyed?.should be_false
   end
   
-  xit 'should implicity prevent reads' do
-    expect { @model.class.find(model.id) }.to raise_error(Unauthorized)
-  end
+  # xit 'should implicity prevent reads' do
+  #   expect { @model.class.find(model.id) }.to raise_error(Unauthorized)
+  # end
 end

@@ -9,7 +9,7 @@ Duckling::Application.configure do
   
   config.action_controller.perform_caching = false
 
-  config.active_support.deprecation = :log
+  config.active_support.deprecation = [:log, :stderr]
 
   config.action_dispatch.best_standards_support = :builtin
   

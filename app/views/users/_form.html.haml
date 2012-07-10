@@ -16,12 +16,20 @@
       .hint (III, PhD, optional)
       = f.text_field :name_suffix
   .section
+    %h2 Time Zone
+    .hint
+      It appears to be
+      %span#current-tz 
+      :javascript
+        $(function(){$("#current-tz").text(current_tz())});
+    = time_zone_select :user, :time_zone
+  .section
     %h2 Your Contact Information
     - if @user.new_record?
       = hidden_field_tag :email_secret_code, @secret_code
     - else
       %h1
-        SAM: put in email editing stuff here maybe? I dunno.
+        TODO: put in email editing stuff here maybe? I dunno.
       .phone
         %h3 Phone Numbers
         = f.fields_for :phone_numbers do |fe|

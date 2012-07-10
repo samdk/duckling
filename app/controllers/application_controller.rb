@@ -2,15 +2,18 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   
   rescue_from ActiveRecord::RecordNotFound, with: :render_404 if Rails.env.production?
+
+  after_filter :persist_ajax_csrf
   
-  after_filter do
+  protected
+  
+  def persist_ajax_csrf
     if !request.get? and request.headers['X-CSRF-Token']
       session[:_csrf_token] = request.headers['X-CSRF-Token']
     end
   end
   
-  protected
-  
+
   def current_model(id = nil)
     @current_model ||= begin
       klass = controller_name.singularize.classify.constantize

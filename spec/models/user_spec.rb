@@ -33,7 +33,7 @@ describe User do
     end
   end
   
-  context "two amigos" do
+  context "two buddies" do
     before :each do      
       @u  = make_user 'Bob', 'Smith', true
       @u2 = make_user 'Jane', 'Smith', true
@@ -41,15 +41,28 @@ describe User do
       @u2.reload
     end
     
-    it 'should assign em correctly' do
+    it 'should not have them acquainted by default' do
+      @u.acquaintances.should == []
+      @u2.acquaintances.should == []
+    end
+    
+    it 'should acquaint them correctly' do
       @u.acquaintances << @u2
       
       @u2.acquainted_to?(@u).should be_true
       @u.acquainted_to?(@u2).should be_true
     end
     
-    it 'should remove em correctly' do
-      @u.acquaintances << @u2      
+    it 'should not make duplicates' do
+      3.times { @u.ensure_acquaintances @u2 }
+      3.times { @u2.ensure_acquaintances @u }
+      
+      @u.acquaintances(true).size.should == 1
+      @u2.acquaintances(true).size.should == 1
+    end
+    
+    it 'should unacquaint them correctly' do
+      @u.ensure_acquaintances @u2      
       @u.acquaintances.clear
       
       @u.acquaintances(true).should  == []

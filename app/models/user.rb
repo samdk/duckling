@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
   attr_accessor :password_confirmation, :password_confirmation_changed, :login_email
 
   attr_accessible :first_name, :last_name, :name_prefix, :name_suffix,
-    :phone_numbers, :primary_address_id, :password, :password_confirmation
+    :phone_numbers, :primary_address_id, :password, :password_confirmation, :time_zone
 
   THUMBS = {styles: {large: ['100x100#', :png], small: ['60x60#', :png]},
             default_url: '/assets/avatars/default_:style_avatar.png',
@@ -105,7 +105,7 @@ class User < ActiveRecord::Base
   }
 
   def ensure_acquaintances(users)
-    diff = users - acquaintances
+    diff = Array(users) - acquaintances
     for user in diff
       acquaintances << user
     end
