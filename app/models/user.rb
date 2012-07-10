@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   def serializable_hash(opts)
     opts[:except] = Array.wrap(opts[:except]) + %w[
       api_token
-      created_at deleted_at updated_at
+      created_at deleted_at updated_at time_zone
       state
       cookie_token_expires_at cookie_token
       reset_token
@@ -57,12 +57,11 @@ class User < ActiveRecord::Base
   scope :with_email, ->(email) { joins(:emails).where(emails: {email: email}) }
 
   has_many :memberships, dependent: :destroy
-  has_many :activations,   through: :memberships, source: 'container', source_type: 'Activation'
-  has_many :sections,      through: :memberships, source: 'container', source_type: 'Section'
-  has_many :organizations, through: :memberships, source: 'container', source_type: 'Organization'
+  has_many :activations,   through: :memberships, source: 'container', uniq: true, source_type: 'Activation'
+  has_many :sections,      through: :memberships, source: 'container', uniq: true, source_type: 'Section'
+  has_many :organizations, through: :memberships, source: 'container', uniq: true, source_type: 'Organization'
 
   belongs_to :primary_organization, class_name: 'Organization'
-
 
   has_many :notifications, dependent: :delete_all
   def notify(obj, event)
