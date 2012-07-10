@@ -1,5 +1,5 @@
 class ActivationsController < AuthorizedController
-  
+   # Comment!
   respond_to :html
   respond_to :json, :xml, except: [:new, :edit, :overview]
   
