@@ -11,120 +11,112 @@ $update-left: 140px;
   font-size: 14px;
   margin-top: -($pad2) + 1;
 }
-  li {
-  }
+  li {}
+
   li.day {
     padding: $pad2 0;
     font-size: 16px;
     margin-top: $pad2;
     font-weight: bold;
-    text-align: center;
+    
+    h2.day-wrap {
+      color: #eee;
+      background: #333;
+      display: inline;
+      padding: 5px 5px 5px 50px;
+      position: relative;
+      left: -50px;
+    }
   }
+
   li.update {
+    
     position: relative;
     color: $grey1;
-    .update-when {
-      background: white;
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      padding: $pad2 0;
-      width: $update-left - $pad2;
-      text-align: right;
-      .update-time {
-        font-size: 16px;
+    max-width: 50em;
+    padding: $pad2 0 $pad2;
+    min-height: 96px - (2 * $pad2);
+    clear: both;
+    
+    .update-title-bar {
+      .update-title {
+        float: left;
         font-weight: bold;
+        font-size: 16px;
         line-height: 18px;
-        text-transform: lowercase;
       }
-      .update-author {
-        padding: $pad3 0;
-      }
-      .update-date {
-        color: $grey4;
+      
+      .update-meta {
+        font-size: 0.86em;
+        float: right;
+        .update-time { color: $grey4; }
       }
     }
-    .update-main {
-      background: white;
-      padding: $pad2 0 $pad2;
-      margin-left: $update-left;
-      position: relative;
-      clear: both;
-      min-height: 96px - (2 * $pad2);
-      .update-title {
+
+    .update-text {
+      padding: $pad3 0;
+      @include reversed_links;
+    }
+    .update-files {
+      @include reversed_links;
+      padding-left: 0;
+    }
+    .update-comments {
+      padding: $pad3 0 0 0;
+      @include reversed_links;
+      font-size: 12px;
+      margin-right: 103px;
+      h3 {
         font-weight: bold;
-        font-size: 16px;
-        line-height: 18px;
+        color: $grey3;
       }
-      .update-author {
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
-      .update-text {
-        padding: $pad3 0;
-        @include reversed_links;
-      }
-      .update-files {
-        @include reversed_links;
-        padding-left: 0;
-      }
-      .update-comments {
-        padding: $pad3 0 0 0;
-        @include reversed_links;
-        font-size: 12px;
-        margin-right: 103px;
-        h3 {
+      .comment {
+        position: relative;
+        background: $grey9;
+        border-bottom: 1px solid $grey8;
+        padding: $pad3;
+        margin: $pad3 0;
+        .comment-heading {
+          color: $grey2;
+          margin-bottom: 3px;
+        }
+        .comment-body {}
+        &.yours { background: $highlight; }
+        .comment-delete {
+          display: block;
+          position: absolute;
+          top: 0; right: 0;
+          text-decoration: none;
+          line-height: 12px;
           font-weight: bold;
-          color: $grey3;
-        }
-        .comment {
-          position: relative;
-          background: $grey9;
-          border-bottom: 1px solid $grey8;
-          padding: $pad3;
-          margin: $pad3 0;
-          .comment-heading {
-            color: $grey2;
-            margin-bottom: 3px;
-          }
-          .comment-body {}
-          &.yours { background: $highlight; }
-          .comment-delete {
-            display: block;
-            position: absolute;
-            top: 0; right: 0;
-            text-decoration: none;
-            line-height: 12px;
-            font-weight: bold;
-            padding: 0 3px 1px;
-            vertical-align: middle;
-            &:hover {
-              background: $link-blue;
-              color: white;
-            }
-          }
-          .fresh-comment {
-            background: $highlight;
+          padding: 0 3px 1px;
+          vertical-align: middle;
+          &:hover {
+            background: $link-blue;
+            color: white;
           }
         }
-        .new-comment {
-          position: relative;
-          width: 600px;
+        .fresh-comment {
+          background: $highlight;
         }
-          .comment-input {
-            width: 487px;
-          }
-          .comment-submit {
-            @include small_button;
-            padding: $pad3 0;
-            width: 100px;
-            position: absolute;
-            right: 0; top: 0;
-            @include border_radius(0);
-            background: #eee;
-            display: none;
-          }
       }
+      .new-comment {
+        position: relative;
+        width: 600px;
+      }
+        .comment-input {
+          width: 487px;
+        }
+        .comment-submit {
+          @include small_button;
+          padding: $pad3 0;
+          width: 100px;
+          position: absolute;
+          right: 0; top: 0;
+          @include border_radius(0);
+          background: #eee;
+          display: none;
+        }
     }
   }
 
