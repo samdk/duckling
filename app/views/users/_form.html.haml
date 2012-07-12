@@ -50,5 +50,5 @@
       .hint (confirm your password)
       = f.password_field :password_confirmation, value: '', autocomplete: 'off'
   .section
-    - submit_text = @user.new_record? ? "Sign Up" : "Edit Account"
+    - submit_text = @user.new_record? ? "Sign Up" : "Save"
     = submit_tag submit_text
