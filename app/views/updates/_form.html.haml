@@ -1,30 +1,20 @@
-%h1= "#{@update.persisted? ? 'Editing update' : 'Update'} the #{@activation} activation"
-= form_for [@activation, @update], html: {multipart: true, id: 'update-form'} do |f|
+= form_for [@activation, @update], html: {multipart: true, id: 'update-form', class: 'hide'} do |f|
   = errors_for @update
   .title
-    = f.label :title
-    = f.text_field :title
+    = f.text_field :title, placeholder: 'Title'
   .body
-    = f.label :body
-    = f.text_area :body, rows: 8
-  .sections
-    %h3 Sections
-    %ul.checkboxes
-      - if @activation.sections.empty?
-        %p= t('activation.sections.none')
-      -else
-        - @activation.sections.each do |s|
-          %li
-            = check_box_tag "update[section_ids][#{s.id}]", '', @update.sections.include?(s)
-            = label_tag("update[section_ids][#{s.id}]", s.name)
-  .files
-    %h3 Attachments
-    - 3.times { @update.attachments << Attachment.new }
-    = f.fields_for :attachments do |a|
-      - if a.object.persisted?
-        = a.object
-      - else
-        = a.file_field :file
+    = f.text_area :body, rows: 6, placebolder: 'Body Text'
+  .sections.left
+    - if @activation.sections.empty?
+      %p= t('activation.sections.none')
+    -else
+      - opts = {multiple: true, class: 'chzn-select', style: 'width: 320px', data: {placeholder: 'Pick Sections'}}
+      = f.collection_select :section_ids, @activation.sections, :id, :name, {}, opts
+  .left
+    %select(multiple class="chzn-select" style="width:320px;margin-left:20px" data-placeholder="Attach Files")
+      = f.fields_for :attachments do |a|
+        %option{value:a.object.id,selected:true}= a.object.to_s
+  .clear
   .submit
     = f.submit(@update.persisted? ? 'Save Changes' : 'Create the Update')
 

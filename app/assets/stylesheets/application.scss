@@ -44,6 +44,10 @@ body {
     z-index: 100;
     color: white;
     background: transparent;
+    
+    img {
+      display: inline;
+    }
   }
 
   #sidebar {
@@ -91,6 +95,10 @@ body {
 }
 .small {
   font-size: 12px;
+}
+
+.hide {
+  display: none;
 }
 
 #shield {

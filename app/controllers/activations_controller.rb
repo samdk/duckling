@@ -14,6 +14,7 @@ class ActivationsController < AuthorizedController
                     .in_date_range(params[:start_date], params[:end_date])
                     .matching_search(params[:search_query], [:title, :description])
                     .matching_joins(:organizations, params[:organization_ids])
+                    .select('activations.id, activations.created_at, activations.updated_at, activations.description, activations.title, activations.updates_count')
     
     respond_with @activations
   end

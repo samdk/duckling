@@ -6,18 +6,24 @@
     =link_to 'All Activations', activations_url
     %a#alerts-count.active{href:'#'} 3
   .slab#slab-2
-    #activation-select= @activation.title    
+    #activation-select{data: {activation_id:  @activation.id}}= @activation.title    
+    #activation-picker
+      %ol
+        %li#activation-link
+          = link_to image_tag('icons/is_plus_16w.png'), '#'
+          = link_to 'Create New Activation', '#'
+      
   .slab#slab-3
-    = link_to image_tag('icons/is_people_16w.png', size: '15x15'), '#'
+    = link_to 'Invite', '#'
+    &middot;
+    = link_to image_tag('icons/is_people_16w.png'), '#'    
+    = link_to 'Manage', '#'
     &middot;
     %span.small
       Showing updates from
     = link_to 'Your Sections', '#'
-    &middot;
-    = link_to 'Add Update', '#', id: 'add-update'
-    #new-update-form
-      = render 'form'
-      = link_to 'Close', '#', class: 'close-popups'
+    / &middot;
+    / = link_to 'Add Update', '#', id: 'add-update'
   .slab#user-slab
     logged in as
     %a{href:'#'}= @current_user.full_name

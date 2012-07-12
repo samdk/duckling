@@ -30,6 +30,35 @@ $update-left: 140px;
       left: -23px;
     }
   }
+  
+  li#new-update-form {
+    max-width: 50em;
+    position: relative;
+    left: -23px;
+    margin: 0 0 20px 0;
+
+    h1 {
+      @include reversed_links;
+      background: #3C3C3C;
+      font-size: 16px;
+      line-height: 22px;
+      font-weight: bold;   
+      width: 218px - 20px;
+      padding: 5px 0 5px 20px;
+      border-left: 3px solid gray;
+      border-right: 3px solid gray;
+      margin: 0;
+      a {
+        color: white;
+      }
+    }
+    
+    form {
+     padding: 20px 0 0 20px;
+     border-left: 3px solid gray;
+    }
+  }
+  
 
   li.update {
     position: relative;

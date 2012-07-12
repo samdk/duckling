@@ -1,3 +1,8 @@
+/*
+ *= require chosen
+ */
+
+
 @import 'includes';
 
 @mixin grad($col){
@@ -47,42 +52,50 @@
     }
   }
 
-  #slab-2 { @include grad(#444); width: 194px; }
+  #slab-2 {
+    @include grad(#444);
+    width: 194px;
+    
+    #activation-picker {
+      display: none;
+      position: absolute;
+      top: $nav-height;
+      left: 0;
+      color: white;
+      background: transparent;
+      
+      li {
+        padding: 5px;
+        background: darken(#3c3c3c, 5%);
+        &:nth-child(odd) {
+          background: lighten(#3c3c3c, 5%); 
+        }
+        a {
+         text-decoration: none;
+         &:hover { text-decoration: underline; } 
+        }
+      }
+      
+      #activation-link{
+        background: $link_blue;
+        a {
+          color: white; 
+        }
+        border-radius: 0 0 8px 8px;
+      }
+    }
+    
+    &:hover #activation-picker {
+      display: block; 
+    }
+  }
+  
   #slab-3 {
     font-size: 14px;
     line-height: 18px;
     @include grad(#888);
     img { display: inline; }
-    #new-update-form {
-      display: none;
-      z-index: 50;
-      position: absolute;
-      top: $nav-height;
-      left: -218px;
-      right: -200px;
-      
-      height: 400px;
-      overflow: auto;
-      
-      padding: 0;
-      border: 5px solid gray;
-
-      color: #000;      
-      background: #fff;
-
-      h1 {
-        background: gray;
-        color: white;
-        font-size: 22px;
-        line-height: 22px;
-        padding: 10px 7px;
-        font-weight: bold;
-      }
-      form {
-        padding: 10px;
-      }
-
-    }
+    border-bottom-right-radius: 8px;
   }
   
   #user-slab {
@@ -135,6 +148,9 @@
   display: none;
 }
 
+.left {
+  float: left;
+}
 
 //.updates { @include icon('is_bubbles_16b.png',9px,11px); }
 //.people  { @include icon('is_person_16b.png',$pad2,9px); }
