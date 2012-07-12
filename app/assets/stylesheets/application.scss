@@ -42,8 +42,8 @@ body {
     padding: 0 0 0 0;
     height: $nav-height;
     z-index: 100;
-//    background: #444;
     color: white;
+    background: transparent;
   }
 
   #sidebar {
@@ -59,14 +59,16 @@ body {
   }
 
   #body {
-    position: absolute;
-    top: $nav-height + (2 * $pad1);
-    left: $nav-width + (2 * $pad1);
-    right: 0;
-    z-index: 0;
+    margin-top: $nav-height + 2*$pad1;
+    margin-left: $nav-width + 2*$pad1;
   }
   
-  #footer { display: none; }
+  #footer {
+    font-size: 12px;
+    margin: 3em 3em 1em 0;
+    color: #999;
+    text-align: right;
+  }
   
   #flash div{
     border: 1px solid;
@@ -91,3 +93,10 @@ body {
   font-size: 12px;
 }
 
+#shield {
+  display: none;
+  background: rgba(255,255,255,0.24);
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 20;
+}

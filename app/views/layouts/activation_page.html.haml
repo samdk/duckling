@@ -8,19 +8,21 @@
   .slab#slab-2
     #activation-select= @activation.title    
   .slab#slab-3
-    = link_to 'Add Update', new_activation_update_path(@activation), id: 'add-update'
-    &middot;
-    = link_to 'Manage People', '#'
+    = link_to image_tag('icons/is_people_16w.png', size: '15x15'), '#'
     &middot;
     %span.small
       Showing updates from
     = link_to 'Your Sections', '#'
+    &middot;
+    = link_to 'Add Update', '#', id: 'add-update'
+    #new-update-form
+      = render 'form'
+      = link_to 'Close', '#', class: 'close-popups'
   .slab#user-slab
     logged in as
     %a{href:'#'}= @current_user.full_name
     &middot;
     %a{href:'#'} log out
-  
 
 
 = content_for :sidebar do

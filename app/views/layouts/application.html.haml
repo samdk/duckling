@@ -19,5 +19,9 @@
           - flash.each do |k, v|
             %div{id: "flash-#{k}"}= v
       = yield_if_content_for(:content) or yield
-    #footer &copy; 2012 Decisive Duck
+    #footer 
+      = link_to 'Help / Support', '#'
+      &middot;
+      &copy; 2012 Decisive Duck
+    #shield.close-popups
 

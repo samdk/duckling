@@ -14,18 +14,18 @@ $update-left: 140px;
   li {}
 
   li.day {
-    padding: $pad2 0;
     font-size: 16px;
-    margin-top: $pad2;
+    margin: $pad2 0;
     font-weight: bold;
     
     h2.day-wrap {
+      width: 218px - 20px;
+      
       color: #eee;
       background: #3C3C3C;
+      border-left: 3px solid gray;
       border-right: 3px solid gray;
-      border-left: 3px solid #090909;
-      display: inline;
-      padding: 5px 93px 5px 20px;
+      padding: 5px 0 5px 20px;
       position: relative;
       left: -23px;
     }
@@ -51,7 +51,9 @@ $update-left: 140px;
       }      
       .update-meta {
         font-size: 0.86em;
+        color: $grey4;
         float: right;
+        .update-author a { color: $grey3; }
         .update-time { color: $grey4; }
       }
     }

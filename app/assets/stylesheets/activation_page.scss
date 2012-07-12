@@ -15,6 +15,8 @@
     float: left;
     padding: 12px;
     position: relative;
+    
+    height: 18px;
         
     @include reversed_links;
     a { color: #fff; }
@@ -45,13 +47,48 @@
     }
   }
 
-  #slab-2 { @include grad(#444); }
-  #slab-3 { @include grad(#888); }
+  #slab-2 { @include grad(#444); width: 194px; }
+  #slab-3 {
+    font-size: 14px;
+    line-height: 18px;
+    @include grad(#888);
+    img { display: inline; }
+    #new-update-form {
+      display: none;
+      z-index: 50;
+      position: absolute;
+      top: $nav-height;
+      left: -218px;
+      right: -200px;
+      
+      height: 400px;
+      overflow: auto;
+      
+      padding: 0;
+      border: 5px solid gray;
+
+      color: #000;      
+      background: #fff;
+
+      h1 {
+        background: gray;
+        color: white;
+        font-size: 22px;
+        line-height: 22px;
+        padding: 10px 7px;
+        font-weight: bold;
+      }
+      form {
+        padding: 10px;
+      }
+
+    }
+  }
+  
   #user-slab {
     position: absolute;
     right: 0;
     float: none;
-//    @include grad(#fff);
     background-color: #fff;
     color: #000;
     a{color:#000;}

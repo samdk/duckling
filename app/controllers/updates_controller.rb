@@ -21,6 +21,7 @@ class UpdatesController < AuthorizedController
     current_user.ensure_acquaintances @activation.users
 
     @invitees = current_user.acquaintances.includes(:primary_email)
+    @update = Update.new
 
     respond_with @activation, @updates
   end

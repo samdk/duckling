@@ -1,4 +1,5 @@
 #= require application
+#= require activations
 #= require comments
 
 $ ->
