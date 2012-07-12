@@ -100,7 +100,8 @@ class User < ActiveRecord::Base
     association_foreign_key: 'other_user_id',
     join_table:              'acquaintances',
     finder_sql:              ACQ_FINDER_SQL,
-    delete_sql:              ACQ_DELETE_SQL
+    delete_sql:              ACQ_DELETE_SQL,
+    uniq:                    true
   }
 
   def ensure_acquaintances(users)
