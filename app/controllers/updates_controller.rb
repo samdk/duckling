@@ -8,15 +8,19 @@ class UpdatesController < AuthorizedController
   before_filter :set_update, only: [:edit, :show, :update, :destroy]
 
   def index
-    @activation = current_user.activations.includes(:users).find(params[:activation_id])
+    @activation = current_user.activations
+                    .includes(users: [:primary_email])
+                    .find(params[:activation_id])
+    
     @updates = @activation.updates
                 .includes(:comments, :attachments, :author, :activation)
                 .order('created_at DESC')
                 .in_date_range(params[:start_date], params[:end_date])
-                .matching_search([:title, :body],params[:search_query])
+                .matching_search([:title, :body], params[:search_query])
 
     current_user.ensure_acquaintances @activation.users
-    @invitees = current_user.acquaintances
+
+    @invitees = current_user.acquaintances.includes(:primary_email)
 
     respond_with @activation, @updates
   end
