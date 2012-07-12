@@ -20,7 +20,31 @@
     a { color: #fff; }
   }
   
-  #slab-1 { @include grad(#111); width: (($nav-width)-(2*12)+2*$pad1); text-align: right;}
+  #slab-1 {
+    @include grad(#111);
+    width: (($nav-width)-(2*12)+2*$pad1);
+    text-align: right;
+    
+    #alerts-count {
+      border-radius: 10px;
+      padding: 2px 5px;
+      color: white;
+      background: #C60000;
+      text-align: center;
+    
+      border: 1px solid $grey1;
+      font-size: 14px;
+      font-weight: bold;
+
+      text-decoration: none;
+      &:hover { border: 1px solid #fff; text-decoration: none;}
+    
+      position: absolute;
+      top: 0px;
+      right: 0px;
+    }
+  }
+
   #slab-2 { @include grad(#444); }
   #slab-3 { @include grad(#888); }
   #user-slab {
@@ -35,29 +59,7 @@
     line-height: 18px;
   }
 }
-  
-  #alerts-count {
-    border-radius: 10px;
-    padding: 2px 5px;
-    color: white;
-    background: #C60000;
-    text-align: center;
-    
-    border: 1px solid $grey1;
-    font-size: 14px;
-    font-weight: bold;
 
-    &:hover { border: 1px solid #fff; text-decoration: none;}
-    
-    position: absolute;
-    top: 0px;
-    right: 0px;
-  }
-    #activation-select {
-    }
-    #add-update {
-
-    }
 
 #body {
   padding: $pad1;

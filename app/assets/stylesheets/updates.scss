@@ -21,11 +21,13 @@ $update-left: 140px;
     
     h2.day-wrap {
       color: #eee;
-      background: #333;
+      background: #3C3C3C;
+      border-right: 3px solid gray;
+      border-left: 3px solid #090909;
       display: inline;
       padding: 5px 93px 5px 20px;
       position: relative;
-      left: -20px;
+      left: -23px;
     }
   }
 
@@ -39,9 +41,6 @@ $update-left: 140px;
     
     border: 1px solid #eee;
     border-bottom: 1px solid #ddd;
-//    -webkit-box-shadow: 0 8px 8px -6px #ccc;
-//       -moz-box-shadow: 0 8px 8px -6px #ccc;
-//            box-shadow: 0 8px 8px -6px #ccc;
 
     .update-title-bar {
       .update-title {
@@ -60,6 +59,7 @@ $update-left: 140px;
     .update-text {
       padding: $pad3 0;
       @include reversed_links;
+      line-height: 1.2em;
     }
     .update-files {
       @include reversed_links;
