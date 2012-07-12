@@ -13,7 +13,7 @@ class UpdatesController < AuthorizedController
                     .find(params[:activation_id])
     
     @updates = @activation.updates
-                .includes(:comments, :attachments, :author, :activation)
+                .includes(:comments, :attachments, :author)
                 .order('created_at DESC')
                 .in_date_range(params[:start_date], params[:end_date])
                 .matching_search([:title, :body], params[:search_query])

@@ -2,38 +2,32 @@
   = javascript_include_tag :activation_page
 
 = content_for :header do
-  %a#alerts-count.active{href:'#'} 3
-  #filters
-    %select#activation-select
-      %option= @activation.title
-    &#9656;
-    %select.filter
-      %option My Sections
-  = link_to 'Add Update', new_activation_update_path(@activation), id: 'add-update'
+  .slab#slab-1
+    =link_to 'All Activations', activations_url
+    %a#alerts-count.active{href:'#'} 3
+  .slab#slab-2
+    #activation-select= @activation.title    
+  .slab#slab-3
+    = link_to 'Add Update', new_activation_update_path(@activation), id: 'add-update'
+    &middot;
+    = link_to 'Manage People', '#'
+    &middot;
+    %span.small
+      Showing updates from
+    = link_to 'Your Sections', '#'
+  .slab#user-slab
+    logged in as
+    %a{href:'#'}= @current_user.full_name
+    &middot;
+    %a{href:'#'} log out
+  
 
 
 = content_for :sidebar do
-  %h2#updates-link= link_to 'Updates', activation_updates_url(@activation), :class => 'updates'
-  &mdash;
-
+  showing updates from:
   %ul
-    %li
-      - invite_link 'Invite People', @activation
-    %li#sections-link= link_to 'Sections', activation_sections_url(@activation)
-    %li#email-settings
-      %select
-        %option Email alerts on
-        %option Email alerts off
-  &mdash;
-
-  #organization-link
-    %a{href:'#'} Organizations
-
-  #account
-    %h3= "logged in as #{@current_user}"
-    %a{href:'#'} account settings
-    &middot;
-    %a{href:'#'} log out
+    %li My Sections
+    %li All Sections
 
 
 = content_for :content do

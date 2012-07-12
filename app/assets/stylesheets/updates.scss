@@ -23,14 +23,13 @@ $update-left: 140px;
       color: #eee;
       background: #333;
       display: inline;
-      padding: 5px 5px 5px 50px;
+      padding: 5px 93px 5px 20px;
       position: relative;
-      left: -50px;
+      left: -20px;
     }
   }
 
   li.update {
-    
     position: relative;
     color: $grey1;
     max-width: 50em;
@@ -38,6 +37,12 @@ $update-left: 140px;
     min-height: 96px - (2 * $pad2);
     clear: both;
     
+    border: 1px solid #eee;
+    border-bottom: 1px solid #ddd;
+//    -webkit-box-shadow: 0 8px 8px -6px #ccc;
+//       -moz-box-shadow: 0 8px 8px -6px #ccc;
+//            box-shadow: 0 8px 8px -6px #ccc;
+
     .update-title-bar {
       .update-title {
         float: left;
