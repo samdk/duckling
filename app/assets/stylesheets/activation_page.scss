@@ -62,6 +62,7 @@
 //      margin: 0 3px;
       &:nth-child(n+2):before{
         margin: 0 7px;
+        color: #888;
         content: "/"; 
       }
     }

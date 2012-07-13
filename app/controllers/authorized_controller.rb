@@ -9,6 +9,8 @@ class AuthorizedController < ApplicationController
     back_or_403 exc.message
   end
   
+  helper AuthorizedHelper
+  
   def self.skip_login(opts = {})
     skip_before_filter :require_login, opts
   end
