@@ -40,7 +40,6 @@ body {
     position: fixed;
     top: 0; left: 0; right: 0;
     padding: 0 0 0 0;
-    height: $nav-height;
     z-index: 100;
     color: white;
     background: transparent;
@@ -50,21 +49,9 @@ body {
     }
   }
 
-  #sidebar {
-    position: fixed;
-    top: $nav-height + (2 * $pad1);
-    left: 0;
-    height: 300px;
-    
-    padding: $pad1;
-    z-index: 50;
-    background: #ddd;
-    width: $nav-width;
-  }
-
   #body {
     margin-top: $nav-height + 2*$pad1;
-    margin-left: $nav-width + 2*$pad1;
+    margin-left: $nav-width;
   }
   
   #footer {

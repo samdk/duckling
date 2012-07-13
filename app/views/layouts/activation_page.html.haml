@@ -2,40 +2,35 @@
   = javascript_include_tag :activation_page
 
 = content_for :header do
-  .slab#slab-1
-    =link_to 'All Activations', activations_url
-    %a#alerts-count.active{href:'#'} 3
-  .slab#slab-2
-    #activation-select{data: {activation_id:  @activation.id}}= @activation.title    
-    #activation-picker
-      %ol
-        %li#activation-link
-          = link_to image_tag('icons/is_plus_16w.png'), '#'
-          = link_to 'Create New Activation', '#'
+  #current-activation
+    %a{href: url_for(@activation)}
+      = @activation.title
+      &#x25BC;
+  %ul#submenu
+    %li
+      / = link_to image_tag('icons/is_people_16b.png'), '#'    
+      = link_to 'manage', '#'
+    %li
+      / = link_to image_tag('icons/is_settings_16b.png'), '#'
+      = link_to 'filter updates', '#'
+    %li#new-update-form
+      / = link_to image_tag('icons/is_plus_16b.png'), '#'
+      = link_to 'post update', '#'
+      = render 'form'
       
-  .slab#slab-3
-    = link_to 'Invite', '#'
-    &middot;
-    = link_to image_tag('icons/is_people_16w.png'), '#'    
-    = link_to 'Manage', '#'
-    &middot;
-    %span.small
-      Showing updates from
-    = link_to 'Your Sections', '#'
-    / &middot;
-    / = link_to 'Add Update', '#', id: 'add-update'
-  .slab#user-slab
-    logged in as
-    %a{href:'#'}= @current_user.full_name
-    &middot;
-    %a{href:'#'} log out
+  / #account-controls
+  /   logged in as
+  /   %a{href:'#'}= @current_user.full_name
+  /   &middot;
+  /   %a{href:'#'} log out
 
 
 = content_for :sidebar do
-  showing updates from:
   %ul
-    %li My Sections
-    %li All Sections
+    %li= link_to 'Overview', '/'
+    %li= link_to 'My Account', edit_account_path
+    %li= link_to 'Log Out', logout_path
+    %li#notifications= link_to '3 Notifications', '#'
 
 
 = content_for :content do

@@ -10,47 +10,23 @@ $update-left: 140px;
 #updates {
   font-size: 14px;
   margin-top: -($pad2) + 1;
+  max-width: 50em;
 }
-  li {}
-
   li.day {
     font-size: 16px;
     margin: $pad2 0;
     font-weight: bold;
     
-    h2.day-wrap {
-      width: 218px - 20px;
-      
-      color: #eee;
-      background: #3C3C3C;
-      border-left: 3px solid gray;
-      border-right: 3px solid gray;
-      padding: 5px 0 5px 20px;
-      position: relative;
-      left: -23px;
+    h2.day-wrap {      
+      color: #aaa;
+      font-size: 22px;
+      text-align: right;
     }
   }
   
   li#new-update-form {
-    max-width: 50em;
-    position: relative;
-    left: -23px;
-    margin: 0 0 20px 0;
-
-    h1 {
-      @include reversed_links;
-      background: #3C3C3C;
-      font-size: 16px;
-      line-height: 22px;
-      font-weight: bold;   
-      width: 218px - 20px;
-      padding: 5px 0 5px 20px;
-      border-left: 3px solid gray;
-      border-right: 3px solid gray;
-      margin: 0;
-      a {
-        color: white;
-      }
+    a {
+      color: #3fab11;
     }
     
     form {
@@ -63,13 +39,13 @@ $update-left: 140px;
   li.update {
     position: relative;
     color: $grey1;
-    max-width: 50em;
-    padding: $pad2 0 $pad2;
+    padding: $pad2 0;
     min-height: 96px - (2 * $pad2);
     clear: both;
     
-    border: 1px solid #eee;
-    border-bottom: 1px solid #ddd;
+    & + li.update { 
+      border-top: 1px solid #ddd;
+    }
 
     .update-title-bar {
       .update-title {
@@ -95,6 +71,13 @@ $update-left: 140px;
     .update-files {
       @include reversed_links;
       padding-left: 0;
+
+      li {
+        display: inline;
+        &:nth-child(n+2):before {
+          content: " / ";
+        }
+      }
     }
     .update-comments {
       padding: $pad3 0 0 0;

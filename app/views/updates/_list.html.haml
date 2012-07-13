@@ -1,8 +1,6 @@
 #updates
   %ul
-    %li#new-update-form
-      %h1= link_to 'Add an Update', '#'
-      = render 'form'
+
     - current_date = Time.now
     - updates.each do |update|
       - if update.created_at.day != current_date.day

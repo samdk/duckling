@@ -5,111 +5,66 @@
 
 @import 'includes';
 
+@mixin linearGradient($top, $bot) {
+  background-image: -webkit-linear-gradient(top, $top 0%, $top 60%, $bot 100%);
+  background-image:    -moz-linear-gradient(top, $top 0%, $top 60%, $bot 100%);
+  background-image:      -o-linear-gradient(top, $top 0%, $top 60%, $bot 100%);
+}
+
 @mixin grad($col){
-  $hi: lighten($col, 3%);
-  $lo: darken($col, 3%);
-  background-image: -webkit-linear-gradient(top, $hi, $lo);
-  background-image:    -moz-linear-gradient(top, $hi, $lo);
-  background-image:      -o-linear-gradient(top, $hi, $lo);
+  $hi: lighten($col, 10%);
+  $lo: darken($col, 10%);
+  @include linearGradient($hi, $lo);
 }
 
 #header {
-//  background-color: #ccc;  
-  .slab {
-    font-size: 18px;
+  font-size: 18px;
+  
+  padding-top: 10px;
+  left: (($nav-width)-(1+1+1));
+  
+  @include linearGradient(rgba(255,255,255,1), rgba(255,255,255,0));
+  height: 50px;
+
+  #current-activation {
+    display: block;
     float: left;
-    padding: 12px;
-    position: relative;
-    
-    height: 18px;
-        
-    @include reversed_links;
-    a { color: #fff; }
+    a {
+      padding: 12px 12px 12px 23px;
+      height: 18px;
+      color: white;
+      background: #000;
+    }
   }
   
-  #slab-1 {
-    @include grad(#111);
-    width: (($nav-width)-(2*12)+2*$pad1);
-    text-align: right;
+  #submenu {
+    float: left;
+    color: black;
+    background: white;
+    margin: 0 0 0 15px;
     
-    #alerts-count {
-      border-radius: 10px;
-      padding: 2px 5px;
-      color: white;
-      background: #C60000;
-      text-align: center;
-    
-      border: 1px solid $grey1;
-      font-size: 14px;
-      font-weight: bold;
-
-      text-decoration: none;
-      &:hover { border: 1px solid #fff; text-decoration: none;}
-    
-      position: absolute;
-      top: 0px;
-      right: 0px;
+    li {
+      float: left;
+//      margin: 0 3px;
+      &:nth-child(n+2):before{
+        margin: 0 7px;
+        content: "/"; 
+      }
     }
   }
 
-  #slab-2 {
-    @include grad(#444);
-    width: 194px;
-    
-    #activation-picker {
-      display: none;
-      position: absolute;
-      top: $nav-height;
-      left: 0;
-      color: white;
-      background: transparent;
-      
-      li {
-        padding: 5px;
-        background: darken(#3c3c3c, 5%);
-        &:nth-child(odd) {
-          background: lighten(#3c3c3c, 5%); 
-        }
-        a {
-         text-decoration: none;
-         &:hover { text-decoration: underline; } 
-        }
-      }
-      
-      #activation-link{
-        background: $link_blue;
-        a {
-          color: white; 
-        }
-        border-radius: 0 0 8px 8px;
-      }
-    }
-    
-    &:hover #activation-picker {
-      display: block; 
-    }
-  }
-  
-  #slab-3 {
-    font-size: 14px;
-    line-height: 18px;
-    @include grad(#888);
-    img { display: inline; }
-    border-bottom-right-radius: 8px;
-  }
-  
-  #user-slab {
+  #account-controls {
     position: absolute;
-    right: 0;
+    right: 10px;
+    top: 10px;
     float: none;
     background-color: #fff;
-    color: #000;
-    a{color:#000;}
-    font-size: 14px;
+    color: #888;
+    a{color:#444;}
+    font-size: 13px;
     line-height: 18px;
   }
 }
-
 
 #body {
   padding: $pad1;
@@ -142,10 +97,24 @@
   }
 
 #sidebar {
-  font-size: 14px;
-  background: #ddd;
-  color: #000;
-  display: none;
+  z-index: 1000;
+  position: fixed;
+  right: 0;
+  top: 20px;
+  text-align: right;
+  
+  li {
+    margin-bottom: 30px;
+    a {
+      text-align: right;
+      padding: 10px;
+      background: #444;
+      color: #fff;
+    }
+    &#notifications a {
+      background-color: #900; 
+    }
+  }
 }
 
 .left {
