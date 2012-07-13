@@ -2,19 +2,19 @@
   = javascript_include_tag :activation_page
 
 = content_for :header do
+  #overview
+    = link_to 'Overview', '/'
   #current-activation
     %a{href: url_for(@activation)}
       = @activation.title
       &#x25BC;
   %ul#submenu
     %li
-      / = link_to image_tag('icons/is_people_16b.png'), '#'    
       = link_to 'manage', '#'
     %li
-      / = link_to image_tag('icons/is_settings_16b.png'), '#'
-      = link_to 'filter updates', '#'
+      = link_to 'invite people', '#'
+    %li= link_to 'search', '#'  
     %li#new-update-form
-      / = link_to image_tag('icons/is_plus_16b.png'), '#'
       = link_to 'post update', '#'
       = render 'form'
       
@@ -26,11 +26,12 @@
 
 
 = content_for :sidebar do
-  %ul
-    %li= link_to 'Overview', '/'
-    %li= link_to 'My Account', edit_account_path
-    %li= link_to 'Log Out', logout_path
-    %li#notifications= link_to '3 Notifications', '#'
+  #account-controls
+    = link_to 'My Account', edit_account_path
+    &middot;
+    = link_to 'Log Out', logout_path
+  #notifications
+    = link_to '3 Notifications', '#'
 
 
 = content_for :content do

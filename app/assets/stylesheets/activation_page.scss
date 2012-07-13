@@ -21,19 +21,33 @@
   font-size: 18px;
   
   padding-top: 10px;
-  left: (($nav-width)-(1+1+1));
+  left: 0;
   
   @include linearGradient(rgba(255,255,255,1), rgba(255,255,255,0));
   height: 50px;
+  
+  #overview {
+    float: left;
+    text-align: center;
+    @include reversed_links;
+    a {
+      width: 100%;
+      padding: 12px 15px;
+      height: 18px;
+      color: white;
+      background: #000;
+    }
+  }
 
   #current-activation {
     display: block;
     float: left;
+        @include reversed_links;
     a {
-      padding: 12px 12px 12px 23px;
+      padding: 12px 12px 12px 15px;
       height: 18px;
       color: white;
-      background: #000;
+      background: #666;
     }
   }
   
@@ -97,22 +111,28 @@
   }
 
 #sidebar {
-  z-index: 1000;
+  z-index: 100;
   position: fixed;
   right: 0;
-  top: 20px;
+  top: 12px;
   text-align: right;
   
-  li {
-    margin-bottom: 30px;
+  #account-controls {
+    margin-right: 12px; 
+  }
+  
+  a {
+    font-size: 14px;
+    text-align: right;
+  }
+  
+  #notifications {
+    margin: 40px 0;
     a {
-      text-align: right;
-      padding: 10px;
-      background: #444;
-      color: #fff;
-    }
-    &#notifications a {
       background-color: #900; 
+      font-size: 16px;
+      padding: 12px;
+      color: white;
     }
   }
 }

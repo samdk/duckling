@@ -12,6 +12,12 @@ $update-left: 140px;
   margin-top: -($pad2) + 1;
   max-width: 50em;
 }
+
+  #filters {
+    font-size: 16px;
+    color: #444;
+  }
+
   li.day {
     font-size: 16px;
     margin: $pad2 0;
