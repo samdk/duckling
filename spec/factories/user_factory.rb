@@ -6,7 +6,7 @@ FactoryGirl.define do
     password_confirmation 'foobarbaz'
 
     after(:create) do |user, evaluator|
-      user.authorize_with(user).add_email('#{evaluator.first_name}.#{evaluator.last_name}@example.com')
+      user.authorize_with(user).add_email("#{evaluator.first_name}.#{evaluator.last_name}@example.com")
       user.primary_email.activate
     end
   end
