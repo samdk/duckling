@@ -86,7 +86,7 @@
 }
   #panel {
     background: rgba(0,0,0,0.8);
-    position: absolute;
+    position: fixed;
     left: 0; right: 0; top: 0; bottom: 0;
     z-index: 1000;
     display: none;
@@ -94,17 +94,48 @@
     .panel {
       $pad: 50px;
       position: absolute;
-      left: $pad; right: $pad; top: $pad;
+      left: 25%;
+      width: 600px;
+      top: 25%;
+      bottom: 25%;
+      
+      overflow: auto;
+      
       padding: $pad1;
       background: white;
       display: none;
+      border: 10px solid #ccc;
+      border-radius: 10px;
 
       #invite-search {
         padding: $pad2 0;
       }
       #invite-form {
-        
-        input:checked + label { font-weight: bold; }
+        ul {
+          margin-top: 40px;
+          li {
+            float: left;
+            margin: 8px;
+          }
+        }
+        input[type='checkbox'] {
+          display: none; 
+        }
+        label {
+          font-size: 14px;
+          text-align: center;
+          display: block;
+          padding: 10px 5px;
+          border: 1px solid #ccc;
+          color: $link-blue;
+          &:hover {
+            border-color: $link-blue; 
+          }
+        }
+        input:checked + label {
+          background: $link-blue;
+          color: #fff;
+        }
       }
 
       .search-text { display: none; }
@@ -129,11 +160,33 @@
   
   #notifications {
     margin: 40px 0;
-    a {
+    &> a {
       background-color: #900; 
       font-size: 16px;
       padding: 12px;
       color: white;
+    }
+    
+    ul {
+      margin: 40px 0 0 0;
+      text-align: left;
+      li {
+        margin: 12px 0;
+        font-size: 14px;
+        background: #fff;
+        color: #000;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+        padding: 5px;
+
+        .activation {
+          line-height: 16px;
+        }
+        &.unread .event {
+          font-weight: bold;
+        }
+      }
     }
   }
 }

@@ -2,24 +2,14 @@
 
 boundPaneObjs = []
 
-class Invitable
-  constructor: (elem) ->
-    elem = $(elem)
-    @targetClass = elem.data('target-class')
-    @targetId    = elem.data('target-id')
-    if @targetClass == undefined or @targetId == undefined
-      raise "invitation links must define the properties data-target-class and data-target-id"
-  data: -> { target_class: @targetClass, target_id: @targetId }
-
 $ ->
-  inviteLink().click((e) ->
-    inv = new Invitable(e.currentTarget)
+  inviteLink().click (e) ->
     e.preventDefault()
-    showPane('invite',inv))
-  #showPane('invite') # uncomment to always show for testing
-  $('#panel .close-button').click((e) ->
+    showPane('invite')
+  # showPane('invite') # uncomment to always show for testing
+  $('#panel .close-button').click (e) ->
     e.preventDefault()
-    hidePane())
+    hidePane()
 
 showPane = (kind) ->
   $('#panel .panel').hide()
@@ -50,21 +40,21 @@ loadThingsToInvite = (f) ->
 
 showInvitePanel = ->
   invitePanel().show()
-  loadThingsToInvite((response) ->
-    input = invitePanel('input')
+  loadThingsToInvite (response) ->
+    input = invitePanel('input[type="text"]')
     boundPaneObjs.push(input)
-    input.keyup(-> filterUsers(input.val())))
+    input.keyup () -> filterUsers(input.val())
 
 filterUsers = (filterStr) ->
   if filterStr == ""
     invitePanel('.invitee').show()
   else
     filter = RegExp(filterStr.toLowerCase())
-    invitePanel('.users').children('li').each((idx,invitee) ->
+    invitePanel('.users').children('li').each (idx,invitee) ->
       invitee = $(invitee)
       text = invitee.data('search-text').toLowerCase()
       if filter.test(text) or invitee.children('input:checked').length > 0
         invitee.show()
       else
-        invitee.hide())
+        invitee.hide()
 

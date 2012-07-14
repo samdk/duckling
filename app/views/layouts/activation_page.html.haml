@@ -12,7 +12,7 @@
     %li
       = link_to 'manage', '#'
     %li
-      = link_to 'invite people', '#'
+      = link_to 'invite people', '#', class: 'invite-link'
     %li= link_to 'search', '#'  
     %li#new-update-form
       = link_to 'post update', '#'
@@ -31,8 +31,17 @@
     &middot;
     = link_to_log_out
   #notifications
-    = link_to '3 Notifications', '#'
-
+    -#= link_to '4 Notifications', '#'
+    %ul
+      %li.unread
+        .activation= link_to 'Critical Ibuprofen Shortage', '#'
+        .event 1 new update
+      %li.unread
+        .activation= link_to 'Raining Cats and Dogs', '#'
+        .event 3 new comments
+      %li
+        .activation= link_to '3 Other Activations', activations_url
+        .event all calm
 
 = content_for :content do
   = render partial: 'layouts/panel', locals: {invitees: @invitees}
