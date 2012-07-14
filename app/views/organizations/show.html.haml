@@ -1,13 +1,11 @@
-<p>
-  <b>Name:</b>
-  <%= @organization.name %>
-</p>
+%p
+  %b Name:
+  = @organization.name
 
-<p>
-  <b>Description:</b>
-  <%= @organization.description %>
-</p>
+%p
+  %b Description:
+  = @organization.description
 
 
-<%= link_to 'Edit', edit_organization_path(@organization) %> |
-<%= link_to 'Go Back', organizations_path %>
+= link_to 'Edit', edit_organization_path(@organization)
+= link_to 'Go Back', organizations_path
