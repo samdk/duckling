@@ -37,6 +37,7 @@ en:
     organization: Organization
     security:
       no_permission: "You aren't allowed to do that for this organization"
+    updated: "Success! Organization details updated"
   section:
     section: Section
   user:
