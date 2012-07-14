@@ -94,8 +94,8 @@
     .panel {
       $pad: 50px;
       position: absolute;
-      left: 25%;
-      width: 600px;
+      left: 20%;
+      right: 20%;
       top: 25%;
       bottom: 25%;
       
@@ -123,11 +123,16 @@
         }
         label {
           font-size: 14px;
-          text-align: center;
+          text-align: left;
           display: block;
           padding: 10px 5px;
           border: 1px solid #ccc;
-          color: $link-blue;
+          .name {
+            color: $link-blue;
+          }
+          .email {
+            font-size: 12px; 
+          }
           &:hover {
             border-color: $link-blue; 
           }
@@ -135,6 +140,9 @@
         input:checked + label {
           background: $link-blue;
           color: #fff;
+          .name {
+            color: #fff; 
+          }
         }
       }
 

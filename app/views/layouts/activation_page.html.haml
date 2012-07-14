@@ -12,7 +12,7 @@
     %li
       = link_to 'manage', '#'
     %li
-      = link_to 'invite people', '#', class: 'invite-link'
+      = link_to 'invite people', '#', class: 'invite-link', data: {'target-class' => 'Activation', 'target-id' => @activation.id}
     %li= link_to 'search', '#'  
     %li#new-update-form
       = link_to 'post update', '#'
