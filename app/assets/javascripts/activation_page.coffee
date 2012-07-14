@@ -9,7 +9,7 @@ $ ->
   # showPane('invite') # uncomment to always show for testing
   $('#panel .close-button').click (e) ->
     e.preventDefault()
-    hidePane()
+    hidePane()    
 
 showPane = (kind) ->
   $('#panel .panel').hide()

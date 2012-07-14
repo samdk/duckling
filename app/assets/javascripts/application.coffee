@@ -2,9 +2,16 @@
 #= require jquery_ujs
 #= require jstz.min.js
 
-$('body').bind 'ajax:error', (xhr, status, error) ->
-  if status == 401
-    window.location.href = '/login'
+$ ->
+  $('form').submit ->
+    me = $("input[type='submit']", this).prop('disabled', true)
+    enable = () -> me.prop('disabled', false)
+    setTimeout enable, 1000
+    true
+
+  $('body').bind 'ajax:error', (xhr, status, error) ->
+    if status == 401
+      window.location.href = '/login'
 
 window.url =
   invitations:
