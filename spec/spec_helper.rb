@@ -8,6 +8,9 @@ Spork.prefork do
   require 'rspec/rails'
   require 'stringio'
 
+  require 'factory_girl'
+  FactoryGirl.find_definitions
+
   RSpec.configure do |config|
 
     config.mock_with :rspec
