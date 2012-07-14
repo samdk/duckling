@@ -32,11 +32,16 @@ group :production do
 end
 
 group :test do
-	gem 'rspec-rails', '~> 2.4'
-	gem 'guard'
-	gem 'guard-rspec'
-	gem 'webrat'
-	gem 'spork'
-	gem 'rb-fsevent'
-	gem 'growl'
+  gem 'rspec-rails', '~> 2.4'
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'spork'
+  gem 'rb-fsevent'
+  gem 'growl'
+  gem 'ffaker'
+end
+
+group :test, :development do
+  gem 'factory_girl'
+  gem 'capybara'
 end
