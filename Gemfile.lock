@@ -36,6 +36,7 @@ GEM
       mime-types
       xml-simple
     bcrypt-ruby (3.0.1)
+    bootstrap-sass (2.0.4.0)
     builder (3.0.0)
     bullet (4.1.4)
       uniform_notifier (~> 1.0.0)
@@ -217,6 +218,7 @@ DEPENDENCIES
   awesome_print
   aws-s3
   bcrypt-ruby
+  bootstrap-sass (~> 2.0.4.0)
   bullet
   capistrano
   capybara

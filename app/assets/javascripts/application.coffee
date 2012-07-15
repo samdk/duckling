@@ -1,6 +1,8 @@
 #= require jquery
 #= require jquery_ujs
 #= require jstz.min.js
+#= require bootstrap
+#= require bootstrap-dropdown
 
 $ ->
   $('form').submit ->
