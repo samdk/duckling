@@ -32,6 +32,7 @@ describe 'activations page' do
 
     click_link 'Activations'
     click_link activation.title
+    page.should have_content("#{activation.updates.count} updates")
     page.should have_content(activation.updates.first.title)
   end 
 end
