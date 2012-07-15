@@ -1,9 +1,10 @@
 = form_for [@activation, @update], html: {multipart: true, id: 'update-form', class: 'hide'} do |f|
+  %h1 New Update
   = errors_for @update
   .title
     = f.text_field :title, placeholder: 'Title'
   .body
-    = f.text_area :body, rows: 6, placebolder: 'Body Text'
+    = f.text_area :body, rows: 6, placeholder: 'Update Text'
   .sections.left
     - if @activation.sections.empty?
       %p= t('activation.sections.none')
@@ -17,4 +18,5 @@
   .clear
   .submit
     = f.submit(@update.persisted? ? 'Save Changes' : 'Create the Update')
+  .cancel= link_to 'Cancel Update', '#', class: 'toggle-update-form'
 

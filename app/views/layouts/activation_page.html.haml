@@ -14,9 +14,8 @@
     %li
       = link_to 'invite people', '#', class: 'invite-link', data: {'target-class' => 'Activation', 'target-id' => @activation.id}
     %li= link_to 'search', '#'  
-    %li#new-update-form
-      = link_to 'post update', '#'
-      = render 'form'
+    %li
+      = link_to 'post update', '#', class: 'toggle-update-form'
       
   / #account-controls
   /   logged in as
@@ -45,6 +44,7 @@
 
 = content_for :content do
   = render partial: 'layouts/panel', locals: {invitees: @invitees}
+  = render 'form'
   = yield
 
 = render file: 'layouts/application'

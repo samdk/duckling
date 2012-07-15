@@ -29,17 +29,18 @@ $update-left: 140px;
       text-align: right;
     }
   }
-  
-  li#new-update-form {
-    a {
-      color: #3fab11;
-    }
-    
-    form {
-     padding: 20px 0 0 20px;
-     border-left: 3px solid gray;
-    }
-  }
+
+//    form {     
+//     position: absolute;
+//     padding: 10px;
+//     
+//     border: 10px solid gray;
+//     background: white;
+//     
+//     top: 60px;
+//     left: 100px;
+//     width: 500px;
+//    }
   
 
   li.update {
@@ -146,5 +147,23 @@ $update-left: 140px;
 
 #update-form {
   @include page_form;
+  
+  max-width: 680px;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ccc;
+  
+  .cancel a {
+    float: right; 
+    font-size: 12px;
+    color: #900;
+  }
+  
+  h1 {
+    font-size: 22px;
+    line-height: 28px; 
+    color: #888;
+    font-weight: bold;
+  }
 }
 
