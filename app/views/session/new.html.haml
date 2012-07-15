@@ -1,8 +1,7 @@
 - content_for :title do
   Log In
 
-%div
-  = render 'form'
-%div
-  %h2 I don't have an account
-  = link_to 'Register', new_account_url
+= render 'form'
+
+%h2 I don't have an account
+= link_to 'Register', new_account_url

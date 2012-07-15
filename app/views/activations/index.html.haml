@@ -1,10 +1,10 @@
 %h2= "Showing #{@activations.length} Activations"
-%ul
+%ul.unstyled
   - @activations.each do |activation|
     %li
       = link_to activation.title, activation  
       = link_to 'Edit', edit_activation_path(activation)
       = link_to 'Delete', activation, :confirm => 'Are you sure?', :method => :delete
 
-= link_to 'Add an Activation', new_activation_path
+= link_to 'Add an Activation', new_activation_path, { class: 'btn' }
 
