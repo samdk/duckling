@@ -9,19 +9,23 @@
     = javascript_include_tag controller_name
     = csrf_meta_tag
   %body
-    #header
-      = yield_if_content_for(:header) or render 'layouts/header'
-    #sidebar
-      = yield_if_content_for(:sidebar) or ''
-    #body
-      - unless flash.empty?
-        #flash
-          - flash.each do |k, v|
-            %div{id: "flash-#{k}"}= v
-      = yield_if_content_for(:content) or yield
-    #footer 
-      = link_to 'Help / Support', '#'
-      &middot;
-      &copy; 2012 Decisive Duck
-    #shield.close-popups
+    .container
+      .row
+        .span12
+          = yield_if_content_for(:header) or render 'layouts/header'
+      .row
+        .span8
+          - unless flash.empty?
+            #flash
+              - flash.each do |k, v|
+                %div{id: "flash-#{k}"}= v
+          = yield_if_content_for(:content) or yield
+        .span4
+          = yield_if_content_for(:sidebar) or ''
+      .row
+        .span12
+          = link_to 'Help / Support', '#'
+          &middot;
+          &copy; 2012 Decisive Duck
 
+      #shield.close-popups

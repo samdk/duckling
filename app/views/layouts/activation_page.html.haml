@@ -2,30 +2,33 @@
   = javascript_include_tag :activation_page
 
 = content_for :header do
-  #overview
-    = link_to 'Overview', '/'
-  #current-activation
-    %a{href: url_for(@activation)}
-      = @activation.title
-      &#x25BC;
-  %ul#submenu
-    %li
-      = link_to 'manage', '#'
-    %li
-      = link_to 'invite people', '#', class: 'invite-link', data: {'target-class' => 'Activation', 'target-id' => @activation.id}
-    %li= link_to 'search', '#'  
-    %li#new-update-form
-      = link_to 'post update', '#'
-      = render 'form'
-      
-  / #account-controls
-  /   logged in as
-  /   %a{href:'#'}= @current_user.full_name
-  /   &middot;
-  /   %a{href:'#'} log out
+  .navbar.navbar-fixed-top
+    .navbar-inner
+      .container
+        %ul.nav
+          %li= link_to 'Overview', '/', class: 'brand'
+          %li.dropdown
+            %a.dropdown-toggle{:'data-toggle' => 'dropdown'}
+              = @activation.title
+              %b.caret 
+            %ul.dropdown-menu
+              %li= link_to 'something'
+              %li= link_to 'something else'
+          %li= link_to 'Manage'
+          %li= link_to 'Invite People', class: 'invite-link', data: {'target-class' => 'Activation', 'target-id' => @activation.id}
+          %li= link_to 'Search'
+          %li= link_to 'Post Update', class: 'btn'
 
+        %ul.nav.pull-right
+          %li
+            %a{href: edit_account_path}
+              %i.icon-user.icon-white
+              = @current_user.first_name
+          %li.divider-vertical
+          %li= link_to 'Log out', logout_url
 
 = content_for :sidebar do
+
   #account-controls
     = link_to 'My Account', edit_account_path
     &middot;
