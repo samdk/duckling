@@ -34,7 +34,7 @@ $ ->
     hideNewUpdatePopup()
     false
 
-  $('#new-update-form h1 a').click ->
+  $('li#new-update-form a').click ->
     $('#new-update-form form').toggleClass 'hide'
     
   $('.chzn-select').chosen()
