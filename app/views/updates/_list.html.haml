@@ -1,6 +1,6 @@
 #updates
   #filters
-    Showing 37 updates from #{link_to 'Your Groups &#x25BC;'.html_safe, '#'}
+    Showing #{updates.count} updates from #{link_to 'Your Groups &#x25BC;'.html_safe, '#'}
   %ul
     - current_date = Time.now
     - updates.each do |update|
