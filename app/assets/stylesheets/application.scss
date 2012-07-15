@@ -1,92 +1,25 @@
 /*
  *= require screen
  */
-
-@import 'base';
-@import 'includes';
-
-a {
-  color: $link-blue;
-  text-decoration: none;
-  &:hover { text-decoration: underline; }
-}
-
-input[type="text"], input[type="password"], select, textarea {
-  border: 1px solid $grey6;
-  padding: 4px;
-}
-select {
-  border: 1px solid $grey5;
-}
-
-select { padding: 3px; }
-
-html {
-  // always display a scroll bar
-  overflow-y: scroll;
-}
 @import "bootstrap";
 
 body {
-  background: white;
-  color: black;
-  font: {
-    family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
-    size: 16px;
-  }
-  width: 100%;
+    padding-top: 90px
 }
 
-  #header {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    padding: 0 0 0 0;
-    z-index: 100;
-    color: white;
-    background: transparent;
-    
-    img {
-      display: inline;
-    }
-  }
+#flash div{
+  border: 1px solid;
+  padding: 1em;
+  margin: 2em;
+  font-weight: bold;
+  width: 450px;
 
-  #body {
-    margin-top: $nav-height + 2*$pad1;
-    margin-left: $nav-width;
+  &#flash-error {
+    $color: #c00;
+    border-color: $color;
+    color: $color;
+    background-color: #fcc;
   }
-  
-  #footer {
-    font-size: 12px;
-    margin: 3em 1em 1em 0;
-    color: #999;
-    text-align: right;
-  }
-  
-  #flash div{
-    border: 1px solid;
-    padding: 1em;
-    margin: 2em;
-    font-weight: bold;
-    width: 450px;
-    
-    &#flash-error {
-      $color: #c00;
-      border-color: $color;
-      color: $color;
-      background-color: #fcc;
-    }
-  }
-
-.clear {
-  clear: both;
-  float: none;  
-}
-.small {
-  font-size: 12px;
-}
-
-.hide {
-  display: none;
 }
 
 #shield {
