@@ -8,6 +8,5 @@ class Sections < ActiveRecord::Migration
     end
     
     add_index 'sections', 'name'
-    add_index 'sections', 'activation_id'
   end
 end

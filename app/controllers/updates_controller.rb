@@ -9,7 +9,7 @@ class UpdatesController < AuthorizedController
 
   def index
     @activation = current_user.activations
-                    .includes(users: [:primary_email])
+                    .includes(users: [:primary_email], sections: [])
                     .find(params[:activation_id])
     
     @updates = @activation.updates
