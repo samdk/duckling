@@ -6,7 +6,11 @@
     &middot;
     %span.update-time= update.created_at.strftime('%l:%M%P %Z, %-e %b %y')
   .clear
-.update-text= current_page?(url) ? update.body : truncate(update.body, length: 350)
+.update-text
+  - if current_page? url
+    = simple_format update.body
+  - else
+    = simple_format trunc(update.body, length: 350)
 .update-files
   %ul
     - update.attachments.each do |attachment|

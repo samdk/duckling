@@ -53,6 +53,7 @@ $update-left: 140px;
     & + li.update { 
       border-top: 1px solid #ddd;
     }
+  }
 
     .update-title-bar {
       .update-title {
@@ -74,6 +75,16 @@ $update-left: 140px;
       padding: $pad3 0;
       @include reversed_links;
       line-height: 1.2em;
+      
+      p {
+        margin: 1em 0; 
+        &:first-child {
+          margin-top: 0;
+        }
+        &:last-child {
+          margin-bottom: 0; 
+        }
+      }
     }
     .update-files {
       @include reversed_links;
@@ -143,7 +154,6 @@ $update-left: 140px;
           display: none;
         }
     }
-  }
 
 #update-form {
   @include page_form;
