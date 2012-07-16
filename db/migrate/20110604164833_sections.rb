@@ -6,5 +6,8 @@ class Sections < ActiveRecord::Migration
       t.references 'activation'
       t.timestamps
     end
+    
+    add_index 'sections', 'name'
+    add_index 'sections', 'activation_id'
   end
 end
