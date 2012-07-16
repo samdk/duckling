@@ -5,9 +5,7 @@
   #overview
     = link_to 'Overview', '/'
   #current-activation
-    %a{href: url_for(@activation)}
-      = @activation.title
-      &#x25BC;
+    = link_to @activation.title, @activation
   %ul#submenu
     %li
       = link_to 'manage', '#'
