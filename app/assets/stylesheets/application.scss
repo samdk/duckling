@@ -2,8 +2,41 @@
  *= require screen
  */
 
-@import 'base';
 @import 'includes';
+@import "bootstrap";
+
+$very-light-grey: #eee;
+$middle-grey: #666;
+$middle-green: #3FAB11;
+
+body { padding-top: 60px }
+
+.navbar {
+  a.brand { color: $link-blue; }
+
+  .navbar-inner {
+    background: #fff;
+    box-shadow: inherit;
+    -webkit-box-shadow: inherit;
+
+    li {
+      &:hover {background: inherit;}
+
+      a {
+        color: $link-blue;
+        text-shadow: inherit;
+        &:hover { color: $link-blue; text-decoration: underline; }
+        &.update { color: $middle-green; }
+      }
+
+      &.activation {
+        border-bottom: 1px solid $middle-grey;
+        a, a:hover, .caret { background-color: $middle-grey; color:#fff }
+        a { color: $very-light-grey!important; }
+      }
+    }
+  }
+}
 
 a {
   color: $link-blue;
@@ -25,7 +58,6 @@ html {
   // always display a scroll bar
   overflow-y: scroll;
 }
-@import "bootstrap";
 
 body {
   background: white;

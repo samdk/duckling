@@ -1,7 +1,7 @@
 #updates
   #filters
     Showing #{updates.count} updates from #{link_to 'Your Groups &#x25BC;'.html_safe, '#'}
-  %ul
+  %ul.unstyled
     - current_date = Time.now
     - updates.each do |update|
       - if update.created_at.day != current_date.day
