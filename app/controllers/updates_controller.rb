@@ -15,7 +15,7 @@ class UpdatesController < AuthorizedController
     @updates = @activation.updates
                 .includes(:comments, :attachments, :author)
                 .order('created_at DESC')
-                .in_date_range(params[:start_date], params[:end_date])
+                .in_date_range(params[:start_date] || 10.years.ago, params[:end_date] || Date.current)
                 .matching_search([:title, :body], params[:search_query])
 
     current_user.ensure_acquaintances @activation.users
