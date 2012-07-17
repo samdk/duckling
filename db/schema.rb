@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120716193600) do
+ActiveRecord::Schema.define(:version => 20120717171314) do
 
   create_table "acquaintances", :id => false, :force => true do |t|
     t.integer "user_id"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20120716193600) do
   add_index "acquaintances", ["user_id"], :name => "index_acquaintances_on_user_id"
 
   create_table "activations", :force => true do |t|
-    t.string   "title",                    :limit => 128
+    t.string   "title"
     t.text     "description"
     t.boolean  "active"
     t.datetime "deleted_at"
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(:version => 20120716193600) do
   create_table "emails", :force => true do |t|
     t.string   "email",           :limit => 256
     t.string   "state",           :limit => 16,  :default => "unverified"
-    t.string   "secret_code",     :limit => 64
+    t.string   "secret_code"
     t.integer  "user_id"
     t.datetime "created_at",                                                        :null => false
     t.datetime "updated_at",                                                        :null => false
@@ -157,7 +157,6 @@ ActiveRecord::Schema.define(:version => 20120716193600) do
   end
 
   add_index "sections", ["activation_id"], :name => "index_sections_on_activation_id"
-  add_index "sections", ["name"], :name => "index_sections_on_name"
 
   create_table "sections_updates", :force => true do |t|
     t.integer "update_id"
@@ -182,13 +181,13 @@ ActiveRecord::Schema.define(:version => 20120716193600) do
   add_index "tasks", ["target_type"], :name => "index_tasks_on_target_type"
 
   create_table "updates", :force => true do |t|
-    t.string   "title",          :limit => 128
+    t.string   "title"
     t.integer  "author_id"
     t.integer  "activation_id"
     t.text     "body"
     t.integer  "comments_count"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   add_index "updates", ["activation_id"], :name => "index_updates_on_activation_id"
