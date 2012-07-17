@@ -42,7 +42,7 @@
   #current-activation {
     display: block;
     float: left;
-        @include reversed_links;
+    @include reversed_links;
     a {
       padding: 12px 12px 12px 15px;
       height: 18px;
@@ -54,7 +54,7 @@
   #submenu {
     float: left;
     color: black;
-    background: white;
+    background: transparent;
     margin: 0 0 0 15px;
     
     li {
@@ -64,6 +64,10 @@
         margin: 0 7px;
         color: #888;
         content: "/"; 
+      }
+      
+      .toggle-update-form {
+        color: #3fab11;
       }
     }
   }

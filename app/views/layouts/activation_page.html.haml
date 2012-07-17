@@ -3,39 +3,34 @@
 
 = content_for :header do
   .navbar.navbar-fixed-top
+    = link_to 'Overview', '/', class: 'brand'
     .navbar-inner
       .container
         %ul.nav
-          %li= link_to 'Overview', '/', class: 'brand'
-          %li.dropdown
+          %li.activation.dropdown
             %a.dropdown-toggle{:'data-toggle' => 'dropdown'}
               = @activation.title
               %b.caret 
             %ul.dropdown-menu
-              %li= link_to 'something'
-              %li= link_to 'something else'
-          %li= link_to 'Manage'
-          %li= link_to 'Invite People', class: 'invite-link', data: {'target-class' => 'Activation', 'target-id' => @activation.id}
-          %li= link_to 'Search'
-          %li= link_to 'Post Update', class: 'btn'
+              - @activations.each do |activation|
+                %li= link_to activation.title, activations_url(activation)
+              %li= link_to "All activations", overview_url
+          %li= link_to 'Manage', @activation
+          %li= link_to 'Invite People', @activation, class: 'invite-link', data: {'target-class' => 'Activation', 'target-id' => @activation.id}
+          %li= link_to 'Search', @activation
+          %li= link_to 'Post Update', @activation, class: 'update'
 
         %ul.nav.pull-right
           %li
             %a{href: edit_account_path}
-              %i.icon-user.icon-white
               = @current_user.first_name
-          %li.divider-vertical
           %li= link_to 'Log out', logout_url
 
 = content_for :sidebar do
 
-  #account-controls
-    = link_to 'My Account', edit_account_path
-    &middot;
-    = link_to_log_out
   #notifications
     -#= link_to '4 Notifications', '#'
-    %ul
+    %ul.unstyled
       %li.unread
         .activation= link_to 'Critical Ibuprofen Shortage', '#'
         .event 1 new update
@@ -48,6 +43,7 @@
 
 = content_for :content do
   = render partial: 'layouts/panel', locals: {invitees: @invitees}
+  = render 'form'
   = yield
 
 = render file: 'layouts/application'

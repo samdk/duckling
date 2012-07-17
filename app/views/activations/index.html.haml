@@ -4,7 +4,7 @@
     %li
       = link_to activation.title, activation  
       = link_to 'Edit', edit_activation_path(activation)
-      = link_to 'Delete', activation, :confirm => 'Are you sure?', :method => :delete
+      = link_to 'Delete', activation, method: :delete, data: { confirm: 'Are you sure?' }
 
 = link_to 'Add an Activation', new_activation_path, { class: 'btn' }
 

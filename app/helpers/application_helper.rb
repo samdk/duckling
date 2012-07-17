@@ -40,6 +40,9 @@ module ApplicationHelper
       false
     end
   end
-
   
+  def trunc(*args)
+    t = truncate *args
+    t.split("\n\n")[0,2].join("\n\n")
+  end
 end

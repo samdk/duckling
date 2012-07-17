@@ -3,7 +3,7 @@ class Activation < ActiveRecord::Base
   include Filters
   
   has_many :updates
-  has_many :sections
+  has_many :sections, order: 'name ASC'
   
   has_many :organization_mappings, class_name: 'Mapping::ActivationOrganization', dependent: :destroy
   has_many :organizations, through: :organization_mappings

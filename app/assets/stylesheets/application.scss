@@ -1,25 +1,124 @@
 /*
  *= require screen
  */
+
+@import 'includes';
 @import "bootstrap";
 
-body {
-    padding-top: 90px
+$very-light-grey: #eee;
+$middle-grey: #666;
+$middle-green: #3FAB11;
+
+body { padding-top: 60px }
+
+.navbar {
+  a.brand { color: $link-blue; }
+
+  .navbar-inner {
+    background: #fff;
+    box-shadow: inherit;
+    -webkit-box-shadow: inherit;
+
+    li {
+      &:hover {background: inherit;}
+
+      a {
+        color: $link-blue;
+        text-shadow: inherit;
+        &:hover { color: $link-blue; text-decoration: underline; }
+        &.update { color: $middle-green; }
+      }
+
+      &.activation {
+        border-bottom: 1px solid $middle-grey;
+        a, a:hover, .caret { background-color: $middle-grey; color:#fff }
+        a { color: $very-light-grey!important; }
+      }
+    }
+  }
 }
 
-#flash div{
-  border: 1px solid;
-  padding: 1em;
-  margin: 2em;
-  font-weight: bold;
-  width: 450px;
+a {
+  color: $link-blue;
+  text-decoration: none;
+  &:hover { text-decoration: underline; }
+}
 
-  &#flash-error {
-    $color: #c00;
-    border-color: $color;
-    color: $color;
-    background-color: #fcc;
+input[type="text"], input[type="password"], select, textarea {
+  border: 1px solid $grey6;
+  padding: 4px;
+}
+select {
+  border: 1px solid $grey5;
+}
+
+select { padding: 3px; }
+
+html {
+  // always display a scroll bar
+  overflow-y: scroll;
+}
+
+body {
+  background: white;
+  color: black;
+  font: {
+    family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    size: 16px;
   }
+  width: 100%;
+}
+
+  #header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 0 0 0 0;
+    z-index: 100;
+    color: white;
+    background: transparent;
+    
+    img {
+      display: inline;
+    }
+  }
+
+  #body {
+    margin-top: $nav-height + 2*$pad1;
+    margin-left: $nav-width;
+  }
+  
+  #footer {
+    font-size: 12px;
+    margin: 3em 1em 1em 0;
+    color: #999;
+    text-align: right;
+  }
+  
+  #flash div{
+    border: 1px solid;
+    padding: 1em;
+    margin: 2em;
+    font-weight: bold;
+    width: 450px;
+    
+    &#flash-error {
+      $color: #c00;
+      border-color: $color;
+      color: $color;
+      background-color: #fcc;
+    }
+  }
+
+.clear {
+  clear: both;
+  float: none;  
+}
+.small {
+  font-size: 12px;
+}
+
+.hide {
+  display: none;
 }
 
 #shield {

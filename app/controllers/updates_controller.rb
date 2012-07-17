@@ -8,10 +8,10 @@ class UpdatesController < AuthorizedController
   before_filter :set_update, only: [:edit, :show, :update, :destroy]
 
   def index
-    @activation = current_user.activations
-                    .includes(users: [:primary_email])
-                    .find(params[:activation_id])
+    @activations = current_user.activations.includes(users: [:primary_email], sections: [])
     
+    @activation = @activations.find(params[:activation_id])
+
     @updates = @activation.updates
                 .includes(:comments, :attachments, :author)
                 .order('created_at DESC')

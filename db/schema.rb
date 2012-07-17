@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120524200155) do
+ActiveRecord::Schema.define(:version => 20120716193600) do
 
   create_table "acquaintances", :id => false, :force => true do |t|
     t.integer "user_id"
@@ -48,6 +48,8 @@ ActiveRecord::Schema.define(:version => 20120524200155) do
     t.datetime "updated_at"
   end
 
+  add_index "addresses", ["user_id"], :name => "index_addresses_on_user_id"
+
   create_table "attachments", :force => true do |t|
     t.integer  "attachable_id"
     t.string   "attachable_type"
@@ -59,6 +61,10 @@ ActiveRecord::Schema.define(:version => 20120524200155) do
     t.datetime "file_updated_at"
   end
 
+  add_index "attachments", ["attachable_id"], :name => "index_attachments_on_attachable_id"
+  add_index "attachments", ["attachable_type"], :name => "index_attachments_on_attachable_type"
+  add_index "attachments", ["file_content_type"], :name => "index_attachments_on_file_content_type"
+
   create_table "comments", :force => true do |t|
     t.text     "body"
     t.integer  "author_id"
@@ -66,6 +72,9 @@ ActiveRecord::Schema.define(:version => 20120524200155) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "comments", ["author_id"], :name => "index_comments_on_author_id"
+  add_index "comments", ["update_id"], :name => "index_comments_on_update_id"
 
   create_table "emails", :force => true do |t|
     t.string   "email",           :limit => 256
@@ -95,6 +104,7 @@ ActiveRecord::Schema.define(:version => 20120524200155) do
   add_index "invitations", ["email_id"], :name => "index_invitations_on_email_id"
   add_index "invitations", ["emailed"], :name => "index_invitations_on_emailed"
   add_index "invitations", ["invitable_id", "invitable_type"], :name => "index_invitations_on_invitable_id_and_invitable_type"
+  add_index "invitations", ["inviter_id"], :name => "index_invitations_on_inviter_id"
 
   create_table "memberships", :force => true do |t|
     t.integer "container_id"
@@ -105,6 +115,7 @@ ActiveRecord::Schema.define(:version => 20120524200155) do
   end
 
   add_index "memberships", ["container_id", "container_type"], :name => "index_memberships_on_container_id_and_container_type"
+  add_index "memberships", ["creating_user_id"], :name => "index_memberships_on_creating_user_id"
   add_index "memberships", ["user_id", "container_type"], :name => "index_memberships_on_user_id_and_container_type"
 
   create_table "notifications", :force => true do |t|
@@ -145,6 +156,9 @@ ActiveRecord::Schema.define(:version => 20120524200155) do
     t.datetime "updated_at",                    :null => false
   end
 
+  add_index "sections", ["activation_id"], :name => "index_sections_on_activation_id"
+  add_index "sections", ["name"], :name => "index_sections_on_name"
+
   create_table "sections_updates", :force => true do |t|
     t.integer "update_id"
     t.integer "section_id"
@@ -164,6 +178,9 @@ ActiveRecord::Schema.define(:version => 20120524200155) do
     t.text    "args"
   end
 
+  add_index "tasks", ["target_id"], :name => "index_tasks_on_target_id"
+  add_index "tasks", ["target_type"], :name => "index_tasks_on_target_type"
+
   create_table "updates", :force => true do |t|
     t.string   "title",          :limit => 128
     t.integer  "author_id"
@@ -173,6 +190,9 @@ ActiveRecord::Schema.define(:version => 20120524200155) do
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
   end
+
+  add_index "updates", ["activation_id"], :name => "index_updates_on_activation_id"
+  add_index "updates", ["author_id"], :name => "index_updates_on_author_id"
 
   create_table "users", :force => true do |t|
     t.string   "first_name",              :limit => 50
@@ -198,5 +218,7 @@ ActiveRecord::Schema.define(:version => 20120524200155) do
 
   add_index "users", ["cookie_token"], :name => "index_users_on_cookie_token"
   add_index "users", ["last_name"], :name => "index_users_on_last_name"
+  add_index "users", ["primary_address_id"], :name => "index_users_on_primary_address_id"
+  add_index "users", ["primary_email_id"], :name => "index_users_on_primary_email_id"
 
 end
