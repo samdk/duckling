@@ -7,18 +7,10 @@
     .navbar-inner
       .container
         %ul.nav
-          %li.activation.dropdown
-            %a.dropdown-toggle{:'data-toggle' => 'dropdown'}
-              = @activation.title
-              %b.caret 
-            %ul.dropdown-menu
-              - @activations.each do |activation|
-                %li= link_to activation.title, activations_url(activation)
-              %li= link_to "All activations", overview_url
-          %li= link_to 'Manage', @activation
-          %li= link_to 'Invite People', @activation, class: 'invite-link', data: {'target-class' => 'Activation', 'target-id' => @activation.id}
-          %li= link_to 'Search', @activation
-          %li= link_to 'Post Update', @activation, class: 'update'
+          %li.activation= link_to @activation.title, @activation
+          %li= link_to 'manage', '#'
+          %li= link_to 'invite', @activation, class: 'invite-link', data: {'target-class' => 'Activation', 'target-id' => @activation.id}
+          %li= link_to 'post update', '#', class: 'toggle-update-form'
 
         %ul.nav.pull-right
           %li

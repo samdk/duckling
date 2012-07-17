@@ -34,6 +34,8 @@ $ ->
     hideNewUpdatePopup()
     false
 
-  $('.toggle-update-form').click -> $('#update-form').toggleClass 'hide'
+  $('.toggle-update-form').click (e) ->
+    $('#update-form').toggleClass 'hide'
+    e.preventDefaultAction()
     
   $('.chzn-select').chosen()
