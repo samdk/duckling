@@ -11,6 +11,8 @@ $middle-green: #3FAB11;
 
 body { padding-top: 60px }
 
+.header, .content, .footer { @include makeRow(); }
+
 .navbar {
   a.brand { color: $link-blue; }
 
