@@ -4,6 +4,6 @@
 $ ->
   $('.toggle-update-form').click (e) ->
     $('#update-form').toggleClass 'hide'
-    e.preventDefaultAction()
+    e.preventDefault()
     
   $('.chzn-select').chosen()
