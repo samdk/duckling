@@ -6,14 +6,16 @@
 
 # Contributing
 
-# License
-
 # Deploying
 * [Getting started with Heroku](https://devcenter.heroku.com/articles/quickstart)
 
+First, add the remote git repo:
 `git remote add acceptance git@heroku.com:duckling-acceptance.git`
+
+Next, to deploy:
 `git push acceptance master`
 
+# License
 
 Flareteam and all assets are licensed under the Lesser GNU Public License unless otherwise noted. All are copyright Sam DeFabbia-Kane, Eli Fox-Epstein, and Will Anderson.
 
