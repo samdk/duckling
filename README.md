@@ -7,6 +7,7 @@
 # Contributing
 
 # Deploying
+
 * [Getting started with Heroku](https://devcenter.heroku.com/articles/quickstart)
 
 First, add the remote git repo:

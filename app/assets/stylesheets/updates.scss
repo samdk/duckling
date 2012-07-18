@@ -9,8 +9,6 @@ $update-left: 140px;
 
 #updates {
   font-size: 14px;
-  margin-top: -($pad2) + 1;
-  max-width: 50em;
 }
 
   #filters {
@@ -29,19 +27,6 @@ $update-left: 140px;
       text-align: right;
     }
   }
-
-//    form {     
-//     position: absolute;
-//     padding: 10px;
-//     
-//     border: 10px solid gray;
-//     background: white;
-//     
-//     top: 60px;
-//     left: 100px;
-//     width: 500px;
-//    }
-  
 
   li.update {
     position: relative;

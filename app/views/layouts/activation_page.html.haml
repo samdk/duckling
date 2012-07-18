@@ -1,22 +1,21 @@
 = content_for :javascripts do
   = javascript_include_tag :activation_page
 
-= content_for :header do
-  .navbar.navbar-fixed-top
-    = link_to 'Overview', '/', class: 'brand'
-    .navbar-inner
-      .container
-        %ul.nav
-          %li.activation= link_to @activation.title, @activation
-          %li= link_to 'manage', '#'
-          %li= link_to 'invite', @activation, class: 'invite-link', data: {'target-class' => 'Activation', 'target-id' => @activation.id}
-          %li= link_to 'post update', '#', class: 'toggle-update-form'
+= content_for :header do  
+  %ul#main-nav
+    %li#overview= link_to 'Overview', overview_url
+    %li#current-activation= link_to @activation.title, @activation
+    %li
+      %ul#submenu
+        %li= link_to 'manage', '#'
+        %li= link_to 'invite', @activation, class: 'invite-link', data: {'target-class' => 'Activation', 'target-id' => @activation.id}
+        %li= link_to 'post update', '#', class: 'toggle-update-form'
 
-        %ul.nav.pull-right
-          %li
-            %a{href: edit_account_path}
-              = @current_user.first_name
-          %li= link_to 'Log out', logout_url
+  #account-controls
+    logged in as
+    = link_to @current_user.full_name, edit_account_path
+    \/
+    = link_to 'log out', logout_url
 
 = content_for :sidebar do
 

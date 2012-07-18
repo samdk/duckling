@@ -2,66 +2,77 @@
  *= require chosen
  */
 
-
 @import 'includes';
 
 @mixin linearGradient($top, $bot) {
-  background-image: -webkit-linear-gradient(top, $top 0%, $top 60%, $bot 100%);
-  background-image:    -moz-linear-gradient(top, $top 0%, $top 60%, $bot 100%);
-  background-image:      -o-linear-gradient(top, $top 0%, $top 60%, $bot 100%);
-}
-
-@mixin grad($col){
-  $hi: lighten($col, 10%);
-  $lo: darken($col, 10%);
-  @include linearGradient($hi, $lo);
+  background-repeat: repeat-x;
+  background-image:    -moz-linear-gradient(top, $top 0%, $top 60%, $bot); // FF 3.6+
+  background-image:     -ms-linear-gradient(top, $top 0%, $top 60%, $bot); // IE10
+  background-image: -webkit-linear-gradient(top, $top 0%, $top 60%, $bot); // Safari 5.1+, Chrome 10+
+  background-image:      -o-linear-gradient(top, $top 0%, $top 60%, $bot); // Opera 11.10
+  background-image:         linear-gradient(top, $top 0%, $top 60%, $bot); // The standard
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($top)}', endColorstr='#{ie-hex-str($bot)}', GradientType=0); // IE9 and down
 }
 
 #header {
   font-size: 18px;
-  
-  padding-top: 10px;
-  left: 0;
-  
-  @include linearGradient(rgba(255,255,255,1), rgba(255,255,255,0));
   height: 50px;
   
-  #overview {
-    float: left;
-    text-align: center;
-    @include reversed_links;
-    a {
-      width: 100%;
-      padding: 12px 15px;
-      height: 18px;
-      color: white;
-      background: #000;
+  @include linearGradient(rgba(255,255,255,1), rgba(255,255,255,0));
+  
+  #main-nav {
+    list-style-type: none;
+    margin: 0;
+    
+    li {
+      display: block;
+      float: left;
+      @include reversed_links;
+      a {
+        text-align: center;
+        display: block;
+        float: left;
+        padding: 12px 0;
+      }
     }
-  }
+    
+    #overview {
+      a {
+        @include makeColumn(2);
+        color: white;
+        background: black;
+        &:hover {
+         text-decoration: underline;
+         background: #333; 
+        }
+      }
+    }
 
-  #current-activation {
-    display: block;
-    float: left;
-    @include reversed_links;
-    a {
-      padding: 12px 12px 12px 15px;
-      height: 18px;
-      color: white;
-      background: #666;
+    #current-activation {
+      a {
+        padding-left: $gridGutterWidth;
+        padding-right: $gridGutterWidth;
+        height: 18px;
+        color: white;
+        background: #666;
+        
+        &:hover {
+         background: #333;
+         text-decoration: underline; 
+        }
+      }
     }
   }
   
   #submenu {
-    float: left;
     color: black;
     background: transparent;
-    margin: 0 0 0 15px;
     
     li {
-      float: left;
-//      margin: 0 3px;
       &:nth-child(n+2):before{
-        margin: 0 7px;
+        float: left;
+        display: block;
+        margin: 12px (($gridGutterWidth) / 2);
         color: #888;
         content: "/"; 
       }
@@ -73,21 +84,17 @@
   }
 
   #account-controls {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    float: none;
+    float: right;
+    margin: 12px $gridGutterWidth;
     background-color: #fff;
     color: #888;
+    @include reversed_links;
     a{color:#444;}
     font-size: 13px;
     line-height: 18px;
   }
 }
 
-#body {
-  padding: $pad1;
-}
   #panel {
     background: rgba(0,0,0,0.8);
     position: fixed;
@@ -158,7 +165,7 @@
   z-index: 100;
   position: fixed;
   right: 0;
-  top: 12px;
+  top: 50px;
   text-align: right;
   
   #account-controls {
@@ -190,7 +197,7 @@
         border-top: 1px solid #ccc;
         border-bottom: 1px solid #ccc;
         border-left: 1px solid #ccc;
-        padding: 5px;
+        padding: 5px $gridGutterWidth 5px 5px;
 
         .activation {
           line-height: 16px;
@@ -206,9 +213,3 @@
 .left {
   float: left;
 }
-
-//.updates { @include icon('is_bubbles_16b.png',9px,11px); }
-//.people  { @include icon('is_person_16b.png',$pad2,9px); }
-//.groups  { @include icon('is_people_16b.png',$pad2,9px); }
-//.summary { @include icon('is_chart_16b.png',11px,10px);  }
-

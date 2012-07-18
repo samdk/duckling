@@ -1,5 +1,3 @@
-#= require application
-
 boundPaneObjs = []
 
 $ ->

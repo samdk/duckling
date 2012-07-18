@@ -1,44 +1,14 @@
 /*
  *= require screen
  */
-
+@import 'bootstrap';
 @import 'includes';
-@import "bootstrap";
 
 $very-light-grey: #eee;
 $middle-grey: #666;
 $middle-green: #3FAB11;
 
-body { padding-top: 60px }
-
-.header, .content, .footer { @include makeRow(); }
-
-.navbar {
-  a.brand { color: $link-blue; }
-
-  .navbar-inner {
-    background: #fff;
-    box-shadow: inherit;
-    -webkit-box-shadow: inherit;
-
-    li {
-      &:hover {background: inherit;}
-
-      a {
-        color: $link-blue;
-        text-shadow: inherit;
-        &:hover { color: $link-blue; text-decoration: underline; }
-        &.update { color: $middle-green; }
-      }
-
-      &.activation {
-        border-bottom: 1px solid $middle-grey;
-        a, a:hover, .caret { background-color: $middle-grey; color:#fff }
-        a { color: $very-light-grey!important; }
-      }
-    }
-  }
-}
+#header, #content-container, #footer { @include makeRow(); }
 
 a {
   color: $link-blue;
@@ -74,7 +44,7 @@ body {
   #header {
     position: fixed;
     top: 0; left: 0; right: 0;
-    padding: 0 0 0 0;
+    padding: 0;
     z-index: 100;
     color: white;
     background: transparent;
@@ -83,10 +53,10 @@ body {
       display: inline;
     }
   }
-
-  #body {
-    margin-top: $nav-height + 2*$pad1;
-    margin-left: $nav-width;
+  
+  #content {
+    margin-top: 100px;
+    @include makeColumn(10, 2);
   }
   
   #footer {
@@ -94,6 +64,10 @@ body {
     margin: 3em 1em 1em 0;
     color: #999;
     text-align: right;
+    
+    position: fixed;
+    bottom: 0;
+    right: $gridGutterWidth;
   }
   
   #flash div{
@@ -118,15 +92,24 @@ body {
 .small {
   font-size: 12px;
 }
-
 .hide {
   display: none;
 }
 
-#shield {
-  display: none;
-  background: rgba(255,255,255,0.24);
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 20;
+#grid-overlay {
+  margin:0;padding:0;
+  position: fixed;
+  top: 0; bottom: 0; right: 0; left: 0;
+  z-index: 10000;
+  @include makeRow();
+  @for $i from 0 to 12 {
+    $j: (($i)+1);
+    li:nth-child( #{$j} ) {
+      margin:0;padding:0;
+      display: block;
+      position: absolute; top: 0; bottom: 0;
+      @include makeColumn(1, $i);
+      background: rgba(0,0,0,0.25);
+    }
+  }
 }
