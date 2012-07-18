@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120717171314) do
+ActiveRecord::Schema.define(:version => 20500716193600) do
 
   create_table "acquaintances", :id => false, :force => true do |t|
     t.integer "user_id"
@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(:version => 20120717171314) do
   end
 
   add_index "sections", ["activation_id"], :name => "index_sections_on_activation_id"
+  add_index "sections", ["name"], :name => "index_sections_on_name"
 
   create_table "sections_updates", :force => true do |t|
     t.integer "update_id"
@@ -169,16 +170,6 @@ ActiveRecord::Schema.define(:version => 20120717171314) do
   create_table "tags", :force => true do |t|
     t.string "name", :limit => 32
   end
-
-  create_table "tasks", :force => true do |t|
-    t.integer "target_id"
-    t.string  "target_type"
-    t.string  "method"
-    t.text    "args"
-  end
-
-  add_index "tasks", ["target_id"], :name => "index_tasks_on_target_id"
-  add_index "tasks", ["target_type"], :name => "index_tasks_on_target_type"
 
   create_table "updates", :force => true do |t|
     t.string   "title"

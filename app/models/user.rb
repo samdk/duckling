@@ -66,6 +66,28 @@ class User < ActiveRecord::Base
   has_many :notifications, dependent: :delete_all
   def notify(obj, event)
     notifications.create target: obj, event: event
+    async.send_notification_alert
+  end
+  
+  def send_notification_alert
+    if primary_email.too_recently_emailed?
+      async.send_notification_alert
+      return
+    end
+
+    events = notifications.where(emailed: false, dismissed: false).order('updated_at DESC')
+
+    Notification.transaction do
+      events.update_all(emailed: true)
+      primary_email.update_attributes(emailed_at: Time.now, annoyance_level: primary_email.annoyance_level+1)
+
+      begin
+        UserMailer.notify(self, events).deliver
+      rescue
+        async.send_notification_alert
+        raise ActiveRecord::RollBack, "Mail delivery failed"
+      end
+    end
   end
 
   def send_invite_to(email, obj)
