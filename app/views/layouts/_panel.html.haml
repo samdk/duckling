@@ -6,7 +6,7 @@
       %input{type: 'text', placeholder: 'search'}
     %form#invite-form
       = submit_tag 'Invite'
-      %ul.users
+      %ul.users.unstyled
         - Array(@invitees).each do |u|
           - search_text = "#{u.name} #{u.primary_email_address}"
           %li.invitee{'data-search-text' => search_text}
