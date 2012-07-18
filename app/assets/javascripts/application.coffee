@@ -21,7 +21,6 @@ unless window.APP_COFFEE_LOADED
     $(document).keydown (e) ->
       if e.which == 71 and e.ctrlKey
         $("ul#grid-overlay").toggleClass 'hide'
-        console.log "HERE"
       true
 
   window.url =
