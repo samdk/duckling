@@ -3,7 +3,6 @@ source 'http://rubygems.org'
 gem 'rails', '>= 3.2.0rc1'
 
 gem 'jquery-rails'
-gem 'capistrano'
 gem 'paranoia'
 gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'paperclip'
