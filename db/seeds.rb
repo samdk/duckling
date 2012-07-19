@@ -7,6 +7,8 @@ def save(obj)
   end
 end
 
+Rails.queue.disable
+
 # ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 # makes some users
@@ -103,4 +105,6 @@ end
 total_update_count.times { make_random_update(a, @users.sample) }
 @updates = Update.all
 puts "#{@updates.length} updates created"
+
+Rails.queue.enable
 

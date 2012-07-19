@@ -13,20 +13,23 @@ end
 module AsyncJob
   class Proxy
     def initialize(target)
-      @target = target
+      @target_class, @target_id = if Class === target
+        [target.name, nil]
+      else
+        [target.class.name, target.id]
+      end
     end
     def method_missing(method, *args)
-      if Class === target
-        Resque.enqueue(AsyncJob::Performer, @target, nil, method, *args)
-      else
-        Resque.enqueue(AsyncJob::Performer, @target.class, @target.id, method, *args)
-      end
+      args.map! &:to_json
+      Rails.queue.enqueue(AsyncJob::Performer, @target_class, @target_id, method, *args)
     end
   end
   
   class Performer
-    def self.perform(klass, id, *args)
-      if id == nil
+    @queue = :default
+    def self.perform(klass_name, id, *args)
+      klass = klass_name.constantize
+      if id.nil?
         klass.send *args
       else
         klass.find(id.to_i).send(*args)

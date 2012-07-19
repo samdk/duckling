@@ -15,7 +15,7 @@
     logged in as
     = link_to @current_user.full_name, edit_account_path
     \/
-    = link_to 'log out', logout_url
+    = link_to 'log out', logout_url, method: 'delete'
 
 = content_for :sidebar do
 

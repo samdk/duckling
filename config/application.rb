@@ -30,7 +30,7 @@ module Duckling
                               File.join(config.root, 'app', 'jobs'),
                               File.join(config.root, 'app', 'observers')]
 
-    config.active_record.observers = [:event_observer, :joining_observer, :acquaintances_observer]
+    config.active_record.observers = [:event_observer, :joining_observer, :acquaintances_observer, :invitation_observer]
     
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de

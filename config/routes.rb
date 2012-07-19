@@ -1,4 +1,8 @@
+require 'resque/server'
+
 Duckling::Application.routes.draw do
+  
+  mount Resque::Server.new, at: '/resque'
     
   get 'session/new'
   delete 'session/destroy'

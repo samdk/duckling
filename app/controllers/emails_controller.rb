@@ -7,15 +7,19 @@ class EmailsController < AuthorizedController
   end
   
   def create
-    if logged_in?
-      current_user.emails.create email: params[:email][:email]
-      Invitation.create email_id: e.id, invitable: current_user, inviter: current_user
-    else
-      e = Email.create email: params[:email][:email]
-      Invitation.create email_id: e.id
+    @email = @invite = nil
+    ActiveRecord::Base.transaction do
+      collection, inviter = logged_in? ? [current_user.emails, current_user.emails] : [Email, nil]
+      
+      @email = collection.create email: params[:email][:email]
+      
+      if @email.persisted?
+        @invite = @email.invitations.create invitable: inviter, inviter: inviter
+        flash[:notice] = t('user.email.success_creating') if @invite.persisted?
+      end
     end
-    
-    redirect_to '/', notice: t('user.email.check_email')
+
+    respond_with @email, location: '/'
   end
 
   def verify
