@@ -1,6 +1,5 @@
-= form_for [@activation, @update], html: {multipart: true, id: 'update-form', class: 'hide'} do |f|
-  %h1 New Update
-  = errors_for @update
+= form_for [@activation, @update], html: {multipart: true, id: 'update-form', class: ('hide' if @update.new_record?)} do |f|
+  %h1 #{@update.new_record? ? 'New' : 'Editing'} Update
   .title
     = f.text_field :title, placeholder: 'Title'
   .body
@@ -18,5 +17,5 @@
   .clear
   .submit
     = f.submit(@update.persisted? ? 'Save Changes' : 'Create the Update')
-  .cancel= link_to 'Cancel Update', '#', class: 'toggle-update-form'
+  .cancel= link_to "Cancel #{@update.persisted? ? "Changes" : ""}", '#', class: 'toggle-update-form'
 

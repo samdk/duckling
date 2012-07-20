@@ -20,7 +20,6 @@
 = content_for :sidebar do
 
   #notifications
-    -#= link_to '4 Notifications', '#'
     %ul.unstyled
       %li.unread
         .activation= link_to 'Critical Ibuprofen Shortage', '#'
@@ -34,7 +33,6 @@
 
 = content_for :content do
   = render partial: 'layouts/panel', locals: {invitees: @invitees}
-  = render 'form'
   = yield
 
 = render file: 'layouts/application'
