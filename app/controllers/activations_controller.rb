@@ -6,7 +6,8 @@ class ActivationsController < AuthorizedController
   before_filter :set_activation, only: [:edit, :update, :destroy]
   
   def overview
-    
+    @organizations = current_user.organizations
+    @activations = current_user.activations
   end
   
   def index

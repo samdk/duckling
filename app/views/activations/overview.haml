@@ -1,5 +1,18 @@
-- if current_user.organizations.exists?
-  You're a member of some organization, looks like. Cool.
+%h2 Your activations
+- if @activations.empty?
+  %p You are not a part of any activations.
 - else
-  You're not a member of any organization. You should request an invite or
-  =link_to 'Add an Organization', new_organization_path
+  %ul
+    - @activations.each do |activation|
+      %li= link_to activation
+  = link_to 'Add an Activation', new_activation_path, { class: 'btn' }
+
+%h2 Your organizations
+- if @organizations.empty?
+  %p You are not a member of any organizations. You should request an invite or
+- else
+  %ul
+    - @organizations.each do |organization|
+      %li= link_to organization
+= link_to 'Add an Organization', new_organization_path, { class: 'btn' }
+
