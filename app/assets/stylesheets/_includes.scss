@@ -5,33 +5,35 @@
 
 
 /* colors */
-  $link-blue: #3f71fb;
-//  $link-blue: #d00;
-  $button-blue1: #7ba1db;
-  $button-blue2: #3468db;
-  $dark-blue: #244193;
-  $highlight: #feffd6;
-  $grey9: #f7f7f7;
-  $grey8: #eeeeee;
-  $grey7: #dddddd;
-  $grey6: #d2d2d8;
-  $grey5: #b0b0b0;
-  $grey4: #939393;
-  $grey3: #707070;
-  $grey2: #585858;
-  $grey1: #2e2e2e;
+$very-light-grey: #eee;
+$middle-grey: #666;
+$middle-green: #3FAB11;
+$link-blue: #3f71fb;
+$button-blue1: #7ba1db;
+$button-blue2: #3468db;
+$dark-blue: #244193;
+$highlight: #feffd6;
+$grey9: #f7f7f7;
+$grey8: #eeeeee;
+$grey7: #dddddd;
+$grey6: #d2d2d8;
+$grey5: #b0b0b0;
+$grey4: #939393;
+$grey3: #707070;
+$grey2: #585858;
+$grey1: #2e2e2e;
 
-  $light-yellow: #f8ffd1;
+$light-yellow: #f8ffd1;
 
-  $border-color: $grey8;
+$border-color: $grey8;
 
 /* measurements */
-  $body-width: 960px;
-  $nav-height: 42px;
-  $nav-width: 100px;
-  $pad1: 20px;
-  $pad2: 10px;
-  $pad3: 5px;
+$body-width: 960px;
+$nav-height: 42px;
+$nav-width: 100px;
+$pad1: 20px;
+$pad2: 10px;
+$pad3: 5px;
 
 /* mixins */
   /* navbar links
