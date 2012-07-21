@@ -10,7 +10,6 @@ gem 'aws-s3'
 gem 'resque'
 gem 'haml'
 gem 'activesupport'
-gem 'resque'
 
 group :assets do
   gem 'sass-rails'
