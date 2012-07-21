@@ -1,8 +1,11 @@
 rails_root = ENV['RAILS_ROOT'] || File.dirname(__FILE__) + '/../..'
 rails_env  = ENV['RAILS_ENV']  || 'development'
 
-resque_config = YAML.load_file(rails_root + '/config/resque.yml')
-Resque.redis = resque_config[rails_env]
+ENV["REDISTOGO_URL"] ||= "redis://redistogo:b0d58ebc947df9ed5f4f57ed741350df@chubb.redistogo.com:9501/"
+
+uri = URI.parse(ENV["REDISTOGO_URL"])
+Resque.redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+Dir["#{Rails.root}/app/jobs/*.rb"].each { |file| require file }
 
 module Rails
   def self.queue

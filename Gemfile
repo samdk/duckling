@@ -8,9 +8,9 @@ gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'paperclip'
 gem 'aws-s3'
 gem 'resque'
-gem 'redis'
 gem 'haml'
 gem 'activesupport'
+gem 'resque'
 
 group :assets do
   gem 'sass-rails'
