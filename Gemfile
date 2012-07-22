@@ -24,6 +24,7 @@ group :development do
   gem 'pry-rails'
   gem 'pry-doc'
   gem 'awesome_print'
+  gem 'foreman'
 end
 
 group :production do
