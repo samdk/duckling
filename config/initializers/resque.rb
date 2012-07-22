@@ -3,6 +3,7 @@ rails_env     = ENV['RAILS_ENV']  || 'development'
 resque_config = YAML.load_file(File.join(rails_root, 'config', 'resque.yml'))
 
 Resque.redis = ENV['REDISTOGO_URL'] or resque_config[rails_env]
+Resque.after_fork = Proc.new { ActiveRecord::Base.establish_connection }
 
 module Rails
   def self.queue
