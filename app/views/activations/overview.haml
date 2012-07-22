@@ -4,6 +4,6 @@
 - else
   %ul
     - @activations.each do |activation|
-      %li= link_to activation
+      %li= link_to activation.title, activation
   = link_to 'Add an Activation', new_activation_path, { class: 'btn' }
 
