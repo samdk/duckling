@@ -4,15 +4,6 @@
 - else
   %ul
     - @activations.each do |activation|
-      %li= link_to activation
+      %li= link_to activation.title, activation
   = link_to 'Add an Activation', new_activation_path, { class: 'btn' }
-
-%h2 Your organizations
-- if @organizations.empty?
-  %p You are not a member of any organizations. You should request an invite or
-- else
-  %ul
-    - @organizations.each do |organization|
-      %li= link_to organization
-= link_to 'Add an Organization', new_organization_path, { class: 'btn' }
 

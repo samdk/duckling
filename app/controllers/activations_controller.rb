@@ -6,8 +6,11 @@ class ActivationsController < AuthorizedController
   before_filter :set_activation, only: [:edit, :update, :destroy]
   
   def overview
-    @organizations = current_user.organizations
     @activations = current_user.activations
+                    .in_date_range(params[:start_date] || 10.years.ago, params[:end_date].presence || 10.years.from_now)
+                    .matching_search(params[:search_query], [:title, :description])
+                    .matching_joins(:organizations, params[:organization_ids])
+                    .select('activations.id, activations.created_at, activations.updated_at, activations.description, activations.title, activations.updates_count, activations.deleted_at')
   end
   
   def index
