@@ -40,6 +40,7 @@ module Duckling
     config.filter_parameters += [:password, :password_hash, :api_token, :secret_code]
     config.assets.enabled = true
     config.assets.version = '0.1'
+    config.assets.initialize_on_precompile = false
     config.time_zone = 'UTC'
   end
 end

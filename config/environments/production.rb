@@ -8,7 +8,6 @@ Duckling::Application.configure do
   
   config.serve_static_assets = false
   # config.action_controller.asset_host = "http://assets.example.com"
-  config.assets.initialize_on_precompile = false
   
   # config.action_mailer.raise_delivery_errors = false
   config.i18n.fallbacks = true
