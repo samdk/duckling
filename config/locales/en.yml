@@ -43,6 +43,8 @@ en:
   user:
     registration:
       new: Sign up for a new account
+    create:
+      success: "Success! You created a user account"
     updated: Account settings have been saved.
     introduction:
       propose: Send contact request
