@@ -9,6 +9,3 @@ test:
     redis: redis://localhost:6379/
     
 production:
-    secret_token: "d3c3049540aaAKSJHFSAJKHF(AS*HF*(SHA(*FHAS*(FHALFJSLKJK3d708b9ba8e301d69ccf5aeac74ec71d168ebaa93847c83d52edb686ffded1f253879a7994233f77f723b03a2520d5ca835cb122fu5smq93sfbttuyg5ylg1ga2cxwuy5utjzqobiemmy08z2isjo7db474rwc"
-    secure_cookies: y
-    redis: redis://redistogo:7f049cfbd33525ba1ffe6472aaf97953@dogfish.redistogo.com:9098/

@@ -1,4 +1,2 @@
 development: localhost:6379
 test: localhost:6379
-staging: redis://redistogo:b0d58ebc947df9ed5f4f57ed741350df@chubb.redistogo.com:9501
-production: redis://redistogo:b0d58ebc947df9ed5f4f57ed741350df@chubb.redistogo.com:9501
